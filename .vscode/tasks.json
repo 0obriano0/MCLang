@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Maven Generate Javadoc",
+      "type": "shell",
+      "command": "mvn javadoc:javadoc",
+      "group": { "kind": "build", "isDefault": true }
+    },
+  ]
+}

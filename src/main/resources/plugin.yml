@@ -1,0 +1,27 @@
+name: MCLang
+main: org.tsob.MCLang.MCLang
+version: ${full.version}
+author: 0obrino0
+website: github.com/0obriano0/MCLang
+api-version: 1.13
+commands:
+  mclang:
+    description: mclang Commands.
+permissions:
+  mclang.*:
+    default: op
+    description: Give players with op everything by default
+    children:
+      mclang.user.*: true
+      mclang.admin.*: true
+  mclang.user.*:
+    default: true
+    children:
+      mclang.user: true
+      mclang.user.help: true
+  mclang.admin.*:
+    default: op
+    children:
+      mclang.admin: true
+      mclang.admin.reload: true
+      mclang.admin.test: true

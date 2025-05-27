@@ -1,0 +1,23 @@
+Message:
+  Title: "&b[Minecraft 語言包] "
+  Data_Re_read: "重新讀取資料..."
+  Data_Re_read_Complete: "資料讀取完成"
+
+Timer:
+  TimeStart: "&a請於 %time% 秒內完成輸入!"
+  TimeOut: "&c %time% 秒的時間已到"
+  TimeLeft:
+    - "&c還剩餘 %%10%% 秒能輸入"
+    - "&c還剩餘  %%5%% 秒能輸入"
+    - "&c還剩餘  %%4%% 秒能輸入"
+    - "&c還剩餘  %%3%% 秒能輸入"
+    - "&c還剩餘  %%2%% 秒能輸入"
+    - "&c還剩餘  %%1%% 秒能輸入"
+
+Command:
+  CmdCanNotUse: "&c後台無法使用此指令"
+  PlayerCanNotUse: "&c無法使用此指令"
+  NoPermission: "&c無使用此指令的權限"
+  CanNotFind: "&c查無此指令"
+  HandNoItem: "&c手上沒有物品"
+  ItemNotFind: "&c查無此物品"
