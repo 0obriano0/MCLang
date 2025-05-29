@@ -28,7 +28,8 @@
                       overwrite="true"/>
                 <copy file="../MCLang-Minecraft1_13/target/MCLang-${project.version}-package.jar"
                       tofile="../finish/MCLang-Minecraft1_13-${project.version}.jar"
-                      overwrite="true"/>
+                      overwrite="true"
+                      failonerror="false"/>
               </target>
             </configuration>
             <goals>
