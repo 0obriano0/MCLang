@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+      <groupId>org.tsob</groupId>
+      <artifactId>MCLang-parent</artifactId>
+      <version>1.0.0</version>
+  </parent>
+  <artifactId>MCLang-Antrun</artifactId>
+  <packaging>jar</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>copy-and-rename-jars</id>
+            <phase>install</phase>
+            <configuration>
+              <target>
+                <mkdir dir="${project.basedir}/target"/>
+                <copy file="../MCLang/target/MCLang-${project.version}-package.jar"
+                      tofile="../finish/MCLang-${project.version}.jar"
+                      overwrite="true"/>
+                <copy file="../MCLang-Minecraft1_13/target/MCLang-${project.version}-package.jar"
+                      tofile="../finish/MCLang-Minecraft1_13-${project.version}.jar"
+                      overwrite="true"/>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

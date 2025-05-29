@@ -19,6 +19,7 @@ permissions:
     children:
       mclang.user: true
       mclang.user.help: true
+      mclang.user.418: true
   mclang.admin.*:
     default: op
     children:
