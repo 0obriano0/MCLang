@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.tsob</groupId>
         <artifactId>MCLang-parent</artifactId>
-        <version>v1.0.1</version>
+        <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>MCLang</artifactId>
@@ -17,4 +17,5 @@
         </dependency>
     </dependencies>
 </project>
+
 

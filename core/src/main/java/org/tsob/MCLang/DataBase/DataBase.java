@@ -21,6 +21,7 @@ import org.tsob.MCLang.MCLang;
 import org.tsob.MCLang.Command.ImainCommandSystem;
 import org.tsob.MCLang.Command.ToolCommandSystem;
 import org.tsob.MCLang.FileIO.FileMessage;
+import org.tsob.MCLang.FileIO.JsonFileIOMinecraftLang;
 
 /**
  * 基本資料暫存區
@@ -48,6 +49,12 @@ public class DataBase {
    * message 設定
    */
   public static FileMessage fileMessage = new FileMessage();
+
+  /**
+   * Minecraft Lang 設定檔
+   */
+  public static JsonFileIOMinecraftLang fileMinecraftLang = new JsonFileIOMinecraftLang(MCLang.plugin.getConfig().getString("lang"));
+
 
   /**
    * 傳給玩家的訊息加上 Message.Title

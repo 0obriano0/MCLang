@@ -29,6 +29,7 @@ public class MCLang extends JavaPlugin {
 
     setEvents();
     DataBase.fileMessage.reloadFile();
+    DataBase.fileMinecraftLang.reloadWithLangAndVersion(MCLang.plugin.getConfig().getString("lang"));
   }
 
   @Override
@@ -143,5 +144,6 @@ public class MCLang extends JavaPlugin {
     plugin.reloadConfig();
 
     DataBase.fileMessage.reloadFile();
+    DataBase.fileMinecraftLang.reloadWithLangAndVersion(MCLang.plugin.getConfig().getString("lang"));
   }
 }
