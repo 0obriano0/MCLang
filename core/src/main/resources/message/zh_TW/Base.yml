@@ -21,3 +21,14 @@ Command:
   CanNotFind: "&c查無此指令"
   HandNoItem: "&c手上沒有物品"
   ItemNotFind: "&c查無此物品"
+
+LoadMinecraftLang:
+  Title: "&b[LoadMinecraftLang] "
+  SetLang: "&e設定 Minecraft 語言為: &a%lang%"
+  SetVersionPath: "&e設定 Minecraft 版本為: &a%versionPath%"
+  GetLangFileName: "&e取得語言檔案名稱: &a%fileName%"
+  Load_LangItems: "&e語言包已載入: &a%count%"
+  Load_MinecraftOriginItem: "&eMinecraft 原版物品已載入: &a%count%"
+  Internet_TryToDownload: "&e嘗試從官方下載語言包: &a%fileName%"
+  Internet_DownloadSuccess: "&e語言包下載完成"
+  Error_LangNotFound: "&c語言包未找到: &a%fileName%"

@@ -13,7 +13,7 @@
   <modules>
     <module>core</module>
     <module>MCLang</module>
-    <module>MCLang-Minecraft1_13</module>
+    <!-- <module>MCLang-Minecraft1_13</module>
     <module>MCLang-Minecraft1_13_1</module>
     <module>MCLang-Minecraft1_13_2</module>
     <module>MCLang-Minecraft1_14</module>
@@ -51,7 +51,7 @@
     <module>MCLang-Minecraft1_21_1</module>
     <module>MCLang-Minecraft1_21_2</module>
     <module>MCLang-Minecraft1_21_3</module>
-    <module>MCLang-Minecraft1_21_4</module>
+    <module>MCLang-Minecraft1_21_4</module> -->
     <module>MCLang-Minecraft1_21_5</module>
     
     <module>MCLang-Antrun</module>

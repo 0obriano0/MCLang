@@ -21,3 +21,14 @@ Command:
   CanNotFind: "&cUnknown Command"
   HandNoItem: "&cNo item in hand"
   ItemNotFind: "&cUnknown item"
+
+LoadMinecraftLang:
+  Title: "&b[LoadMinecraftLang] "
+  SetLang: "&eSet Minecraft Lang: &a%lang%"
+  SetVersionPath: "&eSet Minecraft Version: &a%versionPath%"
+  GetLangFileName: "&eGet Lang File Name: &a%fileName%"
+  Load_LangItems: "&eLangs Loaded: &a%count%"
+  Load_MinecraftOriginItem: "&eMinecraft Origin Items Loaded: &a%count%"
+  Internet_TryToDownload: "&eTrying to download language pack from official site: &a%fileName%"
+  Internet_DownloadSuccess: "&eDownload Success"
+  Error_LangNotFound: "&cLang not found: &a%fileName%"
