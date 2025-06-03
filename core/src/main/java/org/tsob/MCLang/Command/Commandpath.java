@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.tsob.MCLang.DataBase.DataBase;
 
 public class Commandpath extends mainCommandSystem{
@@ -15,7 +16,7 @@ public class Commandpath extends mainCommandSystem{
         "/mclang path <path> 取得物品的路徑",
         new ArrayList<String>(Arrays.asList("mobdrop.admin.path")));
   }
-  
+
   @Override
   public void run(CommandSender sender, String commandLabel, Command command, String[] args) {
     String path = "test";
@@ -23,6 +24,11 @@ public class Commandpath extends mainCommandSystem{
       path = args[0];
     }
     DataBase.Print(DataBase.fileMinecraftLang.getString(path));
+  }
+
+  @Override
+  public void run(Player player, String commandLabel, Command command, String[] args) throws Exception {
+    run((CommandSender)player, commandLabel, command,args);
   }
   
   @Override
@@ -38,5 +44,10 @@ public class Commandpath extends mainCommandSystem{
       return Paths;
     }
     return Collections.emptyList();
+  }
+
+  @Override
+  public List<String> tabComplete(Player player, String commandLabel, Command command, String[] args, final ClassLoader classLoader, final String commandPath) {
+    return tabComplete((CommandSender)player, commandLabel, command, args, classLoader, commandPath);
   }
 }
