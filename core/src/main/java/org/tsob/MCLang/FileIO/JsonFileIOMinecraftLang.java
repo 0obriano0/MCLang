@@ -145,6 +145,11 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     return fileName;
   }
 
+  public void reloadWithLangAndVersion() {
+    reloadFile();
+    reloadNode();
+  }
+
   /**
    * 如果需要重新指定語言和版本，可用這方法。
    */

@@ -11,8 +11,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -55,6 +57,10 @@ public class DataBase {
    */
   public static JsonFileIOMinecraftLang fileMinecraftLang = new JsonFileIOMinecraftLang(Main.plugin.getConfig().getString("lang"));
 
+  /**
+   * 紀錄已經讀取的Minecraft Lang
+   */
+  public static Map<String, JsonFileIOMinecraftLang> minecraftLangMap = new HashMap<String, JsonFileIOMinecraftLang>();
 
   /**
    * 傳給玩家的訊息加上 Message.Title
