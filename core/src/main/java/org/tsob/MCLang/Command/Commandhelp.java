@@ -13,7 +13,7 @@ public class Commandhelp extends mainCommandSystem{
 
   public Commandhelp() {
     super(  "help",
-        "/MCLang help 取得指令說明",
+        "/mclang help 取得指令說明",
         new ArrayList<String>(Arrays.asList("mclang.user.help")));
   }
   

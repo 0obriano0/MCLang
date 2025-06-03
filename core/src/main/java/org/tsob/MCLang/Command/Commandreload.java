@@ -12,7 +12,7 @@ import org.tsob.MCLang.DataBase.DataBase;
 public class Commandreload extends mainCommandSystem{
   public Commandreload() {
     super(  "reload",
-        "/MCLang reload 重新讀取資料",
+        "/mclang reload 重新讀取資料",
         new ArrayList<String>(Arrays.asList("mclang.admin.reload")));
   }
   

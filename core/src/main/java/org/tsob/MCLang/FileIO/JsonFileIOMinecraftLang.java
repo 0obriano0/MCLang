@@ -11,7 +11,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -174,12 +177,30 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     return node;
   }
 
+  /**
+   * 取得所有path 用 List String 顯示
+   */
+  public List<String> getAllPaths() {
+    List<String> paths = new ArrayList<String>();
+    if (data == null)
+      return paths;
+    Iterator<Map.Entry<String, JsonNode>> iterator = data.fields();
+    while (iterator.hasNext()) {
+      Map.Entry<String, JsonNode> entry = iterator.next();
+      String key = entry.getKey();
+      if (key != null && !key.isEmpty()) {
+        paths.add(key);
+      }
+    }
+    return paths;
+  }
+
   // 將 JsonNode 轉成我要的資料
   private void reloadNode() {
     if (data == null)
       return;
     int count = 0;
-    java.util.Iterator<Map.Entry<String, JsonNode>> iterator = data.fields();
+    Iterator<Map.Entry<String, JsonNode>> iterator = data.fields();
     while (iterator.hasNext()) {
       Map.Entry<String, JsonNode> entry = iterator.next();
       String key = entry.getKey();

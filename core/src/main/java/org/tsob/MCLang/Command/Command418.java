@@ -11,7 +11,7 @@ public class Command418 extends mainCommandSystem{
 
   public Command418() {
     super(  "418",
-        "/MCLang 418 你可以試試看這個指令",
+        "/mclang 418 你可以試試看這個指令",
         new ArrayList<String>(Arrays.asList("mclang.user.418")));
   }
   
