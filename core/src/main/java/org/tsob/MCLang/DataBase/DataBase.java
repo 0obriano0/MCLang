@@ -138,7 +138,7 @@ public class DataBase {
       }
     }
     return Commands;
-    }
+  }
   
   /**
    * 取得是否顯示debug 專用訊息
