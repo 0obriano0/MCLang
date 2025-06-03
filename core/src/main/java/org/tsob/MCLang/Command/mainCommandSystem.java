@@ -18,7 +18,7 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.tsob.MCLang.MCLang;
+import org.tsob.MCLang.Main;
 import org.tsob.MCLang.DataBase.DataBase;
 
 public class mainCommandSystem implements ImainCommandSystem {
@@ -240,7 +240,7 @@ public class mainCommandSystem implements ImainCommandSystem {
   public List<String> getsubCommands(){
     if(subCommands == null && subCommand_path != null) {
       subCommands = new ArrayList<String>();
-      URL jarURL = MCLang.plugin.getClass().getResource("/org/tsob/" + DataBase.pluginName + "/Command" + subCommand_path);
+      URL jarURL = Main.plugin.getClass().getResource("/org/tsob/" + DataBase.pluginName + "/Command" + subCommand_path);
         URI uri;
       try {
         FileSystem fileSystem = null;

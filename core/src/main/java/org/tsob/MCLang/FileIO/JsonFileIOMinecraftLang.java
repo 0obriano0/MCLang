@@ -18,7 +18,7 @@ import java.util.zip.ZipFile;
 
 import org.bukkit.Bukkit;
 import org.tsob.MCLang.AnsiColor;
-import org.tsob.MCLang.MCLang;
+import org.tsob.MCLang.Main;
 import org.tsob.MCLang.DataBase.DataBase;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -229,10 +229,10 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     // 先檢查 jar 內是否有資源
     try {
       // 1. 檢查 jar 內資源
-      InputStream in = MCLang.plugin.getResource(fullUrl);
+      InputStream in = Main.plugin.getResource(fullUrl);
       if (in != null) {
         // jar 內有，直接存檔
-        MCLang.plugin.saveResource(fullUrl, true);
+        Main.plugin.saveResource(fullUrl, true);
         in.close();
         return;
       }
@@ -287,7 +287,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
         // 下載 client.jar，準備解壓 en_us.json
         String clientJarUrl = clientManifest.get("downloads").get("client").get("url").asText();
         String clientSha1 = clientManifest.get("downloads").get("client").get("sha1").asText();
-        Path clientJarPath = Paths.get(MCLang.plugin.getDataFolder().toString(), "client.jar");
+        Path clientJarPath = Paths.get(Main.plugin.getDataFolder().toString(), "client.jar");
         downloadFile(clientJarUrl, clientJarPath);
         // 驗證 client.jar 的 SHA1
         if (!sha1(clientJarPath).equalsIgnoreCase(clientSha1)) {
@@ -298,7 +298,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
         // 從 client.jar 解壓 en_us.json 語言檔
         try (ZipFile zip = new ZipFile(clientJarPath.toFile())) {
           ZipEntry entry = zip.getEntry("assets/minecraft/lang/en_us.json");
-          File dataFolder = MCLang.plugin.getDataFolder();
+          File dataFolder = Main.plugin.getDataFolder();
           Path outPath = Paths.get(dataFolder.toString(), "mc_lang", version, this.lang + ".json");
           Files.createDirectories(outPath.getParent());
           if (entry != null) {
@@ -317,7 +317,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
         String hash = assetIndex.get(key).get("hash").asText();
         String url = "https://resources.download.minecraft.net/" + hash.substring(0, 2) + "/" + hash;
         // 下載到 plugins/MCLang/mc_lang/{version}/{lang}.json
-        File dataFolder = MCLang.plugin.getDataFolder();
+        File dataFolder = Main.plugin.getDataFolder();
         Path outPath = Paths.get(dataFolder.toString(), "mc_lang", version, this.lang + ".json");
         Files.createDirectories(outPath.getParent());
         HttpRequest langReq = HttpRequest.newBuilder().uri(URI.create(url)).build();

@@ -1,5 +1,5 @@
 name: MCLang
-main: org.tsob.MCLang.MCLang
+main: org.tsob.MCLang.Main
 version: ${full.version}
 author: 0obrino0
 website: github.com/0obriano0/MCLang

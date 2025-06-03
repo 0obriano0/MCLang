@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.bukkit.plugin.Plugin;
 import org.tsob.MCLang.AnsiColor;
-import org.tsob.MCLang.MCLang;
+import org.tsob.MCLang.Main;
 
 /**
  * 檔案操作的額外工具
@@ -50,7 +50,7 @@ public class tools {
    * @return
    */
   protected static String getLang() {
-    String Name = MCLang.plugin.getConfig().getString("lang");
+    String Name = Main.plugin.getConfig().getString("lang");
     if(Name.toLowerCase().equals("zh_tw")) Name = "zh_TW";
     return Name;
   }

@@ -17,7 +17,7 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.tsob.MCLang.AnsiColor;
-import org.tsob.MCLang.MCLang;
+import org.tsob.MCLang.Main;
 import org.tsob.MCLang.Command.ImainCommandSystem;
 import org.tsob.MCLang.Command.ToolCommandSystem;
 import org.tsob.MCLang.FileIO.FileMessage;
@@ -53,7 +53,7 @@ public class DataBase {
   /**
    * Minecraft Lang 設定檔
    */
-  public static JsonFileIOMinecraftLang fileMinecraftLang = new JsonFileIOMinecraftLang(MCLang.plugin.getConfig().getString("lang"));
+  public static JsonFileIOMinecraftLang fileMinecraftLang = new JsonFileIOMinecraftLang(Main.plugin.getConfig().getString("lang"));
 
 
   /**
@@ -70,7 +70,7 @@ public class DataBase {
    * @param msg 要顯示的文字
    */
   public static void Print(String msg){
-      MCLang.plugin.getLogger().info(msg + AnsiColor.RESET);
+      Main.plugin.getLogger().info(msg + AnsiColor.RESET);
     //System.out.print("[MCLang] " + msg);
   }
   
@@ -79,7 +79,7 @@ public class DataBase {
    * @param msg 要顯示的文字
    */
   public static void Print(List<String> msg){
-    for(String str : msg) MCLang.plugin.getLogger().info(str + AnsiColor.RESET);
+    for(String str : msg) Main.plugin.getLogger().info(str + AnsiColor.RESET);
     //System.out.print("[MCLang] " + msg);
   }
   
@@ -139,6 +139,6 @@ public class DataBase {
    * @return
    */
   public static boolean getDebug() {
-    return (MCLang.plugin.getConfig().contains("Debug") && MCLang.plugin.getConfig().getBoolean("Debug"));
+    return (Main.plugin.getConfig().contains("Debug") && Main.plugin.getConfig().getBoolean("Debug"));
   }
 }

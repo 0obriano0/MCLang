@@ -1,6 +1,6 @@
 package org.tsob.MCLang.Command;
 
-import org.tsob.MCLang.MCLang;
+import org.tsob.MCLang.Main;
 import org.tsob.MCLang.DataBase.DataBase;
 
 public class ToolCommandSystem {
@@ -13,7 +13,7 @@ public class ToolCommandSystem {
     public static ImainCommandSystem getCommandClass(String command) {
       ImainCommandSystem cmd = null;
         try {
-            cmd = (ImainCommandSystem) MCLang.class.getClassLoader().loadClass("org.tsob." + DataBase.pluginName + ".Command" + ".Command" + command).getDeclaredConstructor().newInstance();
+            cmd = (ImainCommandSystem) Main.class.getClassLoader().loadClass("org.tsob." + DataBase.pluginName + ".Command" + ".Command" + command).getDeclaredConstructor().newInstance();
         }catch(InstantiationException ex) {
           if(DataBase.getDebug())  ex.printStackTrace();
         }catch (Exception ex) {

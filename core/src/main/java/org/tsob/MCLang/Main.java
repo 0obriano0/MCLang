@@ -15,7 +15,7 @@ import org.tsob.MCLang.Command.ImainCommandSystem;
 import org.tsob.MCLang.Command.ToolCommandSystem;
 import org.tsob.MCLang.DataBase.DataBase;
 
-public class MCLang extends JavaPlugin {
+public class Main extends JavaPlugin {
   public static Plugin plugin;
   public static Server server;
 
@@ -29,7 +29,7 @@ public class MCLang extends JavaPlugin {
 
     setEvents();
     DataBase.fileMessage.reloadFile();
-    DataBase.fileMinecraftLang.reloadWithLangAndVersion(MCLang.plugin.getConfig().getString("lang"));
+    DataBase.fileMinecraftLang.reloadWithLangAndVersion(Main.plugin.getConfig().getString("lang"));
   }
 
   @Override
@@ -39,7 +39,7 @@ public class MCLang extends JavaPlugin {
 
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-    return Command(sender, command, label, args, MCLang.class.getClassLoader(),
+    return Command(sender, command, label, args, Main.class.getClassLoader(),
         "org.tsob." + DataBase.pluginName + ".Command");
   }
 
@@ -90,7 +90,7 @@ public class MCLang extends JavaPlugin {
 
   @Override
   public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-    return onTabComplete(sender, cmd, label, args, MCLang.class.getClassLoader(),
+    return onTabComplete(sender, cmd, label, args, Main.class.getClassLoader(),
         "org.tsob." + DataBase.pluginName + ".Command");
   }
 
@@ -144,6 +144,6 @@ public class MCLang extends JavaPlugin {
     plugin.reloadConfig();
 
     DataBase.fileMessage.reloadFile();
-    DataBase.fileMinecraftLang.reloadWithLangAndVersion(MCLang.plugin.getConfig().getString("lang"));
+    DataBase.fileMinecraftLang.reloadWithLangAndVersion(Main.plugin.getConfig().getString("lang"));
   }
 }

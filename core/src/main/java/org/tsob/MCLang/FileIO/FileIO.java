@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.tsob.MCLang.MCLang;
+import org.tsob.MCLang.Main;
 
 /**
  * 檔案操作的核心檔案
@@ -46,9 +46,9 @@ public class FileIO implements IFileIO{
     String full_url = FileName;
     
     if(URL.equals(null))
-      full_url = "./" + MCLang.plugin.getDataFolder().toString() + "/" + FileName;
+      full_url = "./" + Main.plugin.getDataFolder().toString() + "/" + FileName;
     else
-      full_url = "./" + MCLang.plugin.getDataFolder().toString() + "/" + URL + "/" + FileName;
+      full_url = "./" + Main.plugin.getDataFolder().toString() + "/" + URL + "/" + FileName;
     
     return full_url;
   }
@@ -72,7 +72,7 @@ public class FileIO implements IFileIO{
         return "system error [file load error \" " + FileName + " \"]";
       }
       
-      MCLang.plugin.saveResource(full_url, true);
+      Main.plugin.saveResource(full_url, true);
       
       if(reloadFile())
         try {
@@ -107,7 +107,7 @@ public class FileIO implements IFileIO{
       
       if(!(URL == null || URL.isEmpty())) full_url = URL + "\\" + FileName;
           
-      MCLang.plugin.saveResource(full_url, true);
+      Main.plugin.saveResource(full_url, true);
       
       if(reloadFile())
         try {
@@ -132,13 +132,13 @@ public class FileIO implements IFileIO{
     String full_url = FileName;
     
     if(URL == null || URL.isEmpty())
-      File_load = new File(MCLang.plugin.getDataFolder(), FileName);
+      File_load = new File(Main.plugin.getDataFolder(), FileName);
     else {
-      File_load = new File("./" + MCLang.plugin.getDataFolder().toString() + "/" + URL + "/" + FileName);
+      File_load = new File("./" + Main.plugin.getDataFolder().toString() + "/" + URL + "/" + FileName);
       full_url = URL + "\\" + FileName;
     }
     
-    if (!File_load.exists()) MCLang.plugin.saveResource(full_url, true);
+    if (!File_load.exists()) Main.plugin.saveResource(full_url, true);
     data = YamlConfiguration.loadConfiguration(File_load);
   }
   

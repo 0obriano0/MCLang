@@ -2,7 +2,7 @@ package org.tsob.MCLang.FileIO;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.tsob.MCLang.MCLang;
+import org.tsob.MCLang.Main;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -40,9 +40,9 @@ public class JsonFileIO implements IJsonFileIO {
   public String getPath() {
     String fullUrl = fileName;
     if (url == null || url.isEmpty())
-      fullUrl = "./" + MCLang.plugin.getDataFolder().toString() + "/" + fileName;
+      fullUrl = "./" + Main.plugin.getDataFolder().toString() + "/" + fileName;
     else
-      fullUrl = "./" + MCLang.plugin.getDataFolder().toString() + "/" + url + "/" + fileName;
+      fullUrl = "./" + Main.plugin.getDataFolder().toString() + "/" + url + "/" + fileName;
     return fullUrl;
   }
 
@@ -97,9 +97,9 @@ public class JsonFileIO implements IJsonFileIO {
     File fileLoad;
     String fullUrl = fileName;
     if (url == null || url.isEmpty())
-      fileLoad = new File(MCLang.plugin.getDataFolder(), fileName);
+      fileLoad = new File(Main.plugin.getDataFolder(), fileName);
     else {
-      fileLoad = new File("./" + MCLang.plugin.getDataFolder().toString() + "/" + url + "/" + fileName);
+      fileLoad = new File("./" + Main.plugin.getDataFolder().toString() + "/" + url + "/" + fileName);
       fullUrl = url + "\\" + fileName;
     }
     
@@ -114,7 +114,7 @@ public class JsonFileIO implements IJsonFileIO {
   }
 
   protected void createFile(String fullUrl) {
-    MCLang.plugin.saveResource(fullUrl, true);
+    Main.plugin.saveResource(fullUrl, true);
   }
 
   @Override
