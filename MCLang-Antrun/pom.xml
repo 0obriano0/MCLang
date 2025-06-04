@@ -10,6 +10,10 @@
   <artifactId>MCLang-Antrun</artifactId>
   <packaging>jar</packaging>
 
+  <properties>
+    <parent.basedir>${project.basedir}/..</parent.basedir>
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -21,149 +25,151 @@
             <id>copy-and-rename-jars</id>
             <phase>install</phase>
             <configuration>
+              <exportAntProperties>true</exportAntProperties>
               <target>
                 <mkdir dir="${project.basedir}/target"/>
-                <copy file="../MCLang/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-v${project.version}.jar"
                       overwrite="true"/>
 
                 <!-- 1.13 -->
-                <copy file="../MCLang-Minecraft1_13/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_13-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_13/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_13-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_13_1/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_13_1-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_13_1/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_13_1-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_13_2/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_13_2-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_13_2/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_13_2-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
 
                 <!-- 1.14 -->
-                <copy file="../MCLang-Minecraft1_14/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_14-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_14/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_14-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_14_1/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_14_1-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_14_1/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_14_1-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_14_2/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_14_2-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_14_2/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_14_2-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_14_3/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_14_3-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_14_3/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_14_3-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_14_4/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_14_4-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_14_4/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_14_4-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
 
                 <!-- 1.15 -->
-                <copy file="../MCLang-Minecraft1_15/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_15-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_15/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_15-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_15_1/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_15_1-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_15_1/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_15_1-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_15_2/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_15_2-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_15_2/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_15_2-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
 
                 <!-- 1.16 -->
-                <copy file="../MCLang-Minecraft1_16/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_16-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_16/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_16-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_16_1/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_16_1-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_16_1/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_16_1-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_16_2/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_16_2-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_16_2/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_16_2-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_16_3/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_16_3-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_16_3/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_16_3-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_16_4/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_16_4-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_16_4/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_16_4-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_16_5/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_16_5-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_16_5/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_16_5-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
 
                 <!-- 1.17 -->
-                <copy file="../MCLang-Minecraft1_17/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_17-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_17/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_17-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_17_1/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_17_1-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_17_1/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_17_1-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
 
                 <!-- 1.18 -->
-                <copy file="../MCLang-Minecraft1_18/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_18-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_18/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_18-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_18_1/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_18_1-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_18_1/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_18_1-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_18_2/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_18_2-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_18_2/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_18_2-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
 
                 <!-- 1.19 -->
-                <copy file="../MCLang-Minecraft1_19/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_19-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_19/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_19-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_19_1/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_19_1-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_19_1/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_19_1-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_19_2/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_19_2-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_19_2/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_19_2-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_19_3/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_19_3-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_19_3/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_19_3-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_19_4/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_19_4-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_19_4/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_19_4-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
 
                 <!-- 1.20 -->
-                <copy file="../MCLang-Minecraft1_20/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_20-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_20/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_20-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_20_1/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_20_1-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_20_1/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_20_1-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_20_2/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_20_2-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_20_2/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_20_2-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_20_3/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_20_3-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_20_3/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_20_3-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_20_4/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_20_4-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_20_4/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_20_4-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_20_5/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_20_5-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_20_5/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_20_5-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_20_6/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_20_6-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_20_6/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_20_6-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
 
                 <!-- 1.21 -->
-                <copy file="../MCLang-Minecraft1_21/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_21-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_21/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_21-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_21_1/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_21_1-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_21_1/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_21_1-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_21_2/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_21_2-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_21_2/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_21_2-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_21_3/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_21_3-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_21_3/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_21_3-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_21_4/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_21_4-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_21_4/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_21_4-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
-                <copy file="../MCLang-Minecraft1_21_5/target/MCLang-v${project.version}-package.jar"
-                      tofile="../finish/MCLang-Minecraft1_21_5-v${project.version}.jar"
+                <copy file="${parent.basedir}/MCLang-Minecraft1_21_5/target/MCLang-v${project.version}-package.jar"
+                      tofile="${parent.basedir}/finish/MCLang-Minecraft1_21_5-v${project.version}.jar"
                       overwrite="true" failonerror="false"/>
+
               </target>
             </configuration>
             <goals>
