@@ -1,6 +1,12 @@
 package org.tsob.MCLang.API;
 
-interface IMCLang {
+/**
+ * IMCLang 介面
+ * 提供 Minecraft 語言相關的功能
+ * @author brian
+ *
+ */
+public interface IMCLang {
   /**
    * 取得或設定語言
    * @return 語言代碼，例如 "en_us"、"zh_TW" 等
