@@ -24,9 +24,6 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Build dependencies (optional)
-        run: mvn -B package -DskipTests
-
       - name: Generate core Javadoc
         run: mvn -B -pl core javadoc:javadoc
 
@@ -35,6 +32,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./core/target/site/apidocs
-          # 可自訂發布路徑，例如 docs/core-vX.Y.Z
-          # publish_branch: gh-pages
-          # destination_dir: core-javadoc
