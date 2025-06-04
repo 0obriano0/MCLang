@@ -27,6 +27,9 @@ jobs:
       - name: Generate core Javadoc
         run: mvn -B -pl core javadoc:javadoc
 
+      - name: List core javadoc output
+        run: ls -lR core/target/site/apidocs
+
       - name: Deploy core Javadoc to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
