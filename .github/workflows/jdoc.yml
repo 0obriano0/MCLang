@@ -28,10 +28,10 @@ jobs:
         run: mvn -B -pl core javadoc:javadoc
 
       - name: List core javadoc output
-        run: ls -lR core/target/site/apidocs
+        run: ls -lR core/target/reports/apidocs
 
       - name: Deploy core Javadoc to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./core/target/site/apidocs
+          publish_dir: ./core/target/reports/apidocs
