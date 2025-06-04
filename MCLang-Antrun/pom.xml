@@ -23,7 +23,7 @@
         <executions>
           <execution>
             <id>copy-and-rename-jars</id>
-            <phase>install</phase>
+            <phase>package</phase>
             <configuration>
               <exportAntProperties>true</exportAntProperties>
               <target>
