@@ -1,4 +1,4 @@
-name: Build and Publish core Javadoc to GitHub Pages
+name: Build and Publish core Javadoc to GitHub Pages & Releases
 
 on:
   push:
@@ -27,11 +27,23 @@ jobs:
       - name: Generate core Javadoc
         run: mvn -B -pl core javadoc:javadoc
 
-      - name: List core javadoc output
-        run: ls -lR core/target/reports/apidocs
+      - name: List core javadoc output (for debug)
+        run: ls -lR core/target/site/apidocs
+
+      - name: Compress core javadoc
+        run: |
+          cd core/target/site
+          zip -r ../../../core-javadoc.zip apidocs
 
       - name: Deploy core Javadoc to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./core/target/reports/apidocs
+          publish_dir: ./core/target/site/apidocs
+
+      - name: Upload Javadoc ZIP to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: core-javadoc.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
