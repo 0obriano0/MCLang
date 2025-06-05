@@ -24,6 +24,9 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Build core module (install to local repo)
+        run: mvn -B -pl core install
+
       - name: Generate MCLang-API Javadoc
         run: mvn -B -pl MCLang-API javadoc:javadoc
 
