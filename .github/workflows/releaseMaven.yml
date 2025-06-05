@@ -31,4 +31,4 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         run: |
-          mvn -B clean deploy -P release --settings .github/settings.xml
+          mvn -B clean deploy -pl MCLang-API -am --settings .github/settings.xml

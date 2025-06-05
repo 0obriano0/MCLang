@@ -5,10 +5,13 @@
   <parent>
       <groupId>org.tsob</groupId>
       <artifactId>MCLang</artifactId>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
   </parent>
   <artifactId>core</artifactId>
   <packaging>jar</packaging>
+
+  <name>MCLang Core</name>
+  <description>A core library for MCLang, used for Minecraft-related language parsing.</description>
 
   <repositories>
     <!-- Spigot API -->
@@ -126,5 +129,6 @@
     <full.version>${project.version}</full.version>
   </properties>
 </project>
+
 
 
