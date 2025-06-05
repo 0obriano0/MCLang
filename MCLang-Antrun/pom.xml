@@ -28,7 +28,7 @@
               <exportAntProperties>true</exportAntProperties>
               <target>
                 <mkdir dir="${project.basedir}/target"/>
-                <copy file="${parent.basedir}/MCLang/target/MCLang-v${project.version}-package.jar"
+                <copy file="${parent.basedir}/MCLang-Finish/target/MCLang-v${project.version}-package.jar"
                       tofile="${parent.basedir}/finish/MCLang-v${project.version}.jar"
                       overwrite="true"/>
 

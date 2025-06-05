@@ -7,7 +7,7 @@
         <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>MCLang</artifactId>
+    <artifactId>MCLang-Finish</artifactId>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
