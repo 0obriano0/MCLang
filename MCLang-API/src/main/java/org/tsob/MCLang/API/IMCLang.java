@@ -1,5 +1,8 @@
 package org.tsob.MCLang.API;
 
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+
 /**
  * IMCLang 介面
  * 提供 Minecraft 語言相關的功能
@@ -24,6 +27,20 @@ public interface IMCLang {
    * @return translation 資料
    */
   String getString(String path);
+
+  /**
+   * 取得物品的翻譯
+   * @param item 要翻譯的物品
+   * @return 物品的翻譯字串
+   */
+  String getItemTranslate(ItemStack item);
+
+  /**
+   * 取得實體(船,觸發的tnt等,怪物)的翻譯
+   * @param entry 要翻譯的實體類型
+   * @return 實體的翻譯字串
+   */
+  String getEntityTranslate(EntityType entry);
 
   /**
    * 重新讀取 Minecraft Lang 的設定檔

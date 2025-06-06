@@ -28,9 +28,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonFileIOMinecraftLang extends JsonFileIO {
-
-  public Map<String,String> Minecraft_Items = new HashMap<String,String>();
-
   private String lang; // 預設語言
   /**
    * @param langFromConfig 語言設定，抓不到自動用 en_us
@@ -210,38 +207,11 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
         continue; // 跳過空鍵或值
       }
       count++;
-
-      String minecrat_name = "";
-      if (key.contains("item.minecraft")) {
-        minecrat_name = key.replace("item.minecraft.", "");
-      } else if (key.contains("block.minecraft")) {
-        minecrat_name = key.replace("block.minecraft.", "");
-      } else {
-        continue; // 如果不是 item 或 block 的鍵，則跳過
-      }
-
-      if (minecrat_name.isEmpty()) {
-        continue; // 如果處理後的名稱是空的，則跳過
-      }
-
-      // 如果 minecrat_name 有 . 就跳過
-      if (minecrat_name.contains(".")) {
-        // DataBase.Print("MinecraftLang 鍵包含點: " + minecrat_name);
-        continue; // 如果名稱包含點，則跳過
-      }
-
-      if (Minecraft_Items.containsKey(minecrat_name)) {
-        // DataBase.Print("MinecraftLang 重複鍵: " + minecrat_name);
-        continue; // 如果已經存在這個鍵，則跳過
-      }
-      Minecraft_Items.put(minecrat_name, value);
     }
 
     printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Load_LangItems")
       .replace("%lang%", this.lang)
       .replace("%count%", String.valueOf(count))); // 顯示重新載入節點訊息
-    printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Load_MinecraftOriginItem")
-      .replace("%count%", String.valueOf(Minecraft_Items.size()))); // 顯示載入 Minecraft 原始物品訊息
   }
 
   /**
@@ -276,10 +246,10 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
 
     if (this.lang == null || this.lang.isEmpty())
       this.lang = "en_us"; // 預設語言
-    if (this.lang == "en") {
+    if (this.lang.equals("en")) {
       this.lang = "en_us"; // Minecraft 默認語言
     }
-    this.lang = this.lang.toLowerCase(); // 確保語言是小寫
+    this.lang = this.lang.trim().toLowerCase(); // 確保語言是小寫
     // 嘗試從 Mojang 的資源下載語言檔
     try {
       // 下載 Minecraft 版本資訊清單
@@ -309,7 +279,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
       resp = client.send(HttpRequest.newBuilder().uri(URI.create(assetIndexUrl)).build(), HttpResponse.BodyHandlers.ofString());
       JsonNode assetIndex = mapper.readTree(resp.body()).get("objects");
       
-      if (this.lang == "en_us") {
+      if (this.lang.equals("en_us")) {
         // 下載 client.jar，準備解壓 en_us.json
         String clientJarUrl = clientManifest.get("downloads").get("client").get("url").asText();
         String clientSha1 = clientManifest.get("downloads").get("client").get("sha1").asText();
@@ -335,7 +305,6 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
         }
         // 刪除 client.jar，釋放空間
         Files.delete(clientJarPath);
-
       } else {
         // 查找語言檔 hash
         String key = "minecraft/lang/" + this.lang + ".json";

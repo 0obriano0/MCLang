@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.tsob</groupId>
         <artifactId>MCLang</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -14,7 +14,23 @@
     <name>MCLang API</name>
     <description>An API library for MCLang, designed to efficiently parse and process Minecraft-related languages.</description>
 
+    <repositories>
+      <!-- Spigot API -->
+      <repository>
+        <id>spigot-repo</id>
+        <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+      </repository>
+    </repositories>
+    
     <dependencies>
+      <!-- Spigot API -->
+      <dependency>
+        <groupId>org.spigotmc</groupId>
+        <artifactId>spigot-api</artifactId>
+        <version>1.13-R0.1-SNAPSHOT</version>
+        <scope>provided</scope>
+      </dependency>
+      
       <dependency>
         <groupId>org.tsob</groupId>
         <artifactId>MCLang-core</artifactId>
@@ -78,5 +94,6 @@
     <full.version>${project.version}</full.version>
   </properties>
 </project>
+
 
 

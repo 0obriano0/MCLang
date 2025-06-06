@@ -5,7 +5,7 @@
   <parent>
       <groupId>org.tsob</groupId>
       <artifactId>MCLang</artifactId>
-      <version>1.0.2</version>
+      <version>1.0.3</version>
   </parent>
   <artifactId>MCLang-core</artifactId>
   <packaging>jar</packaging>
@@ -129,6 +129,7 @@
     <full.version>${project.version}</full.version>
   </properties>
 </project>
+
 
 
 

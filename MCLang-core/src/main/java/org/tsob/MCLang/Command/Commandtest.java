@@ -19,8 +19,8 @@ public class Commandtest extends mainCommandSystem{
     if (args.length >= 1) {
       path = args[0];
     }
-    // DataBase.Print(DataBase.fileMinecraftLang.getString(path));
-    DataBase.Print(DataBase.fileMinecraftLang.Minecraft_Items.get(path.toLowerCase()));
+    DataBase.Print(DataBase.fileMinecraftLang.getString(path));
+    // DataBase.Print(DataBase.fileMinecraftLang.Minecraft_Items.get(path.toLowerCase()));
   }
 }
   
