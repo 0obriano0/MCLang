@@ -12,7 +12,7 @@
     <dependencies>
       <dependency>
         <groupId>org.tsob</groupId>
-        <artifactId>core</artifactId>
+        <artifactId>MCLang-core</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -22,6 +22,7 @@
       </dependency>
     </dependencies>
 </project>
+
 
 
 

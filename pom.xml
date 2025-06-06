@@ -11,7 +11,7 @@
   <description>For loading vanilla Minecraft language packs</description>
 
   <modules>
-    <module>core</module>
+    <module>MCLang-core</module>
     <module>MCLang-API</module>
     <module>MCLang-Finish</module>
     <!-- <module>MCLang-Minecraft1_13</module>
@@ -75,7 +75,7 @@
     <developerConnection>scm:git:ssh://github.com:0obriano0/MCLang.git</developerConnection>
     <url>https://github.com/0obriano0/MCLang</url>
   </scm>
-  <url>https://github.com/0obriano0/MCLang3</url>
+  <url>https://github.com/0obriano0/MCLang</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -179,6 +179,7 @@
     </plugins>
   </build>
 </project>
+
 
 
 

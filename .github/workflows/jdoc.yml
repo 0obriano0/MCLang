@@ -1,4 +1,4 @@
-name: Build and Publish core Javadoc to GitHub Pages & Releases
+name: Build and Publish API Javadoc to GitHub Pages & Releases
 
 on:
   push:
