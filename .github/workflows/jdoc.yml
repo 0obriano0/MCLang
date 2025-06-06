@@ -24,8 +24,9 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Build core module (install to local repo)
-        run: mvn -B -pl core install -Dgpg.skip
+      # 主要修改在此：安裝整個專案（含 root pom 與所有模組）
+      - name: Build and install all modules (install to local repo)
+        run: mvn -B install -Dgpg.skip
 
       - name: Generate MCLang-API Javadoc
         run: mvn -B -pl MCLang-API javadoc:javadoc -Dgpg.skip
