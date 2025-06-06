@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.tsob.MCLang.API"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.tsob.MCLang.API"},{"l":"org.tsob.MCLang.Command"}];updateSearchResults();

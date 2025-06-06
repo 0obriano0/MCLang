@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"org.tsob.MCLang.API","l":"IMCLang"},{"p":"org.tsob.MCLang.API","l":"MCLang"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"org.tsob.MCLang.Command","l":"Commandapitest"},{"p":"org.tsob.MCLang.API","l":"IMCLang"},{"p":"org.tsob.MCLang.API","l":"MCLang"}];updateSearchResults();
