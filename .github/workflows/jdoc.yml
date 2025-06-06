@@ -25,10 +25,10 @@ jobs:
           java-version: 17
 
       - name: Build core module (install to local repo)
-        run: mvn -B -pl core install
+        run: mvn -B -pl core install -Dgpg.skip
 
       - name: Generate MCLang-API Javadoc
-        run: mvn -B -pl MCLang-API javadoc:javadoc
+        run: mvn -B -pl MCLang-API javadoc:javadoc -Dgpg.skip
 
       - name: List MCLang-API javadoc output (for debug)
         run: ls -lR MCLang-API/target/site/apidocs
