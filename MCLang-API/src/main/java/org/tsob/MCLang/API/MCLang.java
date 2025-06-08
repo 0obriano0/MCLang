@@ -81,6 +81,23 @@ public class MCLang implements IMCLang {
   }
 
   @Override
+  public String getItemTranslate(String itemName) {
+    if (itemName == null || itemName.isEmpty()) {
+      return "unknown_item";
+    }
+    String path = "item.minecraft." + itemName.trim().toLowerCase();
+    String translation = "";
+
+    translation = _getString(path,false);
+    if (translation == null || translation.isEmpty() || translation == "") {
+      // 如果沒有找到對應的翻譯，返回原始路徑
+      return itemName.toLowerCase();
+    }
+
+    return translation;
+  }
+
+  @Override
   public String getEntityTranslate(EntityType entry) {
     if (entry == null) {
       return "unknown_entity";
@@ -94,6 +111,23 @@ public class MCLang implements IMCLang {
     if (translation == null || translation.isEmpty() || translation == "") {
       // 如果沒有找到對應的翻譯，返回原始路徑
       return entry.name().toLowerCase();
+    }
+
+    return translation;
+  }
+
+  @Override
+  public String getEntityTranslate(String entityName) {
+    if (entityName == null || entityName.isEmpty()) {
+      return "unknown_entity";
+    }
+    String path = "entity.minecraft." + entityName.trim().toLowerCase();
+    String translation = "";
+
+    translation = _getString(path,false);
+    if (translation == null || translation.isEmpty() || translation == "") {
+      // 如果沒有找到對應的翻譯，返回原始路徑
+      return entityName.toLowerCase();
     }
 
     return translation;

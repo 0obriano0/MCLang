@@ -36,11 +36,25 @@ public interface IMCLang {
   String getItemTranslate(ItemStack item);
 
   /**
+   * 取得物品名稱的翻譯
+   * @param itemName 要翻譯的物品名稱
+   * @return 物品名稱的翻譯字串
+   */
+  String getItemTranslate(String itemName);
+
+  /**
    * 取得實體(船,觸發的tnt等,怪物)的翻譯
    * @param entry 要翻譯的實體類型
    * @return 實體的翻譯字串
    */
   String getEntityTranslate(EntityType entry);
+
+  /**
+   * 取得實體名稱的翻譯
+   * @param entityName 要翻譯的實體名稱
+   * @return 實體名稱的翻譯字串
+   */
+  String getEntityTranslate(String entityName);
 
   /**
    * 重新讀取 Minecraft Lang 的設定檔
