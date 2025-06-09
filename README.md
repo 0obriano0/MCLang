@@ -6,7 +6,8 @@ Official Language Pack API for your Minecraft Bukkit plugins.
 
 ## Features
 * Easy-to-use language pack management for Bukkit plugins
-* Support for multiple locales/languages
+* Includes preloaded language packs for each Minecraft version (download from [GitHub](https://github.com/0obriano0/MCLang/releases))
+* Automatically downloads language packs from the official Minecraft resources if not present
 * Hot-reload language files without server restart
 * API for developers to integrate custom messages
 
@@ -25,7 +26,7 @@ repositories {
 
 dependencies {
     // Please check the latest version
-    compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.0.4'
+    compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.0.5'
 }
 ```
 
@@ -41,7 +42,7 @@ dependencies {
 <dependency>
   <groupId>org.tsob</groupId>
   <artifactId>MCLang-API</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <scope>provided</scope>
 </dependency>
 ```
