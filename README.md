@@ -14,15 +14,18 @@ Official Language Pack API for your Minecraft Bukkit plugins.
 
 ## Usage
 
-
 ### Gradle
 ```gradle
 repositories {
     mavenCentral()
-    maven { url 'https://s01.oss.sonatype.org/content/repositories/releases/' }
+    maven {
+        url 'https://s01.oss.sonatype.org/content/repositories/releases/'
+    }
 }
+
 dependencies {
-    compileOnly 'org.tsob:MCLang-API:1.0.4'
+    // Please check the latest version
+    compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.0.4'
 }
 ```
 
