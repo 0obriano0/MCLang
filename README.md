@@ -1,6 +1,6 @@
 
 
-# MCLang [![MCLang Build Status](https://img.shields.io/github/actions/workflow/status/0obriano0/MCLang/build.yml)](https://github.com/0obriano0/MCLang/actions) ![GitHub Release](https://img.shields.io/github/v/release/0obriano0/MCLang)
+# MCLang [![MCLang Build Status](https://img.shields.io/github/actions/workflow/status/0obriano0/MCLang/build.yml)](https://github.com/0obriano0/MCLang/actions) [![GitHub Release](https://img.shields.io/github/v/release/0obriano0/MCLang)](https://github.com/0obriano0/MCLang/releases/tag/v1.0.4)
 
 Official Language Pack API for your Minecraft Bukkit plugins.
 
