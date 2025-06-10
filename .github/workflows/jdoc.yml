@@ -46,7 +46,7 @@ jobs:
           publish_dir: ./MCLang-API/target/site/apidocs
 
       - name: Upload Javadoc ZIP to GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v2.0.4
         with:
           files: MCLang-API-javadoc.zip
         env:
