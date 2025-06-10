@@ -4,7 +4,7 @@
 
   <groupId>org.tsob</groupId>
   <artifactId>MCLang</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <packaging>pom</packaging>
 
   <name>MCLang</name>
@@ -179,6 +179,7 @@
     </plugins>
   </build>
 </project>
+
 
 
 
