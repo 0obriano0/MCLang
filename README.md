@@ -20,7 +20,7 @@ Official Language Pack API for your Minecraft Bukkit plugins.
 repositories {
   mavenCentral()
   maven {
-    url 'https://s01.oss.sonatype.org/content/repositories/releases/'
+    url 'https://repo1.maven.org/maven2/'
   }
 }
 
@@ -34,8 +34,8 @@ dependencies {
 ```xml
 <repositories>
   <repository>
-    <id>sonatype-central</id>
-    <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+    <id>maven.org</id>
+    <url>https://repo1.maven.org/maven2/</url>
   </repository>
 </repositories>
 
