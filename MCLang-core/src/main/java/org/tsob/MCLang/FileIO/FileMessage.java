@@ -5,22 +5,26 @@ import org.tsob.MCLang.DataBase.DataBase;
 
 public class FileMessage extends FileIO{
   public FileMessage() {
-    super("message", tools.getLang() + "/Base.yml");
+    super("message", "en.yml");
   }
   
   @Override
   public boolean reloadcmd() {
-    this.setFileName(tools.getLang() + "/Base.yml");
+    try {
+      this.setFileName(tools.getLang() + ".yml");
+    } catch (IllegalArgumentException e) {
+      printCmd("§cError: File not found: §e%fileName%, §cusing default file: §e%defaultFileName%"
+        .replace("%fileName%", "message/"+ tools.getLang() + ".yml")
+        .replace("%defaultFileName%", "message/en.yml"));
+      this.setFileName("en.yml");
+    }
     return true;
   }
-  
-  /**
-   * 錯誤訊息顯示
-   * @param title 標題
-   * @param name 名稱
-   */
-  public void errorMessage(String title,String name) {
-    DataBase.Print(AnsiColor.RED + "[Loadlanguage] " + title + " -> " + name + " data load error，use default..." + AnsiColor.RESET);
+
+  private static void printCmd(String msg) {
+    String title = AnsiColor.minecraftToAnsiColor("§b[LoadMessage] ");
+    msg = title + AnsiColor.WHITE + AnsiColor.minecraftToAnsiColor(msg);
+    DataBase.Print(msg);
   }
   
 }

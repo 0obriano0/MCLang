@@ -10,7 +10,7 @@ public class MCLang implements IMCLang {
   
   /**
    * 建構子
-   * @param lang 語言代碼，例如 "en_us"、"zh_TW" 等
+   * @param lang 語言代碼，例如 "en_us"、"zh_tw" 等
    */
   public MCLang(String lang) {
     this.Lang = lang;

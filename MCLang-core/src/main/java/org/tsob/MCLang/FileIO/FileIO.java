@@ -36,7 +36,7 @@ public class FileIO implements IFileIO{
     return FileName;
   }
   
-  protected void setFileName(String FileName) {
+  protected void setFileName(String FileName) throws NullPointerException, IllegalArgumentException{
     this.FileName = FileName;
     readFile();
   }
@@ -127,7 +127,7 @@ public class FileIO implements IFileIO{
     
   }
   
-  protected void readFile(){
+  protected void readFile() throws NullPointerException, IllegalArgumentException {
     File File_load = null;
     String full_url = FileName;
     
@@ -143,7 +143,7 @@ public class FileIO implements IFileIO{
   }
   
   @Override
-  public boolean reloadFile() {
+  public boolean reloadFile() throws NullPointerException, IllegalArgumentException{
     readFile();
     if(!reloadcmd()) return false;
     return true;

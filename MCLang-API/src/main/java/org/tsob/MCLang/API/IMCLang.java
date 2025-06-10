@@ -12,13 +12,13 @@ import org.bukkit.inventory.ItemStack;
 public interface IMCLang {
   /**
    * 取得或設定語言
-   * @return 語言代碼，例如 "en_us"、"zh_TW" 等
+   * @return 語言代碼，例如 "en_us"、"zh_tw" 等
    */
   String getLang();
 
   /**
    * 設定語言
-   * @param lang 語言代碼，例如 "en_us"、"zh_TW" 等
+   * @param lang 語言代碼，例如 "en_us"、"zh_tw" 等
    */
   void setLang(String lang);
 

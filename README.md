@@ -18,25 +18,25 @@ Official Language Pack API for your Minecraft Bukkit plugins.
 ### Gradle
 ```gradle
 repositories {
-    mavenCentral()
-    maven {
-        url 'https://s01.oss.sonatype.org/content/repositories/releases/'
-    }
+  mavenCentral()
+  maven {
+    url 'https://s01.oss.sonatype.org/content/repositories/releases/'
+  }
 }
 
 dependencies {
-    // Please check the latest version
-    compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.0.5'
+  // Please check the latest version
+  compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.0.5'
 }
 ```
 
 ### Maven
 ```xml
 <repositories>
-    <repository>
-        <id>sonatype-central</id>
-        <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
-    </repository>
+  <repository>
+    <id>sonatype-central</id>
+    <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
+  </repository>
 </repositories>
 
 <dependency>
@@ -78,3 +78,4 @@ public class ExamplePlugin extends JavaPlugin {
 ## TODO
 * Improve API documentation
 * Add more usage examples
+* Move the file download to asynchronous execution, and temporarily use en_us until the download is complete.

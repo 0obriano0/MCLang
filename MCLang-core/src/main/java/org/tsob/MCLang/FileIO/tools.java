@@ -51,7 +51,6 @@ public class tools {
    */
   protected static String getLang() {
     String Name = Main.plugin.getConfig().getString("lang");
-    if(Name.toLowerCase().equals("zh_tw")) Name = "zh_TW";
-    return Name;
+    return Name.toLowerCase();
   }
 }

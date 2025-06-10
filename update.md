@@ -1,4 +1,5 @@
 ## 1.0.6
+* Move the MCLang system language setting, and set 'en' as the default when the specified language cannot be found.
 
 ## 1.0.5
 * change default lang
