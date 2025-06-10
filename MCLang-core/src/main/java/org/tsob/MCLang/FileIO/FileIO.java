@@ -8,7 +8,9 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.tsob.MCLang.AnsiColor;
 import org.tsob.MCLang.Main;
+import org.tsob.MCLang.DataBase.DataBase;
 
 /**
  * 檔案操作的核心檔案
@@ -46,9 +48,9 @@ public class FileIO implements IFileIO{
     String full_url = FileName;
     
     if(URL.equals(null))
-      full_url = "./" + Main.plugin.getDataFolder().toString() + "/" + FileName;
+      full_url = "./" + Main.plugin.getDataFolder().toString().replace("\\", "/") + "/" + FileName;
     else
-      full_url = "./" + Main.plugin.getDataFolder().toString() + "/" + URL + "/" + FileName;
+      full_url = "./" + Main.plugin.getDataFolder().toString().replace("\\", "/") + "/" + URL + "/" + FileName;
     
     return full_url;
   }
@@ -62,7 +64,14 @@ public class FileIO implements IFileIO{
   @Override
   public String getString(String path) {
     try {
-      return this.getFileforYML().getString(path).replaceAll("&", "§");
+      String getMsg = this.getFileforYML().getString(path);
+      if (getMsg == null) {
+        printCmd("§cError: path not found: §e" + path + "§c in file: §e" + getPath());
+        getMsg = path;
+      } else {
+        getMsg = getMsg.replaceAll("&", "§");
+      }
+      return getMsg;
     }catch(NullPointerException e){
       
       String full_url = FileName;
@@ -93,6 +102,7 @@ public class FileIO implements IFileIO{
   private List<String> formateStringlist(@Nonnull List<String> data){
     List<String> finaldata = new ArrayList<String>();
     for(String Data : data) {
+      if (Data == null || Data.isEmpty()) continue;
       finaldata.add(Data.replaceAll("&", "§"));
     }
     return finaldata;
@@ -154,4 +164,9 @@ public class FileIO implements IFileIO{
     return true;
   }
   
+  private void printCmd(String msg) {
+    String title = AnsiColor.minecraftToAnsiColor("§b[FileIO] ");
+    msg = title + AnsiColor.WHITE + AnsiColor.minecraftToAnsiColor(msg);
+    DataBase.Print(msg);
+  }
 }
