@@ -34,7 +34,7 @@ dependencies {
 ```xml
 <repositories>
   <repository>
-    <id>maven.org</id>
+    <id>maven</id>
     <url>https://repo1.maven.org/maven2/</url>
   </repository>
 </repositories>
