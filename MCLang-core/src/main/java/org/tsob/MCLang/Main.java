@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,6 +20,7 @@ import org.tsob.MCLang.DataBase.DataBase;
 public class Main extends JavaPlugin {
   public static Plugin plugin;
   public static Server server;
+  public static Metrics metrics;
 
   @Override
   public void onEnable() {
@@ -30,6 +33,10 @@ public class Main extends JavaPlugin {
     setEvents();
     DataBase.fileMessage.reloadFile();
     DataBase.fileMinecraftLang.reloadWithLangAndVersion(Main.plugin.getConfig().getString("lang"));
+    
+    // bStats 統計初始化
+    int pluginId = 26149; // 你的 bStats plugin ID
+    metrics = new Metrics(this, pluginId);
   }
 
   @Override

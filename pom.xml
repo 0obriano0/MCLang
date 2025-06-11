@@ -4,7 +4,7 @@
 
   <groupId>org.tsob</groupId>
   <artifactId>MCLang</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <packaging>pom</packaging>
 
   <name>MCLang</name>
@@ -85,10 +85,11 @@
 
   <build>
     <plugins>
+      <!--   maven-compiler-plugin编译插件  -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.5.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -97,6 +98,13 @@
             </goals>
             <configuration>
               <finalName>MCLang-v${project.version}-package</finalName>
+              <relocations>
+                <relocation>
+                  <pattern>org.bstats</pattern>
+                  <shadedPattern>org.tsob.MCLang.shaded.bstats</shadedPattern>
+                </relocation>
+              </relocations>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
             </configuration>
           </execution>
         </executions>
@@ -179,6 +187,7 @@
     </plugins>
   </build>
 </project>
+
 
 
 

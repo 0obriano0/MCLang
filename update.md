@@ -1,3 +1,7 @@
+## 1.0.7
+* add bstats 
+* Refactor Maven's pom.xml
+
 ## 1.0.6
 * Move the MCLang system language setting, and set 'en' as the default when the specified language cannot be found.
 * change maven repositories
