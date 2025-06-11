@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SimplePie;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
