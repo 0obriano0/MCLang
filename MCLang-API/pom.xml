@@ -38,23 +38,6 @@
     </dependency>
   </dependencies>
 
-  <build>
-    <resources>
-      <resource>
-        <directory>resources</directory>
-        <includes>
-          <include>**/*.properties</include>
-          <include>**/*.yml</include>
-          <include>**/*.csv</include>
-          <include>**/*.txt</include>
-          <include>**/*.json</include>
-          <include>**/*.xml</include>
-        </includes>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
-  </build>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <full.version>${project.version}</full.version>
