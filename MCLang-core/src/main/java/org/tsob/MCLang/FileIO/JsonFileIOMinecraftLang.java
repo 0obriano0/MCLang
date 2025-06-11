@@ -2,6 +2,7 @@ package org.tsob.MCLang.FileIO;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -273,10 +274,6 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
       // 下載 client manifest
       resp = client.send(HttpRequest.newBuilder().uri(URI.create(clientManifestUrl)).build(), HttpResponse.BodyHandlers.ofString());
       JsonNode clientManifest = mapper.readTree(resp.body());
-      // 下載 asset index
-      String assetIndexUrl = clientManifest.get("assetIndex").get("url").asText();
-      resp = client.send(HttpRequest.newBuilder().uri(URI.create(assetIndexUrl)).build(), HttpResponse.BodyHandlers.ofString());
-      JsonNode assetIndex = mapper.readTree(resp.body()).get("objects");
       
       if (this.lang.equals("en_us")) {
         // 下載 client.jar，準備解壓 en_us.json
@@ -305,6 +302,11 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
         // 刪除 client.jar，釋放空間
         Files.delete(clientJarPath);
       } else {
+        // 下載 asset index
+        String assetIndexUrl = clientManifest.get("assetIndex").get("url").asText();
+        resp = client.send(HttpRequest.newBuilder().uri(URI.create(assetIndexUrl)).build(), HttpResponse.BodyHandlers.ofString());
+        JsonNode assetIndex = mapper.readTree(resp.body()).get("objects");
+
         // 查找語言檔 hash
         String key = "minecraft/lang/" + this.lang + ".json";
         if (!assetIndex.has(key)) throw new RuntimeException("找不到語言檔: " + key);
@@ -314,11 +316,8 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
         File dataFolder = Main.plugin.getDataFolder();
         Path outPath = Paths.get(dataFolder.toString(), "mc_lang", version, this.lang + ".json");
         Files.createDirectories(outPath.getParent());
-        HttpRequest langReq = HttpRequest.newBuilder().uri(URI.create(url)).build();
-        HttpResponse<InputStream> langResp = client.send(langReq, HttpResponse.BodyHandlers.ofInputStream());
-        try (InputStream is = langResp.body()) {
-          Files.copy(is, outPath, StandardCopyOption.REPLACE_EXISTING);
-        }
+        downloadFile(url, outPath);
+
         // 驗證 hash
         String fileHash = sha1(outPath);
         if (!fileHash.equalsIgnoreCase(hash)) {
@@ -338,8 +337,33 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest req = HttpRequest.newBuilder().uri(URI.create(url)).build();
     HttpResponse<InputStream> resp = client.send(req, HttpResponse.BodyHandlers.ofInputStream());
+
+    long contentLength = 0;
+    if (resp.headers().firstValue("Content-Length").isPresent()) {
+      contentLength = Long.parseLong(resp.headers().firstValue("Content-Length").get());
+    }
+
     try (InputStream is = resp.body()) {
-      Files.copy(is, out, StandardCopyOption.REPLACE_EXISTING);
+      Files.createDirectories(out.getParent());
+      try (OutputStream os = Files.newOutputStream(out)) {
+        byte[] buffer = new byte[8192];
+        long totalRead = 0;
+        int read;
+        long lastPrint = 0;
+        while ((read = is.read(buffer)) != -1) {
+          os.write(buffer, 0, read);
+          totalRead += read;
+            // 每 5 秒或最後一次才顯示進度
+            long now = System.currentTimeMillis();
+            if (contentLength > 0 && (now - lastPrint > 5000 || totalRead == contentLength)) {
+            double percent = (totalRead * 100.0) / contentLength;
+            double mbDone = totalRead / 1024.0 / 1024.0;
+            double mbTotal = contentLength / 1024.0 / 1024.0;
+            DataBase.Print("下載進度：" + String.format("%.2f MB / %.2f MB (%.1f%%)", mbDone, mbTotal, percent));
+            lastPrint = now;
+            }
+        }
+      }
     }
   }
 
