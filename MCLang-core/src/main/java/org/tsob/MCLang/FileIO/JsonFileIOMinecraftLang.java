@@ -359,7 +359,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
             double percent = (totalRead * 100.0) / contentLength;
             double mbDone = totalRead / 1024.0 / 1024.0;
             double mbTotal = contentLength / 1024.0 / 1024.0;
-            DataBase.Print("下載進度：" + String.format("%.2f MB / %.2f MB (%.1f%%)", mbDone, mbTotal, percent));
+            // DataBase.Print("下載進度：" + String.format("%.2f MB / %.2f MB (%.1f%%)", mbDone, mbTotal, percent)); // 暫時先不顯示進度
             lastPrint = now;
           }
         }
