@@ -4,7 +4,7 @@
 [![MCLang Build Status](https://img.shields.io/github/actions/workflow/status/0obriano0/MCLang/build.yml)](https://github.com/0obriano0/MCLang/actions) [![GitHub Release](https://img.shields.io/github/v/release/0obriano0/MCLang)](https://github.com/0obriano0/MCLang/releases)
 
 ### SpigotMC Status
-[![spigot version](https://badges.spiget.org/resources/version/Version-yellow-125883.svg)](https://www.spigotmc.org/resources/mclang.125883/) [![downloads](https://badges.spiget.org/resources/downloads/SpigotDownloads-yellow-125883.svg)](https://www.spigotmc.org/resources/mclang.125883/) 
+[![Spiget Version](https://img.shields.io/spiget/version/125883?color=yellow)](https://www.spigotmc.org/resources/mclang.125883/) [![Spiget Downloads](https://img.shields.io/spiget/downloads/125883?color=yellow)](https://www.spigotmc.org/resources/mclang.125883/)
 
 ### bStats Status
 [![bStats Servers](https://img.shields.io/bstats/servers/26149.svg?color=green&label=OnlineServers&style=plastic)](https://bstats.org/plugin/bukkit/MCLang) [![bStats Players](https://img.shields.io/bstats/players/26149.svg?color=green&label=OnlinePlayers&style=plastic)](https://bstats.org/plugin/bukkit/MCLang)
