@@ -1,3 +1,7 @@
+## 1.0.9
+* Translate the explanation of /mclang help.
+  * If you can't see it, please delete .\message\XX.json, and it will automatically generate a new copy.
+
 ## 1.0.8
 * Modification method: Each version corresponds to the local language pack. Please download it from my GitHub yourself. It will no longer be packaged together when separating versions during packaging.
 * Add a function to easily retrieve translations.
