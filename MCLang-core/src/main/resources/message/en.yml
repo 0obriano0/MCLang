@@ -21,6 +21,12 @@ Command:
   CanNotFind: "&cUnknown Command"
   HandNoItem: "&cNo item in hand"
   ItemNotFind: "&cUnknown item"
+  Help:
+    reload: "/mclang reload Re-read Data"
+    path: "/mclang path <path> Get item translation"
+    help: "/mclang help Show command description"
+    apitest: "/mclang apitest <lang> <mode> Test API function"
+    test: "/mclang test Useless command"
 
 LoadMinecraftLang:
   Title: "&b[LoadMinecraftLang] "

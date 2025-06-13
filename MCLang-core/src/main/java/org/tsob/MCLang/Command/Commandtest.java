@@ -9,7 +9,7 @@ import org.tsob.MCLang.DataBase.DataBase;
 public class Commandtest extends mainCommandSystem{
   public Commandtest() {
     super(  "test",
-        "/mclang test 取得指令說明",
+        DataBase.fileMessage.getString("Command.Help.test"),
         new ArrayList<String>(Arrays.asList("mclang.admin.test")));
   }
   

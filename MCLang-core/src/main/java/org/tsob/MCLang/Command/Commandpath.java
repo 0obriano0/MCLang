@@ -13,7 +13,7 @@ import org.tsob.MCLang.DataBase.DataBase;
 public class Commandpath extends mainCommandSystem{
   public Commandpath() {
     super(  "path",
-        "/mclang path <path> 取得物品的路徑",
+        DataBase.fileMessage.getString("Command.Help.path"),
         new ArrayList<String>(Arrays.asList("mobdrop.admin.path")));
   }
 

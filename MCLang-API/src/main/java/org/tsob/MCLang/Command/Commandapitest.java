@@ -10,10 +10,11 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.tsob.MCLang.API.MCLang;
+import org.tsob.MCLang.DataBase.DataBase;
 public class Commandapitest extends mainCommandSystem{
   public Commandapitest() {
     super(  "apitest",
-        "/mclang apitest <語言> <模式>",
+        DataBase.fileMessage.getString("Command.Help.apitest"),
         new ArrayList<String>(Arrays.asList("mclang.admin.apitest")));
   }
   

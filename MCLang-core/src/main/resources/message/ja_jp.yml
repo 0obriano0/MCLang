@@ -21,6 +21,12 @@ Command:
   CanNotFind: "&cコマンドが見つかりません"
   HandNoItem: "&c手にアイテムがありません"
   ItemNotFind: "&cアイテムが見つかりません"
+  Help:
+    reload: "/mclang reload データを再読み込みします"
+    path: "/mclang path <path> アイテムの翻訳を取得します"
+    help: "/mclang help コマンドの説明を表示します"
+    apitest: "/mclang apitest <言語> <モード> API機能をテストします"
+    test: "/mclang test 無用のコマンド"
 
 LoadMinecraftLang:
   Title: "&b[LoadMinecraftLang] "
