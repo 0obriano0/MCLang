@@ -20,9 +20,7 @@ Official Language Pack API for your Minecraft Bukkit plugins.
 * Hot-reload language files without server restart
 * API for developers to integrate custom messages
 
-## Docs
-
-## Usage
+## Docs [JDOC](https://0obriano0.github.io/MCLang/)
 
 ### Gradle
 ```gradle
