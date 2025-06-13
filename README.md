@@ -91,6 +91,8 @@ public class ExamplePlugin extends JavaPlugin {
 }
 ```
 
+*[View updates and changelog here.](https://github.com/0obriano0/MCLang/tree/main/update.md)*
+
 ## TODO
 * Improve API documentation
 * Add more usage examples
