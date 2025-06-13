@@ -1,6 +1,7 @@
 package org.tsob.MCLang.API;
 
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
@@ -45,10 +46,17 @@ public interface IMCLang {
 
   /**
    * 取得實體(船,觸發的tnt等,怪物)的翻譯
-   * @param entry 要翻譯的實體類型
+   * @param entityType 要翻譯的實體類型
    * @return 實體的翻譯字串
    */
-  String getEntityTranslate(EntityType entry);
+  String getEntityTranslate(EntityType entityType);
+
+  /**
+   * 取得實體的翻譯 (船,觸發的tnt等,怪物) 的翻譯
+   * @param entity
+   * @return 實體的翻譯字串
+   */
+  String getEntityTranslate(Entity entity);
 
   /**
    * 取得實體名稱的翻譯

@@ -58,6 +58,7 @@ dependencies {
 ```java
 import org.tsob.MCLang.API.MCLang;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
@@ -77,7 +78,11 @@ public class ExamplePlugin extends JavaPlugin {
     String itemTranslationByName = lang.getItemTranslate("DIAMOND_SWORD");
 
     // Get translation for an EntityType
-    String entityTranslation = lang.getEntityTranslate (EntityType.CREEPER);
+    String entityTranslation = lang.getEntityTranslate(EntityType.CREEPER);
+
+    // Get translation by entity instance (version 1.1.0 add)
+    Entity entity = ...; // your Entity instance
+    String entityTranslationFromEntity = lang.getEntityTranslate(entity);
 
     // Get translation for an entity name
     String entityTranslationByName = lang.getEntityTranslate("CREEPER");
