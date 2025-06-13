@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.tsob.MCLang.API.MCLang;
@@ -38,6 +39,10 @@ public class Commandapitest extends mainCommandSystem{
       translation = mclang.getItemTranslate(item);
     } else if (mode.equals("entity")) {
       translation = mclang.getEntityTranslate(EntityType.CREEPER);
+    } else if (mode.equals("enchantment")) {
+      translation = mclang.getEnchantmentTranslate("SILK_TOUCH");
+    } else if (mode.equals("enchantment2")) {
+      translation = mclang.getEnchantmentTranslate(Enchantment.SILK_TOUCH);
     } else {
       translation = "未知模式";
     }

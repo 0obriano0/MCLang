@@ -1,5 +1,6 @@
 package org.tsob.MCLang.API;
 
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
@@ -55,6 +56,20 @@ public interface IMCLang {
    * @return 實體名稱的翻譯字串
    */
   String getEntityTranslate(String entityName);
+
+  /**
+   * 取得附模的翻譯
+   * @param enchantmentName 要翻譯的附魔名稱
+   * @return 附魔名稱的翻譯字串
+   */
+  String getEnchantmentTranslate(String enchantmentName);
+
+  /**
+   * 取得附魔的翻譯
+   * @param enchantment 要翻譯的附魔
+   * @return 附魔的翻譯字串
+   */
+  String getEnchantmentTranslate(Enchantment enchantment);
 
   /**
    * 重新讀取 Minecraft Lang 的設定檔

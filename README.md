@@ -15,7 +15,7 @@ Official Language Pack API for your Minecraft Bukkit plugins.
 
 ## Features
 * Easy-to-use language pack management for Bukkit plugins
-* Includes preloaded language packs for each Minecraft version (download from [GitHub](https://github.com/0obriano0/MCLang/releases))
+* Language packs for different Minecraft versions can be downloaded from [GitHub](https://github.com/0obriano0/MCLang/tree/main/Local Language Pack)
 * Automatically downloads language packs from the official Minecraft resources if not present
 * Hot-reload language files without server restart
 * API for developers to integrate custom messages

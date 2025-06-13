@@ -1,3 +1,6 @@
+## 1.0.8
+* Modification method: Each version corresponds to the local language pack. Please download it from my GitHub yourself. It will no longer be packaged together when separating versions during packaging.
+
 ## 1.0.7
 * add bstats 
 * Refactor Maven's pom.xml

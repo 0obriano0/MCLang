@@ -1,5 +1,6 @@
 package org.tsob.MCLang.API;
 
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.tsob.MCLang.DataBase.DataBase;
@@ -128,6 +129,40 @@ public class MCLang implements IMCLang {
     if (translation == null || translation.isEmpty() || translation == "") {
       // 如果沒有找到對應的翻譯，返回原始路徑
       return entityName.toLowerCase();
+    }
+
+    return translation;
+  }
+
+  @Override
+  public String getEnchantmentTranslate(String enchantmentName) {
+    if (enchantmentName == null || enchantmentName.isEmpty()) {
+      return "unknown_enchantment";
+    }
+    String path = "enchantment.minecraft." + enchantmentName.trim().toLowerCase();
+    String translation = "";
+
+    translation = _getString(path,false);
+    if (translation == null || translation.isEmpty() || translation == "") {
+      // 如果沒有找到對應的翻譯，返回原始路徑
+      return enchantmentName.toLowerCase();
+    }
+
+    return translation;
+  }
+
+  @Override
+  public String getEnchantmentTranslate(Enchantment enchantment) {
+    if (enchantment == null) {
+      return "unknown_enchantment";
+    }
+    String path = "enchantment.minecraft." + enchantment.getKey().getKey().trim().toLowerCase();
+    String translation = "";
+
+    translation = _getString(path,false);
+    if (translation == null || translation.isEmpty() || translation == "") {
+      // 如果沒有找到對應的翻譯，返回原始路徑
+      return enchantment.getKey().getKey();
     }
 
     return translation;
