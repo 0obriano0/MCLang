@@ -1,5 +1,8 @@
 ## 1.0.8
 * Modification method: Each version corresponds to the local language pack. Please download it from my GitHub yourself. It will no longer be packaged together when separating versions during packaging.
+* Add a function to easily retrieve translations.
+  * String getEnchantmentTranslate(String enchantmentName); – Retrieves the translated name of an enchantment.
+  * String getEnchantmentTranslate(Enchantment enchantment); – Retrieves the translated name of an enchantment.
 
 ## 1.0.7
 * add bstats 

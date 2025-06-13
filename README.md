@@ -15,7 +15,7 @@ Official Language Pack API for your Minecraft Bukkit plugins.
 
 ## Features
 * Easy-to-use language pack management for Bukkit plugins
-* Language packs for different Minecraft versions can be downloaded from [GitHub](https://github.com/0obriano0/MCLang/tree/main/Local Language Pack)
+* Language packs for different Minecraft versions can be downloaded from [GitHub](https://github.com/0obriano0/MCLang/tree/main/Local%20Language%20Pack)
 * Automatically downloads language packs from the official Minecraft resources if not present
 * Hot-reload language files without server restart
 * API for developers to integrate custom messages
@@ -35,7 +35,7 @@ repositories {
 
 dependencies {
   // Please check the latest version
-  compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.0.7'
+  compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.0.8'
 }
 ```
 
@@ -51,7 +51,7 @@ dependencies {
 <dependency>
   <groupId>org.tsob</groupId>
   <artifactId>MCLang-API</artifactId>
-  <version>1.0.7</version>
+  <version>1.0.8</version>
   <scope>provided</scope>
 </dependency>
 ```
@@ -72,6 +72,9 @@ public class ExamplePlugin extends JavaPlugin {
     ItemStack item = new ItemStack(Material.DIAMOND_SWORD);
     String itemTranslation = lang.getItemTranslate(item);
 
+    // Directly read the translation from the language pack.
+    String translation = getString("item.minecraft.diamond_sword");
+
     // Get translation for an item name
     String itemTranslationByName = lang.getItemTranslate("DIAMOND_SWORD");
 
@@ -80,6 +83,12 @@ public class ExamplePlugin extends JavaPlugin {
 
     // Get translation for an entity name
     String entityTranslationByName = lang.getEntityTranslate("CREEPER");
+
+    // Get translation for an enchantment (version 1.0.8 add)
+    String enchantmentTranslationByName = lang.getEnchantmentTranslate(Enchantment.SILK_TOUCH);
+
+    // Get translation for an enchantment name (version 1.0.8 add)
+    String enchantmentTranslationByName = lang.getEnchantmentTranslate("SILK_TOUCH");
   }
 }
 ```
