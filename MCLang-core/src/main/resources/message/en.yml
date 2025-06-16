@@ -3,17 +3,6 @@ Message:
   Data_Re_read: "Re-read Data..."
   Data_Re_read_Complete: "Read Complete"
 
-Timer:
-  TimeStart: "&aPlease enter in %time% seconds!"
-  TimeOut: "&c %time% seconds is up"
-  TimeLeft:
-    - "&c%%10%% seconds left to enter"
-    - "&c%%5%% seconds left to enter"
-    - "&c%%4%% seconds left to enter"
-    - "&c%%3%% seconds left to enter"
-    - "&c%%2%% seconds left to enter"
-    - "&c%%1%% seconds left to enter"
-
 Command:
   CmdCanNotUse: "&cYou Can not use this command here"
   PlayerCanNotUse: "&cYou can't use this command"

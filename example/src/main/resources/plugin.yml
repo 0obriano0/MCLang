@@ -1,0 +1,27 @@
+name: MCLangExample
+main: org.tsob.MCLangExample.Main
+version: ${full.version}
+author: 0obrino0
+website: github.com/0obriano0/MCLang/example
+api-version: 1.13
+commands:
+  mclangex:
+    description: mclangex Commands.
+permissions:
+  mclangex.*:
+    default: op
+    description: Give players with op everything by default
+    children:
+      mclangex.user.*: true
+      mclangex.admin.*: true
+  mclangex.user.*:
+    default: true
+    children:
+      mclangex.user: true
+      mclangex.user.help: true
+  mclangex.admin.*:
+    default: op
+    children:
+      mclangex.admin: true
+      mclangex.admin.reload: true
+      mclangex.admin.test: true

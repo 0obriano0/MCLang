@@ -1,0 +1,16 @@
+Message:
+  Title: "&b[Minecraft 語言包 範例] "
+  Data_Re_read: "重新讀取資料..."
+  Data_Re_read_Complete: "資料讀取完成"
+
+Command:
+  CmdCanNotUse: "&c後台無法使用此指令"
+  PlayerCanNotUse: "&c無法使用此指令"
+  NoPermission: "&c無使用此指令的權限"
+  CanNotFind: "&c查無此指令"
+  HandNoItem: "&c手上沒有物品"
+  ItemNotFind: "&c查無此物品"
+  Help:
+    reload: "/mclangex reload 重新讀取資料"
+    help: "/mclangex help 顯示指令說明"
+    test: "/mclangex test 無用指令"

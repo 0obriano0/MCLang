@@ -3,17 +3,6 @@ Message:
   Data_Re_read: "データを再読み込み中..."
   Data_Re_read_Complete: "データの読み込みが完了しました"
 
-Timer:
-  TimeStart: "&a%time% 秒以内に入力を完了してください!"
-  TimeOut: "&c %time% 秒が経過しました"
-  TimeLeft:
-    - "&c残り %%10%% 秒で入力できます"
-    - "&c残り %%5%% 秒で入力できます"
-    - "&c残り %%4%% 秒で入力できます"
-    - "&c残り %%3%% 秒で入力できます"
-    - "&c残り %%2%% 秒で入力できます"
-    - "&c残り %%1%% 秒で入力できます"
-
 Command:
   CmdCanNotUse: "&cコンソールではこのコマンドは使用できません"
   PlayerCanNotUse: "&cこのコマンドは使用できません"
