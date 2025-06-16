@@ -46,7 +46,7 @@ public class Main extends JavaPlugin {
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     return Command(sender, command, label, args, Main.class.getClassLoader(),
-        "org.tsob." + DataBase.pluginName + ".Command");
+        DataBase.mainJavaPathDot + ".Command");
   }
 
   public boolean Command(CommandSender sender, Command command, String commandLabel, String[] args,
@@ -97,7 +97,7 @@ public class Main extends JavaPlugin {
   @Override
   public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
     return onTabComplete(sender, cmd, label, args, Main.class.getClassLoader(),
-        "org.tsob." + DataBase.pluginName + ".Command");
+        DataBase.mainJavaPathDot + DataBase.pluginName + ".Command");
   }
 
   public List<String> onTabComplete(CommandSender sender, Command command, String commandLabel, String[] args,

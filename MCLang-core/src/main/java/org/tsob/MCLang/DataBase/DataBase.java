@@ -41,6 +41,16 @@ public class DataBase {
    * 此插件名稱
    */
   public static String pluginName = "MCLang";
+
+  /**
+   * main.java 的根目錄
+   */
+  public static String mainJavaPath = "/org/tsob/" + pluginName;
+
+  /**
+   * main.java 的根目錄 dot 的版本
+   */
+  public static String mainJavaPathDot = "org.tsob." + pluginName;
   
   /**
    * 指令列表
@@ -97,7 +107,7 @@ public class DataBase {
   public static List<String> getCommands(Plugin plugin){
     if(Commands == null) {
       Commands = new ArrayList<String>();
-      URL jarURL = plugin.getClass().getResource("/org/tsob/" + pluginName + "/Command");
+      URL jarURL = plugin.getClass().getResource(mainJavaPath + "/Command");
         URI uri;
       try {
         FileSystem fileSystem = null;
@@ -105,7 +115,7 @@ public class DataBase {
         Path myPath;
         if (uri.getScheme().equals("jar")) {
             fileSystem = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
-            myPath = fileSystem.getPath("/org/tsob/"+ pluginName +"/Command");
+            myPath = fileSystem.getPath(mainJavaPath +"/Command");
         } else {
             myPath = Paths.get(uri);
         }
