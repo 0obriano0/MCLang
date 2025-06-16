@@ -17,7 +17,7 @@ import org.tsob.MCLang.DataBase.DataBase;
  * @author Brian
  *
  */
-public class FileIO implements IFileIO{
+public abstract class FileIO implements IFileIO{
   
   private transient String FileName;
   private transient String URL = null;

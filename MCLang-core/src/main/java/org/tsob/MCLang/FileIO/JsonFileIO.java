@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonFileIO implements IJsonFileIO {
+public abstract class JsonFileIO implements IJsonFileIO {
 
   private transient String fileName;
   private transient String url = null;
