@@ -53,8 +53,8 @@ dependencies {
   <scope>provided</scope>
 </dependency>
 ```
-
-### Basic Example
+### Full Example: [link](https://github.com/0obriano0/MCLang/tree/main/example)
+### Basic Example: 
 ```java
 import org.tsob.MCLang.API.MCLang;
 import org.bukkit.Material;
