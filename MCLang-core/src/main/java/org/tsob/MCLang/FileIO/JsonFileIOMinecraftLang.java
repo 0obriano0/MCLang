@@ -1,8 +1,10 @@
 package org.tsob.MCLang.FileIO;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -29,6 +33,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonFileIOMinecraftLang extends JsonFileIO {
   private String lang; // 預設語言
+
+  /**
+   * default.json fallback support
+   */
+  private volatile boolean usingDefaultData = false;
+  private volatile JsonNode defaultData = null;
+  private static final ExecutorService langDownloadExecutor = Executors.newCachedThreadPool();
+  private volatile boolean downloading = false;
+
   /**
    * @param langFromConfig 語言設定，抓不到自動用 en_us
    */
@@ -218,13 +231,20 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
    * 嘗試建立語言檔案：
    * 1. 先檢查 jar 內是否有資源，有的話直接存檔。
    * 2. 若無則從 Mojang 官方下載語言檔，並驗證 SHA1。
+   * 
+   * ★ 新增：如果找不到語言檔，先暫時讀取 default.json，然後用多執行緒下載語言檔，下載完畢自動 reload，期間所有 getString/getStringList 都會回傳 default.json 的資料。
+   * 
    * @param fullUrl 語言檔案相對路徑（如 mc_lang/1.21.5/en_us.json）
    */
   @Override
   protected void createFile(String fullUrl) {
+    if (downloading) {
+        // Already downloading, do not start another download
+        return;
+    }
+    downloading = true;
     // 先檢查 jar 內是否有資源
     try {
-      // 1. 檢查 jar 內資源
       InputStream in = Main.plugin.getResource(fullUrl);
       if (in != null) {
         // jar 內有，直接存檔
@@ -236,12 +256,50 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
       e.printStackTrace();
     }
 
-    // 2. jar 內沒有，從網路下載
+    // 2. jar 內沒有，從網路下載前，先 fallback default.json
     printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Error_LangNotFound")
       .replace("%fileName%", this.getFileName()));
     printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_TryToDownload")
       .replace("%fileName%", this.getFileName()));
 
+    try {
+      File dataFolder = Main.plugin.getDataFolder();
+      Path defaultPath = Paths.get(dataFolder.toString(), "mc_lang", "default.json");
+      if (Files.exists(defaultPath)) {
+        this.defaultData = objectMapper.readTree(defaultPath.toFile());
+        this.usingDefaultData = true;
+        printCmd("暫時使用 default.json 作為語言內容");
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    // 非同步下載語言檔
+    langDownloadExecutor.submit(() -> {
+      try {
+        downloadLangFile(fullUrl);
+        // 下載完成後 reload，切回正式語言檔
+        Bukkit.getScheduler().runTask(Main.plugin, () -> {
+          this.reloadFile();
+          this.usingDefaultData = false;
+          printCmd("語言檔下載完成，自動熱載入！");
+          downloading = false;
+        });
+      } catch (ConnectException e) {
+        printCmd("語言檔下載失敗，仍使用 default.json");
+        downloading = false;
+      } catch (Exception e) {
+        e.printStackTrace();
+        printCmd("語言檔下載失敗，仍使用 default.json");
+        downloading = false;
+      }
+    });
+  }
+
+  /**
+   * 將原本 createFile 裡的下載邏輯移到這裡
+   */
+  private void downloadLangFile(String fullUrl) throws Exception {
     String version = getMinecraftVersion();
 
     if (this.lang == null || this.lang.isEmpty())
@@ -251,85 +309,80 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     }
     this.lang = this.lang.trim().toLowerCase(); // 確保語言是小寫
     // 嘗試從 Mojang 的資源下載語言檔
-    try {
-      // 下載 Minecraft 版本資訊清單
-      ObjectMapper mapper = new ObjectMapper();
-      HttpClient client = HttpClient.newHttpClient();
-      String manifestUrl = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
-      HttpRequest req = HttpRequest.newBuilder().uri(URI.create(manifestUrl)).build();
-      HttpResponse<String> resp = client.send(req, HttpResponse.BodyHandlers.ofString());
-      JsonNode manifest = mapper.readTree(resp.body());
-      JsonNode versions = manifest.get("versions");
-      String clientManifestUrl = null;
-      // 取得對應版本的 manifest 下載網址
-      for (JsonNode v : versions) {
-        if (v.get("id").asText().equals(version)) {
-          clientManifestUrl = v.get("url").asText();
-          break;
-        }
+    ObjectMapper mapper = new ObjectMapper();
+    HttpClient client = HttpClient.newHttpClient();
+    String manifestUrl = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
+    HttpRequest req = HttpRequest.newBuilder().uri(URI.create(manifestUrl)).build();
+    HttpResponse<String> resp = client.send(req, HttpResponse.BodyHandlers.ofString());
+    JsonNode manifest = mapper.readTree(resp.body());
+    JsonNode versions = manifest.get("versions");
+    String clientManifestUrl = null;
+    // 取得對應版本的 manifest 下載網址
+    for (JsonNode v : versions) {
+      if (v.get("id").asText().equals(version)) {
+        clientManifestUrl = v.get("url").asText();
+        break;
       }
-      if (clientManifestUrl == null) {
-        throw new RuntimeException("找不到對應版本 manifest: " + version);
-      }
-      // 下載 client manifest
-      resp = client.send(HttpRequest.newBuilder().uri(URI.create(clientManifestUrl)).build(), HttpResponse.BodyHandlers.ofString());
-      JsonNode clientManifest = mapper.readTree(resp.body());
-      
-      if (this.lang.equals("en_us")) {
-        // 下載 client.jar，準備解壓 en_us.json
-        String clientJarUrl = clientManifest.get("downloads").get("client").get("url").asText();
-        String clientSha1 = clientManifest.get("downloads").get("client").get("sha1").asText();
-        Path clientJarPath = Paths.get(Main.plugin.getDataFolder().toString(), "client.jar");
-        downloadFile(clientJarUrl, clientJarPath);
-        // 驗證 client.jar 的 SHA1
-        if (!sha1(clientJarPath).equalsIgnoreCase(clientSha1)) {
-          Files.deleteIfExists(clientJarPath);
-          throw new RuntimeException("client.jar SHA1 mismatch!" + version);
-        } 
+    }
+    if (clientManifestUrl == null) {
+      throw new RuntimeException("找不到對應版本 manifest: " + version);
+    }
+    // 下載 client manifest
+    resp = client.send(HttpRequest.newBuilder().uri(URI.create(clientManifestUrl)).build(), HttpResponse.BodyHandlers.ofString());
+    JsonNode clientManifest = mapper.readTree(resp.body());
+    
+    if (this.lang.equals("en_us")) {
+      // 下載 client.jar，準備解壓 en_us.json
+      String clientJarUrl = clientManifest.get("downloads").get("client").get("url").asText();
+      String clientSha1 = clientManifest.get("downloads").get("client").get("sha1").asText();
+      Path clientJarPath = Paths.get(Main.plugin.getDataFolder().toString(), "client.jar");
+      downloadFile(clientJarUrl, clientJarPath);
+      // 驗證 client.jar 的 SHA1
+      if (!sha1(clientJarPath).equalsIgnoreCase(clientSha1)) {
+        Files.deleteIfExists(clientJarPath);
+        throw new RuntimeException("client.jar SHA1 mismatch!" + version);
+      } 
 
-        // 從 client.jar 解壓 en_us.json 語言檔
-        try (ZipFile zip = new ZipFile(clientJarPath.toFile())) {
-          ZipEntry entry = zip.getEntry("assets/minecraft/lang/en_us.json");
-          File dataFolder = Main.plugin.getDataFolder();
-          Path outPath = Paths.get(dataFolder.toString(), "mc_lang", version, this.lang + ".json");
-          Files.createDirectories(outPath.getParent());
-          if (entry != null) {
-            try (InputStream is = zip.getInputStream(entry)) {
-              Files.copy(is, outPath, StandardCopyOption.REPLACE_EXISTING);
-            }
-          }
-        }
-        // 刪除 client.jar，釋放空間
-        Files.delete(clientJarPath);
-      } else {
-        // 下載 asset index
-        String assetIndexUrl = clientManifest.get("assetIndex").get("url").asText();
-        resp = client.send(HttpRequest.newBuilder().uri(URI.create(assetIndexUrl)).build(), HttpResponse.BodyHandlers.ofString());
-        JsonNode assetIndex = mapper.readTree(resp.body()).get("objects");
-
-        // 查找語言檔 hash
-        String key = "minecraft/lang/" + this.lang + ".json";
-        if (!assetIndex.has(key)) throw new RuntimeException("找不到語言檔: " + key);
-        String hash = assetIndex.get(key).get("hash").asText();
-        String url = "https://resources.download.minecraft.net/" + hash.substring(0, 2) + "/" + hash;
-        // 下載到 plugins/MCLang/mc_lang/{version}/{lang}.json
+      // 從 client.jar 解壓 en_us.json 語言檔
+      try (ZipFile zip = new ZipFile(clientJarPath.toFile())) {
+        ZipEntry entry = zip.getEntry("assets/minecraft/lang/en_us.json");
         File dataFolder = Main.plugin.getDataFolder();
         Path outPath = Paths.get(dataFolder.toString(), "mc_lang", version, this.lang + ".json");
         Files.createDirectories(outPath.getParent());
-        downloadFile(url, outPath);
-
-        // 驗證 hash
-        String fileHash = sha1(outPath);
-        if (!fileHash.equalsIgnoreCase(hash)) {
-          throw new RuntimeException("語言檔 SHA1 不符: " + this.lang + ".json");
+        if (entry != null) {
+          try (InputStream is = zip.getInputStream(entry)) {
+            Files.copy(is, outPath, StandardCopyOption.REPLACE_EXISTING);
+          }
         }
       }
+      // 刪除 client.jar，釋放空間
+      Files.delete(clientJarPath);
+    } else {
+      // 下載 asset index
+      String assetIndexUrl = clientManifest.get("assetIndex").get("url").asText();
+      resp = client.send(HttpRequest.newBuilder().uri(URI.create(assetIndexUrl)).build(), HttpResponse.BodyHandlers.ofString());
+      JsonNode assetIndex = mapper.readTree(resp.body()).get("objects");
 
-      printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadSuccess")
-        .replace("%fileName%", this.getFileName())); // 顯示下載成功訊息
-    } catch (Exception e) {
-      e.printStackTrace();
+      // 查找語言檔 hash
+      String key = "minecraft/lang/" + this.lang + ".json";
+      if (!assetIndex.has(key)) throw new RuntimeException("找不到語言檔: " + key);
+      String hash = assetIndex.get(key).get("hash").asText();
+      String url = "https://resources.download.minecraft.net/" + hash.substring(0, 2) + "/" + hash;
+      // 下載到 plugins/MCLang/mc_lang/{version}/{lang}.json
+      File dataFolder = Main.plugin.getDataFolder();
+      Path outPath = Paths.get(dataFolder.toString(), "mc_lang", version, this.lang + ".json");
+      Files.createDirectories(outPath.getParent());
+      downloadFile(url, outPath);
+
+      // 驗證 hash
+      String fileHash = sha1(outPath);
+      if (!fileHash.equalsIgnoreCase(hash)) {
+        throw new RuntimeException("語言檔 SHA1 不符: " + this.lang + ".json");
+      }
     }
+
+    printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadSuccess")
+      .replace("%fileName%", this.getFileName())); // 顯示下載成功訊息
   }
 
   // 下載檔案到指定路徑
@@ -353,13 +406,13 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
         while ((read = is.read(buffer)) != -1) {
           os.write(buffer, 0, read);
           totalRead += read;
-          // 每 5 秒或最後一次才顯示進度
+          // 每 1 秒或最後一次才顯示進度
           long now = System.currentTimeMillis();
-          if (contentLength > 0 && (now - lastPrint > 5000 || totalRead == contentLength)) {
-            // double percent = (totalRead * 100.0) / contentLength;
-            // double mbDone = totalRead / 1024.0 / 1024.0;
-            // double mbTotal = contentLength / 1024.0 / 1024.0;
-            // DataBase.Print("下載進度：" + String.format("%.2f MB / %.2f MB (%.1f%%)", mbDone, mbTotal, percent)); // 暫時先不顯示進度
+          if (contentLength > 0 && (now - lastPrint > 1000 || totalRead == contentLength)) {
+            double percent = (totalRead * 100.0) / contentLength;
+            double mbDone = totalRead / 1024.0 / 1024.0;
+            double mbTotal = contentLength / 1024.0 / 1024.0;
+            DataBase.Print("下載進度：" + String.format("%.2f MB / %.2f MB (%.1f%%)", mbDone, mbTotal, percent));
             lastPrint = now;
           }
         }
@@ -386,5 +439,68 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     String title = AnsiColor.minecraftToAnsiColor(DataBase.fileMessage.getString("LoadMinecraftLang.Title"));
     msg = title + AnsiColor.WHITE + AnsiColor.minecraftToAnsiColor(msg);;
     DataBase.Print(msg);
+  }
+
+  @Override
+  protected void readFile() {
+    if (downloading) {
+        // Already downloading, do not start another download
+        return;
+    }
+    File fileLoad;
+    String fullUrl = super.getFileName();
+    if (super.getUrl() == null || super.getUrl().isEmpty())
+      fileLoad = new File(Main.plugin.getDataFolder(), super.getFileName());
+    else {
+      fileLoad = new File("./" + Main.plugin.getDataFolder().toString() + "/" + super.getUrl() + "/" + super.getFileName());
+      fullUrl = super.getUrl() + "\\" + super.getFileName();
+    }
+    
+    if (!fileLoad.exists()) createFile(fullUrl);
+      
+    try {
+      data = objectMapper.readTree(fileLoad);
+    } catch (IOException e) {
+      // e.printStackTrace();
+      DataBase.Print("Failed to read JSON file: " + fullUrl);
+      data = null;
+    }
+  }
+
+
+  // ★ Fallback: 下載期間所有 getString/getStringList 都讀 default.json
+  @Override
+  public String getString(String path) {
+    if(usingDefaultData && defaultData != null) {
+      JsonNode node = getNodeByPath(defaultData, path);
+      return node != null && node.isTextual() ? node.asText() : null;
+    }
+    return super.getString(path);
+  }
+
+  @Override
+  public List<String> getStringList(String path) {
+    if(usingDefaultData && defaultData != null) {
+      JsonNode node = getNodeByPath(defaultData, path);
+      List<String> result = new ArrayList<>();
+      if (node != null && node.isArray()) {
+        for (JsonNode n : node) {
+          result.add(n.asText());
+        }
+      }
+      return result;
+    }
+    return super.getStringList(path);
+  }
+
+  // 給 fallback 用的 JsonNode 路徑查詢
+  private JsonNode getNodeByPath(JsonNode root, String path) {
+    String[] parts = path.split("\\.");
+    JsonNode node = root;
+    for (String part : parts) {
+      node = node.get(part);
+      if (node == null) break;
+    }
+    return node;
   }
 }

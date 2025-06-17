@@ -103,4 +103,4 @@ public class ExamplePlugin extends JavaPlugin {
 ## TODO
 * Improve API documentation
 * Add more usage examples
-* Move the file download to asynchronous execution, and temporarily use en_us until the download is complete.
+

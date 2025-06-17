@@ -3,6 +3,7 @@ package org.tsob.MCLang.FileIO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.tsob.MCLang.Main;
+import org.tsob.MCLang.DataBase.DataBase;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -49,6 +50,10 @@ public abstract class JsonFileIO implements IJsonFileIO {
   protected void setUrl(String url) {
     this.url = url;
     readFile();
+  }
+
+  protected String getUrl() {
+    return url;
   }
 
   @Override
@@ -108,7 +113,8 @@ public abstract class JsonFileIO implements IJsonFileIO {
     try {
       data = objectMapper.readTree(fileLoad);
     } catch (IOException e) {
-      e.printStackTrace();
+      // e.printStackTrace();
+      DataBase.Print("Failed to read JSON file: " + fullUrl);
       data = null;
     }
   }
