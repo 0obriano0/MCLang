@@ -1,4 +1,5 @@
 ## 1.1.0
+* Added translation for the `Download language pack` feature.
 * Added: Translation for `/mclang help` explanations.
   * If you cannot see the translation, please delete `.\message\XX.json` and a new file will be generated automatically.
 * Improved: `String getItemTranslate(ItemStack item)`

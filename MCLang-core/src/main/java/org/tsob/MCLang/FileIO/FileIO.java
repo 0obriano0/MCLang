@@ -66,7 +66,7 @@ public abstract class FileIO implements IFileIO{
     try {
       String getMsg = this.getFileforYML().getString(path);
       if (getMsg == null) {
-        printCmd("§cError: path not found: §e" + path + "§c in file: §e" + getPath());
+        printCmd("§cError: path not found: §e" + path + "§c in file: §e" + getPath() + "§c, You can delete this file, and the system will automatically generate a new one");
         getMsg = path;
       } else {
         getMsg = getMsg.replaceAll("&", "§");

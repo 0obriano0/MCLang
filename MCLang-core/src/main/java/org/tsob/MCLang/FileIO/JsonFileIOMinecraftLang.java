@@ -268,7 +268,8 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
       if (Files.exists(defaultPath)) {
         this.defaultData = objectMapper.readTree(defaultPath.toFile());
         this.usingDefaultData = true;
-        printCmd("暫時使用 default.json 作為語言內容");
+        printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Temp_UseDefaultJson")
+          .replace("%fileName%", this.getFileName()));
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -282,15 +283,18 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
         Bukkit.getScheduler().runTask(Main.plugin, () -> {
           this.reloadFile();
           this.usingDefaultData = false;
-          printCmd("語言檔下載完成，自動熱載入！");
+          printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadSuccess_Reload")
+          .replace("%fileName%", this.getFileName()));
           downloading = false;
         });
       } catch (ConnectException e) {
-        printCmd("語言檔下載失敗，仍使用 default.json");
+        printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadFail")
+          .replace("%fileName%", this.getFileName()));
         downloading = false;
       } catch (Exception e) {
         e.printStackTrace();
-        printCmd("語言檔下載失敗，仍使用 default.json");
+        printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadFail")
+          .replace("%fileName%", this.getFileName()));
         downloading = false;
       }
     });
@@ -412,7 +416,12 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
             double percent = (totalRead * 100.0) / contentLength;
             double mbDone = totalRead / 1024.0 / 1024.0;
             double mbTotal = contentLength / 1024.0 / 1024.0;
-            DataBase.Print("下載進度：" + String.format("%.2f MB / %.2f MB (%.1f%%)", mbDone, mbTotal, percent));
+            // DataBase.Print("下載進度：" + String.format("%.2f MB / %.2f MB (%.1f%%)", mbDone, mbTotal, percent));
+            printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadProgress")
+              .replace("%fileName%", out.getFileName().toString())
+              .replace("%done%", String.format("%.2f", mbDone))
+              .replace("%total%", String.format("%.2f", mbTotal))
+              .replace("%percent%", String.format("%.1f", percent)));
             lastPrint = now;
           }
         }
