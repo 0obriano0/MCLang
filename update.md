@@ -8,6 +8,7 @@
   * Now correctly detects villager professions.
 * Add [Example](https://github.com/0obriano0/MCLang-example) 
 * Move the file download to asynchronous execution, and temporarily use en_us until the download is complete.
+* test in 1.21.6
 
 ## 1.0.8
 * Change: Each version now corresponds to its own local language pack. Please download the appropriate pack from GitHub. Language packs are no longer bundled with the plugin.
