@@ -66,7 +66,26 @@ public class UpdateChecker {
 
   private boolean isUpdateAvailable() {
     String currentVersion = plugin.getDescription().getVersion();
-    return latestVersion != null && !latestVersion.equalsIgnoreCase(currentVersion);
+    if (latestVersion == null || currentVersion == null) return false;
+    // Compare version numbers (assume format: x[.y[.z]])
+    String[] currentParts = currentVersion.split("\\.");
+    String[] latestParts = latestVersion.split("\\.");
+    int length = Math.max(currentParts.length, latestParts.length);
+    for (int i = 0; i < length; i++) {
+      int current = i < currentParts.length ? parseIntSafe(currentParts[i]) : 0;
+      int latest = i < latestParts.length ? parseIntSafe(latestParts[i]) : 0;
+      if (current < latest) return true;
+      if (current > latest) return false;
+    }
+    return false;
+  }
+
+  private int parseIntSafe(String s) {
+    try {
+      return Integer.parseInt(s.replaceAll("[^0-9]", ""));
+    } catch (NumberFormatException e) {
+      return 0;
+    }
   }
 
   private void notifyAdmins() {
