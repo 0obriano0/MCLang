@@ -1,3 +1,5 @@
+## 1.1.1
+
 ## 1.1.0
 * Added translation for the `Download language pack` feature.
 * Added: Translation for `/mclang help` explanations.
