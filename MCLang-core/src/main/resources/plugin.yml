@@ -26,3 +26,4 @@ permissions:
       mclang.admin.reload: true
       mclang.admin.test: true
       mclang.admin.path: true
+      mclang.admin.update.notify: true

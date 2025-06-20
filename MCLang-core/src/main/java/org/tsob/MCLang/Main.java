@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.tsob.MCLang.Command.ImainCommandSystem;
 import org.tsob.MCLang.Command.ToolCommandSystem;
 import org.tsob.MCLang.DataBase.DataBase;
+import org.tsob.MCLang.DataBase.UpdateChecker;
 
 public class Main extends JavaPlugin {
   public static Plugin plugin;
@@ -36,6 +37,8 @@ public class Main extends JavaPlugin {
     // bStats 統計初始化
     int pluginId = 26149; // 你的 bStats plugin ID
     metrics = new Metrics(this, pluginId);
+
+    new UpdateChecker(this).start();
   }
 
   @Override

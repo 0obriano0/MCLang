@@ -86,7 +86,7 @@ public class DataBase {
    * @param msg 要顯示的文字
    */
   public static void Print(String msg){
-      Main.plugin.getLogger().info(msg + AnsiColor.RESET);
+      Main.plugin.getLogger().info(AnsiColor.minecraftToAnsiColor(msg) + AnsiColor.RESET);
     //System.out.print("[MCLang] " + msg);
   }
   
@@ -95,7 +95,7 @@ public class DataBase {
    * @param msg 要顯示的文字
    */
   public static void Print(List<String> msg){
-    for(String str : msg) Main.plugin.getLogger().info(str + AnsiColor.RESET);
+    for(String str : msg) Main.plugin.getLogger().info(AnsiColor.minecraftToAnsiColor(str) + AnsiColor.RESET);
     //System.out.print("[MCLang] " + msg);
   }
   
