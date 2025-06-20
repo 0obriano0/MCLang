@@ -1,4 +1,5 @@
 ## 1.1.1
+* Regularly check for updates to MCLang on SpigotMC.
 
 ## 1.1.0
 * Added translation for the `Download language pack` feature.

@@ -39,6 +39,7 @@ public class UpdateChecker {
 
   private void checkForUpdate() {
     try {
+      @SuppressWarnings("deprecation")
       HttpURLConnection conn = (HttpURLConnection) new URL(API_URL).openConnection();
       conn.setRequestProperty("User-Agent", "Mozilla/5.0");
       conn.setConnectTimeout(5000);
