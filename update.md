@@ -1,3 +1,6 @@
+## 1.1.2
+* Fixed the logic for determining the latest version.
+
 ## 1.1.1
 * Regularly check for updates to MCLang on SpigotMC.
 
