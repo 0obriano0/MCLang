@@ -9,19 +9,24 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 
 public class UpdateChecker {
   private static final String API_URL = "https://api.spiget.org/v2/resources/125883/versions/latest";
   private final JavaPlugin plugin;
   private String latestVersion = null;
   private static final ObjectMapper objectMapper = new ObjectMapper();
+  private final HttpClient httpClient;
 
   public UpdateChecker(JavaPlugin plugin) {
     this.plugin = plugin;
+    this.httpClient = HttpClient.newBuilder()
+        .connectTimeout(Duration.ofSeconds(5))
+        .build();
   }
 
   public void start() {
@@ -39,23 +44,20 @@ public class UpdateChecker {
 
   private void checkForUpdate() {
     try {
-      @SuppressWarnings("deprecation")
-      HttpURLConnection conn = (HttpURLConnection) new URL(API_URL).openConnection();
-      conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-      conn.setConnectTimeout(5000);
-      conn.setReadTimeout(5000);
+      HttpRequest request = HttpRequest.newBuilder()
+          .uri(URI.create(API_URL))
+          .header("User-Agent", "Mozilla/5.0")
+          .timeout(Duration.ofSeconds(5))
+          .GET()
+          .build();
 
-      BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-      StringBuilder response = new StringBuilder();
-      String line;
-      while ((line = in.readLine()) != null) {
-        response.append(line);
-      }
-      in.close();
+      HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+      
+      String responseBody = response.body();
 
-      // Use Jackson to parse
-      JsonNode json = objectMapper.readTree(response.toString());
+      JsonNode json = objectMapper.readTree(responseBody);
       latestVersion = json.get("name").asText();
+      
       if (isUpdateAvailable()) {
         notifyAdmins();
       }
