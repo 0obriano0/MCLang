@@ -1,5 +1,7 @@
 ## 1.1.2
 * Fixed the logic for determining the latest version.
+* Replaced HttpURLConnection with Java 11's HttpClient API
+* This plugin requires Java 11 or higher
 
 ## 1.1.1
 * Regularly check for updates to MCLang on SpigotMC.
