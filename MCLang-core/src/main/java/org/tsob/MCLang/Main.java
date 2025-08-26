@@ -103,7 +103,7 @@ public class Main extends JavaPlugin {
   @Override
   public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
     return onTabComplete(sender, cmd, label, args, Main.class.getClassLoader(),
-        DataBase.mainJavaPathDot + DataBase.pluginName + ".Command");
+        DataBase.mainJavaPathDot + ".Command");
   }
 
   public List<String> onTabComplete(CommandSender sender, Command command, String commandLabel, String[] args,

@@ -10,21 +10,25 @@ import org.bukkit.plugin.Plugin;
  */
 public class SpigotSchedulerAdapter implements SchedulerAdapter {
 
+    @SuppressWarnings("deprecation")
     @Override
     public void runGlobalTask(Plugin plugin, Runnable task) {
         Bukkit.getScheduler().runTask(plugin, task);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void runGlobalDelayed(Plugin plugin, Runnable task, long delayTicks) {
         Bukkit.getScheduler().runTaskLater(plugin, task, delayTicks);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void runAsync(Plugin plugin, Runnable task) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, task);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void runAsyncRepeating(Plugin plugin, Runnable task, long delayTicks, long periodTicks) {
         Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, task, delayTicks, periodTicks);
