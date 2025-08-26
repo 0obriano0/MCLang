@@ -12,7 +12,7 @@
   <packaging>jar</packaging>
 
   <name>MCLang Platform</name>
-  <description></description>
+  <description>MCLang Platform</description>
 
   <repositories>
     <repository>
@@ -25,7 +25,7 @@
     <dependency>
       <groupId>dev.folia</groupId>
       <artifactId>folia-api</artifactId>
-      <version>1.19.4-R0.1-SNAPSHOT</version>
+      <version>1.19.4-R0.1-20230527.192927-40</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
