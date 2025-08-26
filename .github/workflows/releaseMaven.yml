@@ -1,86 +1,40 @@
-name: Release to Maven Central (core+api only)
+name: Release to Maven Central
 
 on:
   push:
     tags:
-      - 'v*'          # 推送符合 v* 的 tag 觸發（例如 v1.1.4）
+      - 'v*'  # 只要 push tag 就會觸發
 
 jobs:
-  publish:
+  deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 推薦用 setup-java 直接導入 GPG 私鑰與 server credentials
-      # server-id 要跟你 settings.xml (或中央發布 plugin) 內的 <server><id> 對應
-      - name: Set up JDK + Maven Central credentials + GPG
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-            distribution: temurin
-            java-version: '17'
-            cache: 'maven'
-            server-id: central                 # 對應 settings.xml 中 <server><id>central</id>
-            server-username: OSSRH_USERNAME     # 這裡的名字對應下方 env 的變數名
-            server-password: OSSRH_PASSWORD
-            gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}   # ASCII armored private key
-            gpg-passphrase:  ${{ secrets.GPG_PASSPHRASE }}
+          distribution: 'temurin'
+          java-version: '17'  # 根據你的專案選擇
 
-      - name: Show project modules (debug)
+      - name: Import GPG key
         run: |
-          echo "List modules (root pom) —— 方便確認:"
-          grep "<module>" -n pom.xml || true
-
-      # 方式一（推薦）：使用你在 parent POM 定義的 central-release profile（其中只列 core + api 模組）
-      # 方式二（若尚未加 profile）：直接用 -pl 指定要建/發佈的模組清單，排除 Platform。
-      # 下方示例同時示範「有 profile」與「無 profile」兩種；選一種打開即可。
-
-      # --- 如果已在 root pom 建立 <profile id="central-release"> 內只保留 core, api，使用這段 ---
-      - name: Build & Publish (via central-release profile)
-        if: ${{ env.USE_PROFILE == 'true' }}
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+          gpgconf --kill gpg-agent
+          gpgconf --launch gpg-agent
         env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      - name: Build and Deploy
+        env:
+          GPG_KEY_NAME: ${{ secrets.GPG_KEY_NAME }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          GPG_KEYNAME:    ${{ secrets.GPG_KEYNAME }} # 若 maven-gpg-plugin 需要 keyname
         run: |
-          # 驗證 profile 下 dependency:tree 沒 SNAPSHOT
-            mvn -B -Pcentral-release dependency:tree | grep SNAPSHOT && { echo "SNAPSHOT found - abort"; exit 1; } || echo "No SNAPSHOT deps"
-          # 發佈（central-publishing 插件）
-            mvn -B -Pcentral-release \
-              -Dgpg.passphrase="${GPG_PASSPHRASE}" \
-              -Dgpg.keyname="${GPG_KEYNAME}" \
-              clean verify org.sonatype.central:central-publishing-maven-plugin:0.4.0:publish
-
-      # --- 如果還沒加 central-release profile，用 -pl 明確指定只建 core,api (排除 MCLang-Platform 或 MCLang-platform-spigot) ---
-      - name: Build & Publish (explicit -pl core,api)
-        if: ${{ env.USE_PROFILE != 'true' }}
-        env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          GPG_KEYNAME:    ${{ secrets.GPG_KEYNAME }}
-        run: |
-          # 只建 core 與 api，-am 確保其相互依賴會被拉進來；不列出 Platform 模組即等於排除
-          # 若你的實際模組名稱區分大小：請對應修改 (例：MCLang-core / MCLang-API)
-          mvn -B -pl MCLang-core,MCLang-API -am \
-            -Dgpg.passphrase="${GPG_PASSPHRASE}" \
-            -Dgpg.keyname="${GPG_KEYNAME}" \
-            clean verify
-
-          # 快速檢查：不應該看到 spigot-api SNAPSHOT
-          mvn -B -pl MCLang-core,MCLang-API -am dependency:tree | grep spigot-api && { echo "ERROR: spigot-api present in release build"; exit 1; } || echo "OK: no spigot-api"
-
-          # 執行 central 發佈 (不使用整個 reactor，仍只針對列出的模組)
-          mvn -B -pl MCLang-core,MCLang-API -am \
-            -Dgpg.passphrase="${GPG_PASSPHRASE}" \
-            -Dgpg.keyname="${GPG_KEYNAME}" \
-            org.sonatype.central:central-publishing-maven-plugin:0.4.0:publish
-
-    env:
-      # 設定 USE_PROFILE=true 代表已經在父 POM 建好 central-release profile
-      # 若還沒建 profile，把它改成 false (或刪掉) 就會走 explicit -pl。
-      USE_PROFILE: "false"
+          mvn -B clean deploy -pl MCLang-API -am --settings .github/settings.xml \
+            -Dgpg.passphrase="$GPG_PASSPHRASE" \
+            -Dgpg.executable=gpg \
+            -Dgpg.args="--pinentry-mode=loopback"
