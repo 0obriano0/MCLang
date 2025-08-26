@@ -3,6 +3,7 @@ main: org.tsob.MCLang.Main
 version: ${full.version}
 author: 0obrino0
 website: github.com/0obriano0/MCLang
+description: Lightweight API to load and use official Minecraft language pack translations.
 api-version: 1.13
 libraries:
   - com.fasterxml.jackson.core:jackson-databind:2.17.1
