@@ -56,7 +56,7 @@ dependencies {
 ```
 ### Full Example: [link](https://github.com/0obriano0/MCLang-example)
 
-[Example](image/Example.gif)
+![Example](image/Example.gif)
 
 ### Basic Example: 
 ```java
