@@ -37,7 +37,6 @@
       <scope>provided</scope>
     </dependency>
 
-    
     <dependency>
       <groupId>com.mojang</groupId>
       <artifactId>authlib</artifactId>
@@ -59,7 +58,6 @@
       <version>2.17.1</version>
       <scope>provided</scope>
     </dependency>
-
 
     <!-- by myself -->
     <dependency>
