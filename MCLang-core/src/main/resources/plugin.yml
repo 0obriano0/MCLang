@@ -4,6 +4,8 @@ version: ${full.version}
 author: 0obrino0
 website: github.com/0obriano0/MCLang
 api-version: 1.13
+libraries:
+  - com.fasterxml.jackson.core:jackson-databind:2.17.1
 commands:
   mclang:
     description: mclang Commands.

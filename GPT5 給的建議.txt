@@ -1,0 +1,110 @@
+以下是針對你這個專案的功能說明與可改善建議（以目前倉庫內容為準）
+
+一、專案定位與主要功能
+- 這是一個面向 Bukkit/Spigot/Paper 的語言資源插件與 API（Official Language Pack API），提供對應 Minecraft 官方語言鍵的翻譯查詢能力。
+- 支援版本：Minecraft 1.13～1.21（README 所述）
+- 核心能力
+  - 管理與自動下載語言包（本地不存在時可自動從官方資源抓取）
+  - 語言檔熱重載（不需重啟伺服器）
+  - 面向開發者的 API：可對應 Item/Entity/Enchantment 等取得翻譯字串
+  - bStats 統計整合
+- 發布/文檔
+  - Javadoc 已發布在 GitHub Pages
+  - SpigotMC 上架、README 提供 Maven/Gradle 依賴教學與範例
+- 架構與打包（Maven 多模組）
+  - MCLang-API：對外 API
+  - MCLang-core：核心邏輯
+  - MCLang-Finish：聚合產物
+  - MCLang-Antrun：使用 antrun 在 package 階段拷貝最終 jar 到 finish 目錄
+- plugin.yml
+  - main: org.tsob.MCLang.Main
+  - api-version: 1.13
+  - 指令 mclang 與相關權限節點（user/admin 子權限）
+
+二、可立即修正的小問題
+- plugin.yml 作者名筆誤
+  - 目前為 author: 0obrino0，但你的帳號是 0obriano0（少了 a）。建議更正，並且將 website 加上 https。
+- 版本一致性
+  - README 在使用方式中示例版本為 1.1.2，但父 POM 與模組目前是 1.1.3。建議統一，並在 README 顯著標示「最新版本」徽章與對應依賴片段。
+
+三、文件與使用者體驗
+- README
+  - 補充命令與權限對照表（目前只有列在 plugin.yml），包含：
+    - /mclang reload、/mclang test、/mclang path 等的用途、許可節點、預設權限
+  - 增加「支援的 Java 版本」與「伺服器核心支援矩陣」（Spigot/Paper 與 MC 版本）
+  - 補上「缺字串的回退策略」與「自訂語言包覆蓋規則」（如本地覆蓋官方包、優先級順序）
+  - 提供「每玩家語系」與「全伺服器預設語系」的示例程式碼（Player#getLocale 探測）
+  - 將更新日誌標準化為 CHANGELOG.md，維持與 Releases 同步
+- API 文檔
+  - 在 Javadoc 增加錯誤處理約定（回傳 Optional/null/例外）、執行緒安全性、非同步下載說明
+  - 提供更完整的「型別覆蓋面」對照表：Item、Entity、Enchantment、Potion、Attribute、Biome…等支援狀態
+- 語言包資源
+  - Local Language Pack 目前放在倉庫，建議：
+    - 以 Releases 附件或獨立 repo 管理並標註版本，方便快取與外部引用
+    - 發佈 checksums（SHA256）與來源聲明，說明 Mojang 條款遵循與再散佈方式
+
+四、API 設計與功能深化建議
+- 型別支援與回傳型別
+  - 提供 kyori-adventure Component 返回（支援 MiniMessage/hex 色碼），兼容 ChatColor 字串
+  - 對外 API 統一回傳 Optional<String>/Optional<Component>，避免空值不一致
+- 缺失鍵與回退
+  - 支援多層回退鏈（例：zh_tw -> zh_cn -> en_us）
+  - 提供「缺鍵報告模式」（統計缺失鍵、開發期警告與匯出）
+- 快取與效能
+  - 對翻譯查詢做快取（Item/Entity/Enchant 名稱轉譯），並提供快取大小/TTL 配置
+  - 啟動時延遲下載語言包，並在背景執行，避免阻塞主執行緒；查詢時若尚未就緒採回退
+- 自訂化
+  - 支援伺服器端自訂覆蓋檔（custom.yml），覆蓋官方鍵值
+  - 支援每玩家語系與臨時覆蓋（事件場景）
+- 與其他生態整合
+  - PlaceholderAPI 擴充（如 %mclang_item:DIAMOND_SWORD%）
+  - 與多語廣告/公告插件的互通（以 Component 為介面）
+
+五、相容性與依賴
+- Spigot/Paper 依賴管理
+  - compileOnly spigot-api 目前使用 1.13-R0.1-SNAPSHOT。建議：
+    - 將 API 目標提升到較新的 API（如 1.20.6 或 1.21）作為 provided，並保留對舊版的相容層（反射/版本橋接）
+  - 標注最低 Java 版本（Paper 近年要求 Java 17+，1.20.5+ 傾向 Java 21）
+- api-version
+  - plugin.yml 的 api-version: 1.13 可保留，但請在 README 明確說明實測兼容範圍與限制
+- 依賴發佈
+  - README 範例指向 mavenCentral/repo1，如果 MCLang-API 已發佈到中央庫很好；若尚未，建議同步提供 GitHub Packages 指南
+  - 釐清外部只需依賴 MCLang-API 還是需要 core/finish（一般情況下只需 API）
+
+六、建置與釋出流程
+- 移除 antrun 依賴拷貝
+  - 以 maven-shade-plugin 或 maven-assembly-plugin 建立「最終產物」並 attach 到 Maven lifecycle，避免 antrun 手動 copy
+- CI/CD
+  - 建立建置矩陣（Java 17/21、Linux/Windows）與快取設定
+  - 自動發布流程：打 tag 後
+    - 建置 API/source/javadoc jar
+    - 產出最終插件 jar 並上傳 GitHub Releases
+    - 可選：自動同步到 Spigot（如有腳本/手動步驟說明）
+- 品質工具
+  - 加入 Spotless/Checkstyle/PMD、Dependabot/Versions plugin、license header 檢查
+  - 單元/整合測試：鍵值查詢、回退、快取邏輯、異常處理
+
+七、健壯性與安全性
+- 網路與檔案
+  - 下載語言包時的超時、重試、完整性校驗（SHA256），以及離線模式說明與選項
+  - 明確的使用者配置可關閉自動下載，只使用本地包
+- 執行緒
+  - 確保 Bukkit API 呼叫在主執行緒；下載/IO 放入非同步執行，並提供錯誤回報
+- 日誌
+  - 提供 debug 模式；明確紀錄載入了哪個語言包、版本、來源與缺失鍵摘要
+
+八、可落地的短期待辦清單
+- 修正 plugin.yml 作者名稱與 website 加上 https
+- 統一版本號（README 顯示與實際發佈版本 1.1.3）
+- README 新增：
+  - 指令/權限表、Java/MC 相容性矩陣、回退策略、每玩家語言示例
+- 用 maven-shade/assembly 取代 antrun，並將最終產物 attach 到 build
+- 建立發佈工作流程：tag -> build -> release assets（含 checksums）
+- API 增加 Optional/Component 變體，並提供 kyori-adventure 支援
+- 新增缺鍵報告與快取設定（配置檔）
+
+如果你希望，我可以幫你起草：
+- 修正后的 plugin.yml
+- README 的「指令與權限」與「相容性矩陣」段落
+- Maven shade/assembly 配置片段與 GitHub Actions 工作流程範本
+- API 介面調整示例（Optional 與 Component 版本）

@@ -1,5 +1,5 @@
 ## 1.1.3
-* 
+* Declared Jackson Databind dependency in plugin.yml instead of shading.
 
 ## 1.1.2
 * Fixed the logic for determining the latest version.
