@@ -34,7 +34,7 @@ repositories {
 
 dependencies {
   // Please check the latest version
-  compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.1.2'
+  compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.1.3'
 }
 ```
 
@@ -50,11 +50,14 @@ dependencies {
 <dependency>
   <groupId>org.tsob</groupId>
   <artifactId>MCLang-API</artifactId>
-  <version>1.1.2</version>
+  <version>1.1.3</version>
   <scope>provided</scope>
 </dependency>
 ```
 ### Full Example: [link](https://github.com/0obriano0/MCLang-example)
+
+[Example](image/Example.gif)
+
 ### Basic Example: 
 ```java
 import org.tsob.MCLang.API.MCLang;

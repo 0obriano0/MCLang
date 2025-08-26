@@ -24,6 +24,7 @@ import org.tsob.MCLang.Command.ImainCommandSystem;
 import org.tsob.MCLang.Command.ToolCommandSystem;
 import org.tsob.MCLang.FileIO.FileMessage;
 import org.tsob.MCLang.FileIO.JsonFileIOMinecraftLang;
+import org.tsob.MCLang.Platform.SchedulerFactory;
 
 /**
  * 基本資料暫存區
@@ -78,7 +79,8 @@ public class DataBase {
    * @param msg 文字訊息
    */
   public static void sendMessage(Player player,String msg){
-    player.sendMessage(DataBase.fileMessage.getString("Message.Title") + "§f" + msg);
+    SchedulerFactory.get().runEntityTask(Main.plugin, player, () ->
+      player.sendMessage(DataBase.fileMessage.getString("Message.Title") + "§f" + msg));
   }
   
   /**

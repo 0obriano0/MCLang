@@ -28,7 +28,11 @@ public class Commandpath extends mainCommandSystem{
 
   @Override
   public void run(Player player, String commandLabel, Command command, String[] args) throws Exception {
-    run((CommandSender)player, commandLabel, command,args);
+    String path = "test";
+    if (args.length >= 1) {
+      path = args[0];
+    }
+    DataBase.sendMessage(player, DataBase.fileMinecraftLang.getString(path));
   }
   
   @Override
