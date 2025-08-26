@@ -16,6 +16,7 @@ import org.tsob.MCLang.Command.ImainCommandSystem;
 import org.tsob.MCLang.Command.ToolCommandSystem;
 import org.tsob.MCLang.DataBase.DataBase;
 import org.tsob.MCLang.DataBase.UpdateChecker;
+import org.tsob.MCLang.Platform.SchedulerFactory;
 
 public class Main extends JavaPlugin {
   public static Plugin plugin;
@@ -39,6 +40,8 @@ public class Main extends JavaPlugin {
     metrics = new Metrics(this, pluginId);
 
     new UpdateChecker(this).start();
+
+    DataBase.Print("MCLang Scheduler Mode: " + (SchedulerFactory.isFolia() ? "Folia" : "Spigot/Paper"));
   }
 
   @Override

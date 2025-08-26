@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.tsob.MCLang.Platform.SchedulerFactory;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -30,13 +31,14 @@ public class UpdateChecker {
   }
 
   public void start() {
-    Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this::checkForUpdate, 0L, 432000L);
+    SchedulerFactory.get().runAsyncRepeating(plugin, this::checkForUpdate, 0L, 432000L);
     Bukkit.getPluginManager().registerEvents(new Listener() {
       @EventHandler
       public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (player.hasPermission("mclang.admin.update.notify") && latestVersion != null && isUpdateAvailable()) {
-          player.sendMessage("§fA new version of §bMCLang §fis available: §a" + latestVersion + "§f. Please update on SpigotMC!");
+          SchedulerFactory.get().runEntityTask(plugin, player, () ->
+            player.sendMessage("§fA new version of §bMCLang §fis available: §a" + latestVersion + "§f. Please update on SpigotMC!"));
         }
       }
     }, plugin);
@@ -91,15 +93,14 @@ public class UpdateChecker {
   }
 
   private void notifyAdmins() {
-    Bukkit.getScheduler().runTask(plugin, () -> {
-      for (Player player : Bukkit.getOnlinePlayers()) {
-        if (player.hasPermission("mclang.admin.update.notify")) {
-          player.sendMessage("§fA new version of §bMCLang §fis available: §a" + latestVersion + "§f. Please update on SpigotMC!");
-        }
+    for (Player player : Bukkit.getOnlinePlayers()) {
+      if (player.hasPermission("mclang.admin.update.notify")) {
+        SchedulerFactory.get().runEntityTask(plugin, player, () ->
+          player.sendMessage("§fA new version of §bMCLang §fis available: §a" + latestVersion + "§f. Please update on SpigotMC!"));
       }
+    }
 
-      // Also notify in the console
-      DataBase.Print("§eA new version of §bMCLang §eis available: §a" + latestVersion + "§e. Please update on SpigotMC!");
-    });
+    // Also notify in the console
+    DataBase.Print("§eA new version of §bMCLang §eis available: §a" + latestVersion + "§e. Please update on SpigotMC!");
   }
 }

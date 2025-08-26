@@ -27,6 +27,7 @@ import org.bukkit.Bukkit;
 import org.tsob.MCLang.AnsiColor;
 import org.tsob.MCLang.Main;
 import org.tsob.MCLang.DataBase.DataBase;
+import org.tsob.MCLang.Platform.SchedulerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -279,12 +280,11 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     langDownloadExecutor.submit(() -> {
       try {
         downloadLangFile(fullUrl);
-        // 下載完成後 reload，切回正式語言檔
-        Bukkit.getScheduler().runTask(Main.plugin, () -> {
+        SchedulerFactory.get().runGlobalTask(Main.plugin, () -> {
           this.reloadFile();
           this.usingDefaultData = false;
           printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadSuccess_Reload")
-          .replace("%fileName%", this.getFileName()));
+            .replace("%fileName%", this.getFileName()));
           downloading = false;
         });
       } catch (ConnectException e) {

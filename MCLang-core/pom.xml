@@ -65,6 +65,14 @@
       <version>2.17.1</version>
       <scope>provided</scope>
     </dependency>
+
+
+    <!-- by myself -->
+    <dependency>
+      <groupId>org.tsob</groupId>
+      <artifactId>MCLang-Platform</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
   <properties>

@@ -9,9 +9,10 @@
 ### bStats Status
 [![bStats Servers](https://img.shields.io/bstats/servers/26149.svg?color=green&label=OnlineServers&style=plastic)](https://bstats.org/plugin/bukkit/MCLang) [![bStats Players](https://img.shields.io/bstats/players/26149.svg?color=green&label=OnlinePlayers&style=plastic)](https://bstats.org/plugin/bukkit/MCLang)
 
-Official Language Pack API for your Minecraft Bukkit plugins.
+Lightweight API to load and use official Minecraft language pack translations.
 
 *Tested Minecraft versions: 1.13, 1.14, 1.15, 1.16, 1.17, 1.18, 1.19, 1.20, 1.21*
+*Folia 1.19.4+ support (version 1.1.3 add)
 
 ## Features
 * Easy-to-use language pack management for Bukkit plugins
