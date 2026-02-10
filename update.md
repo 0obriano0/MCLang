@@ -1,3 +1,13 @@
+## 1.1.4
+* Refactor command system and introduce API module
+* Removed ToolCommandSystem and replaced it with RegistryCommandSystem for better command management.
+* Introduced RegistrySubCommandSystem to handle subcommands.
+* Added ApiMainBase and its implementation to facilitate API module integration.
+* Updated mainCommandSystem to utilize the new command registration system.
+* Simplified command execution and permission checks.
+* Cleaned up DataBase by removing unused methods and variables.
+* Enhanced Main class to register commands and manage API module lifecycle.
+
 ## 1.1.3
 * Declared Jackson Databind dependency in plugin.yml instead of shading.
 * Requires Java 17+.
