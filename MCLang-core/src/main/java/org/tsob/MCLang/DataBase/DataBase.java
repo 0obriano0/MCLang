@@ -1,27 +1,12 @@
 package org.tsob.MCLang.DataBase;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.tsob.MCLang.AnsiColor;
 import org.tsob.MCLang.Main;
-import org.tsob.MCLang.Command.ImainCommandSystem;
-import org.tsob.MCLang.Command.ToolCommandSystem;
 import org.tsob.MCLang.FileIO.FileMessage;
 import org.tsob.MCLang.FileIO.JsonFileIOMinecraftLang;
 import org.tsob.MCLang.Platform.SchedulerFactory;
@@ -34,29 +19,9 @@ import org.tsob.MCLang.Platform.SchedulerFactory;
 public class DataBase {
   
   /**
-   * 插件目錄 插件附屬檔案的存放路徑
-   */
-  public static String pluginMainDir = "./plugins/MCLang/";
-  
-  /**
    * 此插件名稱
    */
   public static String pluginName = "MCLang";
-
-  /**
-   * main.java 的根目錄
-   */
-  public static String mainJavaPath = "/org/tsob/" + pluginName;
-
-  /**
-   * main.java 的根目錄 dot 的版本
-   */
-  public static String mainJavaPathDot = "org.tsob." + pluginName;
-  
-  /**
-   * 指令列表
-   */
-  private static List<String> Commands = null;
   
   /**
    * message 設定
@@ -99,57 +64,6 @@ public class DataBase {
   public static void Print(List<String> msg){
     for(String str : msg) Main.plugin.getLogger().info(AnsiColor.minecraftToAnsiColor(str) + AnsiColor.RESET);
     //System.out.print("[MCLang] " + msg);
-  }
-  
-  /**
-   * 抓取指令列表(/MCLang 列表資料)
-   * @param plugin 系統資料
-   * @return 列表資料
-   */
-  public static List<String> getCommands(Plugin plugin){
-    if(Commands == null) {
-      Commands = new ArrayList<String>();
-      URL jarURL = plugin.getClass().getResource(mainJavaPath + "/Command");
-        URI uri;
-      try {
-        FileSystem fileSystem = null;
-        uri = jarURL.toURI();
-        Path myPath;
-        if (uri.getScheme().equals("jar")) {
-            fileSystem = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
-            myPath = fileSystem.getPath(mainJavaPath +"/Command");
-        } else {
-            myPath = Paths.get(uri);
-        }
-        if (fileSystem == null) {
-          return Commands;
-        }
-        for (Iterator<Path> it = Files.walk(myPath, 1).iterator(); it.hasNext();){
-          String[] path = it.next().toString().split("/");
-          
-          String file = path[path.length - 1];
-          if(file.matches("(.*)class$")) {
-            file = file.split("\\.")[0];
-            if(file.matches("^Command.*") && !file.contains("$")) {
-              String filename = file.split("Command")[1];
-              // 用來判斷 command 是否存在
-              ImainCommandSystem cmd = ToolCommandSystem.getCommandClass(filename);
-              if (cmd != null) Commands.add(filename);
-            }
-          }
-            //System.out.println(it.next());
-          Collections.sort(Commands);
-        }
-        fileSystem.close();
-      } catch (URISyntaxException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
-    return Commands;
   }
   
   /**

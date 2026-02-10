@@ -36,7 +36,7 @@ public class Commandpath extends mainCommandSystem{
   }
   
   @Override
-  public List<String> tabComplete(CommandSender sender, String commandLabel, Command command, String[] args, final ClassLoader classLoader, final String commandPath) {
+  public List<String> tabComplete(CommandSender sender, String commandLabel, Command command, String[] args, final ClassLoader classLoader) {
     if (args.length == 1) {
       List<String> Paths = new ArrayList<String>();
       for (String path : DataBase.fileMinecraftLang.getAllPaths()) {
@@ -51,7 +51,7 @@ public class Commandpath extends mainCommandSystem{
   }
 
   @Override
-  public List<String> tabComplete(Player player, String commandLabel, Command command, String[] args, final ClassLoader classLoader, final String commandPath) {
-    return tabComplete((CommandSender)player, commandLabel, command, args, classLoader, commandPath);
+  public List<String> tabComplete(Player player, String commandLabel, Command command, String[] args, final ClassLoader classLoader) {
+    return tabComplete((CommandSender)player, commandLabel, command, args, classLoader);
   }
 }

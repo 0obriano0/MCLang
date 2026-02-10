@@ -6,7 +6,6 @@ import java.util.Arrays;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.tsob.MCLang.Main;
 import org.tsob.MCLang.DataBase.DataBase;
 
 public class Commandhelp extends mainCommandSystem{
@@ -22,11 +21,14 @@ public class Commandhelp extends mainCommandSystem{
     sender.sendMessage(" ");
     sender.sendMessage("=============== MCLang ===============");
     sender.sendMessage(" ");
-    for(String command_value :DataBase.getCommands(Main.plugin)) {
-      ImainCommandSystem cmd = ToolCommandSystem.getCommandClass(command_value);
-      if(cmd.hasPermission(sender))
+    
+    // 使用註冊系統取得所有指令
+    for (ImainCommandSystem cmd : RegistryCommandSystem.getAllCommands()) {
+      if (cmd.hasPermission(sender)) {
         sender.sendMessage(cmd.getHelp());
+      }
     }
+    
     sender.sendMessage(" ");
     sender.sendMessage("===========================================");
   }
