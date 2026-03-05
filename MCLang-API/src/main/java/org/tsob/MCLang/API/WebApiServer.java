@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.tsob.MCLang.Main;
+import org.tsob.MCLang.DataBase.DataBase;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,7 +33,7 @@ import com.sun.net.httpserver.HttpServer;
  * 提供簡易 Web API 與內建前端頁面，方便管理員/開發者查看 API 與語言包內容。
  */
 public class WebApiServer {
-  private static final int LANG_FILE_WALK_DEPTH = 3;
+  private static final int MAX_LANG_FILE_WALK_DEPTH = 3;
   private final ObjectMapper objectMapper = new ObjectMapper();
   private HttpServer server;
   private final String host;
@@ -245,7 +246,7 @@ public class WebApiServer {
     }
 
     Map<String, TreeSet<String>> langVersions = new HashMap<>();
-    try (Stream<Path> stream = Files.walk(root, LANG_FILE_WALK_DEPTH)) {
+    try (Stream<Path> stream = Files.walk(root, MAX_LANG_FILE_WALK_DEPTH)) {
       stream
           .filter(Files::isRegularFile)
           .filter(p -> p.getFileName().toString().endsWith(".json"))
@@ -256,7 +257,8 @@ public class WebApiServer {
             String version = parent != null ? parent.getFileName().toString() : "unknown";
             langVersions.computeIfAbsent(lang, k -> new TreeSet<>(Comparator.reverseOrder())).add(version);
           });
-    } catch (IOException ignored) {
+    } catch (IOException e) {
+      logDebug("Failed to enumerate language files: " + e.getMessage());
     }
 
     List<Map<String, Object>> result = new ArrayList<>();
@@ -290,13 +292,14 @@ public class WebApiServer {
       return current;
     }
 
-    try (Stream<Path> stream = Files.walk(root, LANG_FILE_WALK_DEPTH)) {
+    try (Stream<Path> stream = Files.walk(root, MAX_LANG_FILE_WALK_DEPTH)) {
       return stream
           .filter(Files::isRegularFile)
           .filter(p -> p.getFileName().toString().equalsIgnoreCase(lang + ".json"))
           .findFirst()
           .orElse(null);
     } catch (IOException e) {
+      logDebug("Failed to find language file for " + lang + ": " + e.getMessage());
       return null;
     }
   }
@@ -395,7 +398,7 @@ public class WebApiServer {
   private String buildHtmlPage() {
     return """
         <!doctype html>
-        <html lang="zh-Hant">
+        <html lang="en">
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -413,25 +416,25 @@ public class WebApiServer {
         <body>
           <h1>MCLang Web API</h1>
           <div class="card">
-            <h2>1) API 使用說明</h2>
+            <h2>1) API Docs (使用說明)</h2>
             <button onclick="loadDocs()">載入 /api/docs</button>
             <pre id="docs"></pre>
           </div>
 
           <div class="card">
-            <h2>2) 查詢語言包與代碼</h2>
-            <button onclick="loadLanguages()">載入語言清單</button>
+            <h2>2) Language Pack Browser (語言包與代碼)</h2>
+            <button onclick="loadLanguages()">Load Language List</button>
             <div class="row">
-              <label>語言代碼: <input id="lang" value="en_us"></label>
-              <label>版本(可空白): <input id="version" placeholder="1.21.5"></label>
-              <label>前綴過濾: <input id="prefix" value="item.minecraft."></label>
-              <button onclick="loadLangData()">查詢語言包</button>
+              <label>Language Code: <input id="lang" value="en_us"></label>
+              <label>Version (optional): <input id="version" placeholder="1.21.5"></label>
+              <label>Prefix Filter: <input id="prefix" value="item.minecraft."></label>
+              <button onclick="loadLangData()">Query Language Pack</button>
             </div>
             <pre id="langs"></pre>
           </div>
 
           <div class="card">
-            <h2>3) 前後端分離測試 (GET / POST)</h2>
+            <h2>3) Frontend/Backend Test (GET / POST)</h2>
             <div class="row">
               <label>lang: <input id="tlang" value="zh_tw"></label>
               <label>key: <input id="tkey" value="item.minecraft.diamond_sword"></label>
@@ -481,5 +484,11 @@ public class WebApiServer {
         </body>
         </html>
         """;
+  }
+
+  private void logDebug(String message) {
+    if (DataBase.getDebug()) {
+      DataBase.Print("[WebApiServer] " + message);
+    }
   }
 }
