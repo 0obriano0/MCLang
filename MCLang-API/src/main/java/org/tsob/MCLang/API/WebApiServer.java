@@ -32,6 +32,7 @@ import com.sun.net.httpserver.HttpServer;
  * 提供簡易 Web API 與內建前端頁面，方便管理員/開發者查看 API 與語言包內容。
  */
 public class WebApiServer {
+  private static final int LANG_FILE_WALK_DEPTH = 3;
   private final ObjectMapper objectMapper = new ObjectMapper();
   private HttpServer server;
   private final String host;
@@ -244,7 +245,7 @@ public class WebApiServer {
     }
 
     Map<String, TreeSet<String>> langVersions = new HashMap<>();
-    try (Stream<Path> stream = Files.walk(root, 3)) {
+    try (Stream<Path> stream = Files.walk(root, LANG_FILE_WALK_DEPTH)) {
       stream
           .filter(Files::isRegularFile)
           .filter(p -> p.getFileName().toString().endsWith(".json"))
@@ -289,7 +290,7 @@ public class WebApiServer {
       return current;
     }
 
-    try (Stream<Path> stream = Files.walk(root, 3)) {
+    try (Stream<Path> stream = Files.walk(root, LANG_FILE_WALK_DEPTH)) {
       return stream
           .filter(Files::isRegularFile)
           .filter(p -> p.getFileName().toString().equalsIgnoreCase(lang + ".json"))
@@ -362,7 +363,9 @@ public class WebApiServer {
   }
 
   private boolean isSafeVersion(String version) {
-    return version != null && version.matches("[0-9.]+");
+    return version != null
+        && !version.contains("..")
+        && version.matches("[0-9]+\\.[0-9]+(\\.[0-9]+)?");
   }
 
   private Map<String, String> parseQuery(String rawQuery) {
