@@ -54,7 +54,15 @@ public class WebApiServer {
       return;
     }
 
-    server = HttpServer.create(new InetSocketAddress(host, port), 0);
+    String bindHost = normalizeBindHost(host);
+    if (bindHost == null) {
+      // 綁定所有網卡介面（不限制單一 host）
+      server = HttpServer.create(new InetSocketAddress(port), 0);
+    } else {
+      // 綁定指定 host（例如 127.0.0.1）
+      server = HttpServer.create(new InetSocketAddress(bindHost, port), 0);
+    }
+
     server.createContext("/", new RootHandler());
     server.createContext("/api/docs", new DocsHandler());
     server.createContext("/api/languages", new LanguagesHandler());
@@ -490,5 +498,16 @@ public class WebApiServer {
     if (DataBase.getDebug()) {
       DataBase.Print("[WebApiServer] " + message);
     }
+  }
+
+  private String normalizeBindHost(String host) {
+    if (host == null) {
+      return null;
+    }
+    String h = host.trim();
+    if (h.isEmpty() || "*".equals(h) || "0.0.0.0".equals(h)) {
+      return null; // null 代表使用 new InetSocketAddress(port) 綁全介面
+    }
+    return h;
   }
 }
