@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
@@ -37,6 +38,7 @@ public class WebApiServer {
   private final int port;
   private final boolean corsEnabled;
   private final int maxEntriesPerRequest;
+  private final Map<String, MCLang> mclangCache = new ConcurrentHashMap<>();
 
   public WebApiServer(String host, int port, boolean corsEnabled, int maxEntriesPerRequest) {
     this.host = host;
@@ -130,7 +132,7 @@ public class WebApiServer {
 
       String prefix = "/api/languages/";
       if (path.startsWith(prefix) && path.length() > prefix.length()) {
-        String lang = path.substring(prefix.length()).toLowerCase(Locale.ROOT);
+        String lang = normalizeLang(path.substring(prefix.length()));
         if (!isSafeToken(lang)) {
           sendJson(exchange, 400, Map.of("error", "Invalid lang"));
           return;
@@ -208,12 +210,12 @@ public class WebApiServer {
       String key;
       if ("GET".equals(method)) {
         Map<String, String> query = parseQuery(exchange.getRequestURI().getRawQuery());
-        lang = query.getOrDefault("lang", "").toLowerCase(Locale.ROOT);
+        lang = normalizeLang(query.getOrDefault("lang", ""));
         key = query.getOrDefault("key", "");
       } else if ("POST".equals(method)) {
         try {
           JsonNode body = objectMapper.readTree(exchange.getRequestBody());
-          lang = body.path("lang").asText("").toLowerCase(Locale.ROOT);
+          lang = normalizeLang(body.path("lang").asText(""));
           key = body.path("key").asText("");
         } catch (Exception e) {
           sendJson(exchange, 400, Map.of("error", "Invalid JSON body"));
@@ -229,7 +231,7 @@ public class WebApiServer {
         return;
       }
 
-      MCLang mclang = new MCLang(lang);
+      MCLang mclang = mclangCache.computeIfAbsent(lang, MCLang::new);
       String value = mclang.getString(key);
       sendJson(exchange, 200, Map.of("lang", lang, "key", key, "value", value));
     }
@@ -274,7 +276,14 @@ public class WebApiServer {
       }
     }
 
-    String currentVersion = Bukkit.getBukkitVersion().split("-")[0];
+    String bukkitVersion = Bukkit.getBukkitVersion();
+    String currentVersion = "unknown";
+    if (bukkitVersion != null && !bukkitVersion.isBlank()) {
+      String[] parts = bukkitVersion.split("-");
+      if (parts.length > 0 && !parts[0].isBlank()) {
+        currentVersion = parts[0];
+      }
+    }
     Path current = root.resolve(currentVersion).resolve(lang + ".json");
     if (Files.exists(current)) {
       return current;
@@ -349,7 +358,7 @@ public class WebApiServer {
   }
 
   private boolean isSafeToken(String token) {
-    return token != null && token.matches("[a-z0-9_]+");
+    return token != null && token.matches("[a-zA-Z0-9_-]+");
   }
 
   private boolean isSafeVersion(String version) {
@@ -371,6 +380,13 @@ public class WebApiServer {
       }
     }
     return query;
+  }
+
+  private String normalizeLang(String lang) {
+    if (lang == null) {
+      return "";
+    }
+    return lang.trim().toLowerCase(Locale.ROOT).replace('-', '_');
   }
 
   private String buildHtmlPage() {

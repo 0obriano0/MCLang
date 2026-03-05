@@ -9,6 +9,7 @@ import org.tsob.MCLang.DataBase.DataBase;
  * 負責註冊 API 相關的指令和功能
  */
 public class apiMain extends ApiMainBase {
+  private final Object webApiLock = new Object();
   private WebApiServer webApiServer;
 
   @Override
@@ -43,33 +44,37 @@ public class apiMain extends ApiMainBase {
   }
 
   private void startWebApiServer() {
-    boolean enabled = Main.plugin.getConfig().getBoolean("web.enabled", false);
-    if (!enabled) {
-      return;
-    }
+    synchronized (webApiLock) {
+      boolean enabled = Main.plugin.getConfig().getBoolean("web.enabled", false);
+      if (!enabled) {
+        return;
+      }
 
-    String host = Main.plugin.getConfig().getString("web.host", "127.0.0.1");
-    int port = Main.plugin.getConfig().getInt("web.port", 8765);
-    boolean corsEnabled = Main.plugin.getConfig().getBoolean("web.cors", true);
-    int maxEntries = Main.plugin.getConfig().getInt("web.maxEntriesPerRequest", 300);
-    if (maxEntries < 50) {
-      maxEntries = 50;
-    }
+      String host = Main.plugin.getConfig().getString("web.host", "127.0.0.1");
+      int port = Main.plugin.getConfig().getInt("web.port", 8765);
+      boolean corsEnabled = Main.plugin.getConfig().getBoolean("web.cors", true);
+      int maxEntries = Main.plugin.getConfig().getInt("web.maxEntriesPerRequest", 300);
+      if (maxEntries < 50) {
+        maxEntries = 50;
+      }
 
-    try {
-      webApiServer = new WebApiServer(host, port, corsEnabled, maxEntries);
-      webApiServer.start();
-      DataBase.Print("MCLang Web API started at http://" + host + ":" + port + "/");
-    } catch (Exception e) {
-      DataBase.Print("MCLang Web API start failed: " + e.getMessage());
+      try {
+        webApiServer = new WebApiServer(host, port, corsEnabled, maxEntries);
+        webApiServer.start();
+        DataBase.Print("MCLang Web API started at http://" + host + ":" + port + "/");
+      } catch (Exception e) {
+        DataBase.Print("MCLang Web API start failed: " + e.getMessage());
+      }
     }
   }
 
   private void stopWebApiServer() {
-    if (webApiServer != null) {
-      webApiServer.stop();
-      webApiServer = null;
-      DataBase.Print("MCLang Web API stopped.");
+    synchronized (webApiLock) {
+      if (webApiServer != null) {
+        webApiServer.stop();
+        webApiServer = null;
+        DataBase.Print("MCLang Web API stopped.");
+      }
     }
   }
 }
