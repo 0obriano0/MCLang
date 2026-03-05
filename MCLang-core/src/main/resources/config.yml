@@ -2,3 +2,13 @@
 # Set language #
 ################
 lang: en
+
+########################
+# Web API and UI panel #
+########################
+web:
+  enabled: false
+  host: 127.0.0.1
+  port: 8765
+  cors: true
+  maxEntriesPerRequest: 300

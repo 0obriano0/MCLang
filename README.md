@@ -20,8 +20,28 @@ Lightweight API to load and use official Minecraft language pack translations.
 * Automatically downloads language packs from the official Minecraft resources if not present
 * Hot-reload language files without server restart
 * API for developers to integrate custom messages
+* Optional Web API + built-in web page to inspect API docs and language-pack keys/values
 
 ## Docs [JDOC](https://0obriano0.github.io/MCLang/)
+
+## Web API (for admin / frontend developers)
+Enable in `/plugins/MCLang/config.yml`:
+```yml
+web:
+  enabled: true
+  host: 127.0.0.1
+  port: 8765
+  cors: true
+  maxEntriesPerRequest: 300
+```
+
+Then open:
+* `http://127.0.0.1:8765/` → built-in web page (API docs + language pack viewer)
+* `GET /api/docs` → API usage
+* `GET /api/languages` → available language codes + versions
+* `GET /api/languages/{lang}` → language pack keys/values (supports `version`, `prefix`, `limit`, `offset`)
+* `GET /api/translate?lang=zh_tw&key=item.minecraft.diamond_sword`
+* `POST /api/translate` with JSON body: `{"lang":"zh_tw","key":"item.minecraft.diamond_sword"}`
 
 ### Gradle
 ```gradle
