@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 /**
- * 提供簡易 Web API 與內建前端頁面，方便管理員/開發者查看 API 與語言包內容。
+ * 提供後端 Web API（不包含前端靜態頁面）。
  */
 public class WebApiServer {
   private static final int MAX_LANG_FILE_WALK_DEPTH = 3;
@@ -63,7 +62,6 @@ public class WebApiServer {
       server = HttpServer.create(new InetSocketAddress(bindHost, port), 0);
     }
 
-    server.createContext("/", new RootHandler());
     server.createContext("/api/docs", new DocsHandler());
     server.createContext("/api/languages", new LanguagesHandler());
     server.createContext("/api/translate", new TranslateHandler());
@@ -75,22 +73,6 @@ public class WebApiServer {
     if (server != null) {
       server.stop(1);
       server = null;
-    }
-  }
-
-  private class RootHandler implements HttpHandler {
-    @Override
-    public void handle(HttpExchange exchange) throws IOException {
-      String path = exchange.getRequestURI().getPath();
-      if (!"/".equals(path)) {
-        sendJson(exchange, 404, Map.of("error", "Not found"));
-        return;
-      }
-      if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
-        sendMethodNotAllowed(exchange);
-        return;
-      }
-      sendHtml(exchange, 200, buildHtmlPage());
     }
   }
 
@@ -106,9 +88,9 @@ public class WebApiServer {
       }
 
       Map<String, Object> docs = new LinkedHashMap<>();
-      docs.put("service", "MCLang Web API");
+      docs.put("service", "MCLang Backend API");
       docs.put("version", Main.plugin.getDescription().getVersion());
-      docs.put("baseUrl", "http://" + host + ":" + port);
+      docs.put("apiBaseUrl", "http://" + host + ":" + port);
       docs.put("endpoints", List.of(
           Map.of("method", "GET", "path", "/api/docs", "description", "API 使用說明"),
           Map.of("method", "GET", "path", "/api/languages", "description", "取得語言清單（含版本）"),
@@ -340,16 +322,6 @@ public class WebApiServer {
     }
   }
 
-  private void sendHtml(HttpExchange exchange, int status, String html) throws IOException {
-    byte[] data = html.getBytes(StandardCharsets.UTF_8);
-    addCommonHeaders(exchange);
-    exchange.getResponseHeaders().set("Content-Type", "text/html; charset=utf-8");
-    exchange.sendResponseHeaders(status, data.length);
-    try (OutputStream os = exchange.getResponseBody()) {
-      os.write(data);
-    }
-  }
-
   private void addCommonHeaders(HttpExchange exchange) {
     if (corsEnabled) {
       exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
@@ -401,97 +373,6 @@ public class WebApiServer {
       return "";
     }
     return lang.trim().toLowerCase(Locale.ROOT).replace('-', '_');
-  }
-
-  private String buildHtmlPage() {
-    return """
-        <!doctype html>
-        <html lang="en">
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width,initial-scale=1">
-          <title>MCLang Web API</title>
-          <style>
-            body { font-family: sans-serif; margin: 24px; background: #0f172a; color: #e2e8f0; }
-            h1,h2 { margin-bottom: 8px; }
-            .card { background:#1e293b; border-radius:10px; padding:16px; margin-bottom:16px; }
-            input,select,button { padding:8px; margin:4px 0; border-radius:6px; border:1px solid #475569; background:#0f172a; color:#e2e8f0; }
-            button { cursor:pointer; }
-            pre { background:#020617; color:#cbd5e1; padding:12px; border-radius:8px; max-height:360px; overflow:auto; }
-            .row { display:flex; gap:12px; flex-wrap: wrap; align-items:center; }
-          </style>
-        </head>
-        <body>
-          <h1>MCLang Web API</h1>
-          <div class="card">
-            <h2>1) API Docs (使用說明)</h2>
-            <button onclick="loadDocs()">載入 /api/docs</button>
-            <pre id="docs"></pre>
-          </div>
-
-          <div class="card">
-            <h2>2) Language Pack Browser (語言包與代碼)</h2>
-            <button onclick="loadLanguages()">Load Language List</button>
-            <div class="row">
-              <label>Language Code: <input id="lang" value="en_us"></label>
-              <label>Version (optional): <input id="version" placeholder="1.21.5"></label>
-              <label>Prefix Filter: <input id="prefix" value="item.minecraft."></label>
-              <button onclick="loadLangData()">Query Language Pack</button>
-            </div>
-            <pre id="langs"></pre>
-          </div>
-
-          <div class="card">
-            <h2>3) Frontend/Backend Test (GET / POST)</h2>
-            <div class="row">
-              <label>lang: <input id="tlang" value="zh_tw"></label>
-              <label>key: <input id="tkey" value="item.minecraft.diamond_sword"></label>
-              <button onclick="translateGet()">GET</button>
-              <button onclick="translatePost()">POST</button>
-            </div>
-            <pre id="translate"></pre>
-          </div>
-
-          <script>
-            async function loadDocs() {
-              const res = await fetch('/api/docs');
-              document.getElementById('docs').textContent = JSON.stringify(await res.json(), null, 2);
-            }
-            async function loadLanguages() {
-              const res = await fetch('/api/languages');
-              document.getElementById('langs').textContent = JSON.stringify(await res.json(), null, 2);
-            }
-            async function loadLangData() {
-              const lang = document.getElementById('lang').value.trim();
-              const version = document.getElementById('version').value.trim();
-              const prefix = document.getElementById('prefix').value.trim();
-              const q = new URLSearchParams({ limit: '80', offset: '0' });
-              if (version) q.set('version', version);
-              if (prefix) q.set('prefix', prefix);
-              const res = await fetch('/api/languages/' + encodeURIComponent(lang) + '?' + q.toString());
-              document.getElementById('langs').textContent = JSON.stringify(await res.json(), null, 2);
-            }
-            async function translateGet() {
-              const lang = document.getElementById('tlang').value.trim();
-              const key = document.getElementById('tkey').value.trim();
-              const q = new URLSearchParams({ lang, key });
-              const res = await fetch('/api/translate?' + q.toString());
-              document.getElementById('translate').textContent = JSON.stringify(await res.json(), null, 2);
-            }
-            async function translatePost() {
-              const lang = document.getElementById('tlang').value.trim();
-              const key = document.getElementById('tkey').value.trim();
-              const res = await fetch('/api/translate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ lang, key })
-              });
-              document.getElementById('translate').textContent = JSON.stringify(await res.json(), null, 2);
-            }
-          </script>
-        </body>
-        </html>
-        """;
   }
 
   private void logDebug(String message) {

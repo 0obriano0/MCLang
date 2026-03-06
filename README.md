@@ -24,19 +24,27 @@ Lightweight API to load and use official Minecraft language pack translations.
 
 ## Docs [JDOC](https://0obriano0.github.io/MCLang/)
 
-## Web API (for admin / frontend developers)
+## Web API + Frontend (separate servers)
 Enable in `/plugins/MCLang/config.yml`:
 ```yml
 web:
   enabled: true
-  host: 127.0.0.1
-  port: 8765
-  cors: true
-  maxEntriesPerRequest: 300
+  api:
+    host: 127.0.0.1
+    port: 8765
+    cors: true
+    maxEntriesPerRequest: 300
+  frontend:
+    enabled: true
+    host: 127.0.0.1
+    port: 8766
+    cors: true
+    staticDir: web
 ```
 
 Then open:
-* `http://127.0.0.1:8765/` → built-in web page (API docs + language pack viewer)
+* Frontend static site: `http://127.0.0.1:8766/` (reads HTML/CSS/JS from `plugins/MCLang/web`)
+* Backend API base: `http://127.0.0.1:8765`
 * `GET /api/docs` → API usage
 * `GET /api/languages` → available language codes + versions
 * `GET /api/languages/{lang}` → language pack keys/values (supports `version`, `prefix`, `limit`, `offset`)

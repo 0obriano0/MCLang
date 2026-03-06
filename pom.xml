@@ -155,13 +155,15 @@
           <include>**/*.txt</include>
           <include>**/*.json</include>
           <include>**/*.xml</include>
+          <include>**/*.html</include>
+          <include>**/*.css</include>
+          <include>**/*.js</include>
         </includes>
         <filtering>true</filtering>
       </resource>
     </resources>
   </build>
 </project>
-
 
 
 
