@@ -20,6 +20,7 @@ import org.tsob.MCLang.Command.ImainCommandSystem;
 import org.tsob.MCLang.DataBase.DataBase;
 import org.tsob.MCLang.DataBase.UpdateChecker;
 import org.tsob.MCLang.Platform.SchedulerFactory;
+import org.tsob.MCLang.Web.WebMainBase;
 import org.tsob.MCLang.API.ApiMainBase;
 
 public class Main extends JavaPlugin {
@@ -27,6 +28,7 @@ public class Main extends JavaPlugin {
   public static Server server;
   public static Metrics metrics;
   private ApiMainBase apiMainInstance = null;
+  private WebMainBase webMainInstance = null;
 
   @Override
   public void onEnable() {
@@ -53,6 +55,9 @@ public class Main extends JavaPlugin {
     
     // 嘗試加載和啟用 API 模組
     loadAndEnableApiModule();
+
+    // 嘗試加載和啟用 Web 前後端 服務器
+    loadAndEnableWebServers();
   }
 
   @Override
@@ -63,6 +68,15 @@ public class Main extends JavaPlugin {
         apiMainInstance.onDisable();
       } catch (Exception e) {
         DataBase.Print("停用 API 模組時發生錯誤: " + e.getMessage());
+      }
+    }
+
+    // 停用 Web 前後端 服務器
+    if (webMainInstance != null) {
+      try {
+        webMainInstance.onDisable();
+      } catch (Exception e) {
+        DataBase.Print("停用 Web 服務器時發生錯誤: " + e.getMessage());
       }
     }
   }
@@ -226,6 +240,17 @@ public class Main extends JavaPlugin {
         DataBase.Print("重新加載 API 模組時發生錯誤: " + e.getMessage());
       }
     }
+
+    // 重新加載 Web 前後端 服務器
+    if (mainInstance.webMainInstance != null) {
+      try {
+        mainInstance.webMainInstance.onReload(); // 假設 Web 模組有 onReload 方法
+      } catch (Exception e) {
+        DataBase.Print("重新加載 Web 服務器時發生錯誤: " + e.getMessage());
+      } catch (Throwable t) {
+        DataBase.Print("重新加載 Web 服務器時發生嚴重錯誤: " + t.getMessage());
+      }
+    }
   }
 
   /**
@@ -253,6 +278,37 @@ public class Main extends JavaPlugin {
       // DataBase.Print("未找到 API 模組，僅使用核心功能");
     } catch (Exception e) {
       DataBase.Print("加載 API 模組時發生錯誤: " + e.getMessage());
+      if (DataBase.getDebug()) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  /**
+   * 動態加載和啟用 Web 前後端 服務器
+   */
+  private void loadAndEnableWebServers() {
+    try {
+      // 嘗試加載 Web 模組中的 WebMain 類
+      Class<?> webMainClass = Class.forName("org.tsob.MCLang.Web.WebMain");
+      
+      // 檢查是否是抽象類
+      if (!java.lang.reflect.Modifier.isAbstract(webMainClass.getModifiers())) {
+        // 創建實例
+        webMainInstance = (WebMainBase) webMainClass.getDeclaredConstructor().newInstance();
+        
+        // 調用 onEnable
+        webMainInstance.onEnable();
+        
+        // DataBase.Print("成功加載 Web 服務器");
+      } else {
+        // DataBase.Print("Web 服務器的 WebMain 是抽象類，跳過加載");
+      }
+    } catch (ClassNotFoundException e) {
+      // Web 模組不存在，這是正常情況
+      // DataBase.Print("未找到 Web 服務器，僅使用核心功能");
+    } catch (Exception e) {
+      DataBase.Print("加載 Web 服務器時發生錯誤: " + e.getMessage());
       if (DataBase.getDebug()) {
         e.printStackTrace();
       }

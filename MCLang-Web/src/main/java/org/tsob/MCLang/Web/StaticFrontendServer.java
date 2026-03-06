@@ -1,4 +1,4 @@
-package org.tsob.MCLang.API;
+package org.tsob.MCLang.Web;
 
 import java.io.IOException;
 import java.io.OutputStream;

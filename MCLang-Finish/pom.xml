@@ -24,10 +24,43 @@
     </dependency>
     <dependency>
       <groupId>org.tsob</groupId>
+      <artifactId>MCLang-Web</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.tsob</groupId>
       <artifactId>MCLang-Platform</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <finalName>MCLang-v${project.version}-package</finalName>
+              <relocations>
+                <relocation>
+                  <pattern>org.bstats</pattern>
+                  <shadedPattern>org.tsob.MCLang.shaded.bstats</shadedPattern>
+                </relocation>
+              </relocations>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
 
 

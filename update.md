@@ -7,6 +7,7 @@
 * Simplified command execution and permission checks.
 * Cleaned up DataBase by removing unused methods and variables.
 * Enhanced Main class to register commands and manage API module lifecycle.
+* Added optional Web API and built-in web page to inspect API documentation and language-pack key/value pairs.
 
 ## 1.1.3
 * Declared Jackson Databind dependency in plugin.yml instead of shading.

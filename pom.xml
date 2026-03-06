@@ -14,6 +14,7 @@
     <module>MCLang-Platform</module>
     <module>MCLang-core</module>
     <module>MCLang-API</module>
+    <module>MCLang-Web</module>
     <module>MCLang-Finish</module>
     
     <module>MCLang-Antrun</module>
@@ -50,6 +51,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
         <version>3.5.1</version>
+        <inherited>false</inherited>
         <executions>
           <execution>
             <phase>package</phase>

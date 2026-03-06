@@ -1,4 +1,4 @@
-package org.tsob.MCLang.API;
+package org.tsob.MCLang.Web;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
 import org.tsob.MCLang.Main;
+import org.tsob.MCLang.API.MCLang;
 import org.tsob.MCLang.DataBase.DataBase;
 
 import com.fasterxml.jackson.databind.JsonNode;

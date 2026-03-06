@@ -8,11 +8,11 @@
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>MCLang-API</artifactId>
+  <artifactId>MCLang-Web</artifactId>
   <packaging>jar</packaging>
 
-  <name>MCLang API</name>
-  <description>An API library for MCLang, designed to efficiently parse and process Minecraft-related languages.</description>
+  <name>MCLang Web</name>
+  <description>MCLang Web</description>
 
   <repositories>
     <!-- Spigot API -->
@@ -35,6 +35,20 @@
       <groupId>org.tsob</groupId>
       <artifactId>MCLang-core</artifactId>
       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.tsob</groupId>
+      <artifactId>MCLang-API</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- Jackson Databind -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.17.1</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
