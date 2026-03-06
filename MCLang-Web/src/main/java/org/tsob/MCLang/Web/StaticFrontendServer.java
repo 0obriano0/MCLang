@@ -27,9 +27,9 @@ public class StaticFrontendServer {
     this.corsEnabled = corsEnabled;
   }
 
-  public void start() throws IOException {
+  public boolean start() throws IOException {
     if (server != null) {
-      return;
+      return false;
     }
 
     Files.createDirectories(frontendRoot);
@@ -43,6 +43,8 @@ public class StaticFrontendServer {
     server.createContext("/", new StaticFileHandler());
     server.setExecutor(null);
     server.start();
+
+    return true;
   }
 
   public void stop() {
