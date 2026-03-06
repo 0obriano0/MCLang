@@ -38,6 +38,7 @@ web:
     enabled: true
     host: 127.0.0.1
     port: 8766
+    cors: true
     staticDir: web
 ```
 

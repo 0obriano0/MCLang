@@ -55,7 +55,7 @@ public class apiMain extends ApiMainBase {
           Main.plugin.getConfig().getString("web.host", "127.0.0.1"));
       int backendPort = Main.plugin.getConfig().getInt("web.api.port",
           Main.plugin.getConfig().getInt("web.port", 8765));
-      boolean backendCorsEnabled = Main.plugin.getConfig().getBoolean("web.api.cors",
+      boolean apiCorsEnabled = Main.plugin.getConfig().getBoolean("web.api.cors",
           Main.plugin.getConfig().getBoolean("web.cors", true));
       int maxEntries = Main.plugin.getConfig().getInt("web.api.maxEntriesPerRequest",
           Main.plugin.getConfig().getInt("web.maxEntriesPerRequest", 300));
@@ -65,7 +65,7 @@ public class apiMain extends ApiMainBase {
 
       if (backendEnabled) {
         try {
-          backendApiServer = new WebApiServer(backendHost, backendPort, backendCorsEnabled, maxEntries);
+          backendApiServer = new WebApiServer(backendHost, backendPort, apiCorsEnabled, maxEntries);
           backendApiServer.start();
           DataBase.Print("MCLang Backend API started at http://" + backendHost + ":" + backendPort + "/api/");
         } catch (Exception e) {
@@ -80,6 +80,7 @@ public class apiMain extends ApiMainBase {
 
       String frontendHost = Main.plugin.getConfig().getString("web.frontend.host", "127.0.0.1");
       int frontendPort = Main.plugin.getConfig().getInt("web.frontend.port", 8766);
+      boolean frontendCorsEnabled = Main.plugin.getConfig().getBoolean("web.frontend.cors", apiCorsEnabled);
       String staticDir = Main.plugin.getConfig().getString("web.frontend.staticDir", "web");
       Path frontendRoot = resolveFrontendRoot(staticDir);
 
@@ -88,7 +89,7 @@ public class apiMain extends ApiMainBase {
       }
 
       try {
-        frontendServer = new StaticFrontendServer(frontendHost, frontendPort, frontendRoot, backendCorsEnabled);
+        frontendServer = new StaticFrontendServer(frontendHost, frontendPort, frontendRoot, frontendCorsEnabled);
         frontendServer.start();
         DataBase.Print("MCLang Frontend server started at http://" + frontendHost + ":" + frontendPort + "/");
         DataBase.Print("MCLang Frontend static folder: " + frontendRoot);

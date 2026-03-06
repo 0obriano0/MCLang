@@ -7,6 +7,8 @@ lang: en
 # Web API and UI panel #
 ########################
 web:
+  # Legacy top-level keys (web.host/web.port/web.cors/web.maxEntriesPerRequest)
+  # are kept for backward compatibility and still used as fallback values.
   enabled: false
   host: 127.0.0.1
   port: 8765
@@ -21,4 +23,5 @@ web:
     enabled: true
     host: 127.0.0.1
     port: 8766
+    cors: true
     staticDir: web
