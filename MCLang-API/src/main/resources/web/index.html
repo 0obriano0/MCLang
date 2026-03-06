@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MCLang Frontend</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <h1>MCLang Frontend</h1>
+
+  <div class="card">
+    <h2>Backend API Endpoint</h2>
+    <label>API Base URL: <input id="apiBaseUrl" value="http://127.0.0.1:8765"></label>
+    <small>Separate backend server should expose /api/* routes.</small>
+  </div>
+
+  <div class="card">
+    <h2>1) API Docs</h2>
+    <button onclick="loadDocs()">GET /api/docs</button>
+    <pre id="docs"></pre>
+  </div>
+
+  <div class="card">
+    <h2>2) Language Pack Browser</h2>
+    <button onclick="loadLanguages()">GET /api/languages</button>
+    <div class="row">
+      <label>Language Code: <input id="lang" value="en_us"></label>
+      <label>Version (optional): <input id="version" placeholder="1.21.5"></label>
+      <label>Prefix Filter: <input id="prefix" value="item.minecraft."></label>
+      <button onclick="loadLangData()">Query</button>
+    </div>
+    <pre id="langs"></pre>
+  </div>
+
+  <div class="card">
+    <h2>3) Translate (GET / POST)</h2>
+    <div class="row">
+      <label>lang: <input id="tlang" value="zh_tw"></label>
+      <label>key: <input id="tkey" value="item.minecraft.diamond_sword"></label>
+      <button onclick="translateGet()">GET</button>
+      <button onclick="translatePost()">POST</button>
+    </div>
+    <pre id="translate"></pre>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

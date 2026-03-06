@@ -12,3 +12,13 @@ web:
   port: 8765
   cors: true
   maxEntriesPerRequest: 300
+  api:
+    host: 127.0.0.1
+    port: 8765
+    cors: true
+    maxEntriesPerRequest: 300
+  frontend:
+    enabled: true
+    host: 127.0.0.1
+    port: 8766
+    staticDir: web
