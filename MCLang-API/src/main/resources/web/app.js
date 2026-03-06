@@ -1,5 +1,13 @@
 function apiBaseUrl() {
-  return document.getElementById('apiBaseUrl').value.trim().replace(/\/$/, '');
+  const input = document.getElementById('apiBaseUrl');
+  const value = input.value.trim();
+  if (value) {
+    return value.replace(/\/$/, '');
+  }
+
+  const auto = window.location.protocol + '//' + window.location.hostname + ':8765';
+  input.value = auto;
+  return auto;
 }
 
 async function getJson(path, options) {
