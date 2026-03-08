@@ -55,6 +55,8 @@ public class WebMain extends WebMainBase {
         } catch (Exception e) {
           DataBase.Print("MCLang Backend API start failed: " + e.getMessage());
         }
+      } else {
+        return;
       }
 
       boolean frontendEnabled = Main.plugin.getConfig().getBoolean("web.frontend.enabled", backendEnabled);
