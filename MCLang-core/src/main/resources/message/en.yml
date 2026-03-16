@@ -29,3 +29,14 @@ LoadMinecraftLang:
   Internet_DownloadFail: "&cLanguage Pack Download Failed: &a%fileName%, &cUse Default Language Pack"
   Internet_DownloadProgress: "&a%fileName% &fDownload Progress: &9%done% MB &f/ &9%total%MB &f(&a%percent%%&f)"
   Error_LangNotFound: "&cLanguage Pack Not Found: &a%fileName%"
+
+Web:
+  Title: "&b[Web] "
+  Frontend_server_start: "&aFrontend server started, listening at: &e%host%:%port%"
+  Frontend_server_stop: "&cFrontend server stopped"
+  Frontend_server_start_failed: "&cFrontend server start failed: &e%error%"
+  Frontend_server_resource_save_failed: "&cFrontend server static file: &e%resourcePath% &c, save failed: &e%error%"
+  Frontend_frontendRoot: "&eFrontend server static file root: &a%frontendRoot%"
+  Backend_API_server_start: "&aBackend API server started, listening at: &e%host%:%port%/%router%"
+  Backend_API_server_stop: "&cBackend API server stopped"
+  Backend_API_server_start_failed: "&cBackend API server start failed: &e%error%"

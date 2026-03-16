@@ -3,6 +3,7 @@ package org.tsob.MCLang.Web;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.tsob.MCLang.AnsiColor;
 import org.tsob.MCLang.Main;
 import org.tsob.MCLang.DataBase.DataBase;
 /**
@@ -51,9 +52,13 @@ public class WebMain extends WebMainBase {
         try {
           backendApiServer = new WebApiServer(backendHost, backendPort, apiCorsEnabled, maxEntries);
           backendApiServer.start();
-          DataBase.Print("MCLang Backend API started at http://" + backendHost + ":" + backendPort + "/api/");
+          printCmd(DataBase.fileMessage.getString("Web.Backend_API_server_start")
+            .replace("%host%", backendHost)
+            .replace("%port%", String.valueOf(backendPort))
+            .replace("%router%", "api/"));
         } catch (Exception e) {
-          DataBase.Print("MCLang Backend API start failed: " + e.getMessage());
+          printCmd(DataBase.fileMessage.getString("Web.Backend_API_server_start_failed")
+            .replace("%error%", e.getMessage()));
         }
       } else {
         return;
@@ -77,10 +82,15 @@ public class WebMain extends WebMainBase {
       try {
         frontendServer = new StaticFrontendServer(frontendHost, frontendPort, frontendRoot, frontendCorsEnabled);
         frontendServer.start();
-        DataBase.Print("MCLang Frontend server started at http://" + frontendHost + ":" + frontendPort + "/");
-        DataBase.Print("MCLang Frontend static folder: " + frontendRoot);
+
+        printCmd(DataBase.fileMessage.getString("Web.Frontend_server_start")
+            .replace("%host%", frontendHost)
+            .replace("%port%", String.valueOf(frontendPort)));
+        printCmd(DataBase.fileMessage.getString("Web.Frontend_frontendRoot")
+            .replace("%frontendRoot%", frontendRoot.toString()));
       } catch (Exception e) {
-        DataBase.Print("MCLang Frontend server start failed: " + e.getMessage());
+        printCmd(DataBase.fileMessage.getString("Web.Frontend_server_start_failed")
+            .replace("%error%", e.getMessage()));
       }
     }
   }
@@ -90,12 +100,12 @@ public class WebMain extends WebMainBase {
       if (backendApiServer != null) {
         backendApiServer.stop();
         backendApiServer = null;
-        DataBase.Print("MCLang Backend API stopped.");
+        printCmd(DataBase.fileMessage.getString("Web.Backend_API_server_stop"));
       }
       if (frontendServer != null) {
         frontendServer.stop();
         frontendServer = null;
-        DataBase.Print("MCLang Frontend server stopped.");
+        printCmd(DataBase.fileMessage.getString("Web.Frontend_server_stop"));
       }
     }
   }
@@ -118,12 +128,24 @@ public class WebMain extends WebMainBase {
   }
 
   private void trySaveFrontendResource(String resourcePath) {
+    Path dest = Main.plugin.getDataFolder().toPath().resolve(resourcePath);
+    if (dest.toFile().exists()) {
+      return;
+    }
     try {
       Main.plugin.saveResource(resourcePath, false);
     } catch (Exception e) {
       if (DataBase.getDebug()) {
-        DataBase.Print("Failed to save frontend resource " + resourcePath + ": " + e.getMessage());
+        printCmd(DataBase.fileMessage.getString("Web.Frontend_server_resource_save_failed")
+            .replace("%error%", e.getMessage())
+            .replace("%resourcePath%", resourcePath));
       }
     }
+  }
+
+  private static void printCmd(String msg) {
+    String title = AnsiColor.minecraftToAnsiColor(DataBase.fileMessage.getString("Web.Title"));
+    msg = title + AnsiColor.WHITE + AnsiColor.minecraftToAnsiColor(msg);;
+    DataBase.Print(msg);
   }
 }

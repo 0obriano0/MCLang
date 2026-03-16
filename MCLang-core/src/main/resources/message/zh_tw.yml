@@ -29,3 +29,14 @@ LoadMinecraftLang:
   Internet_DownloadFail: "&c語言包下載失敗: &a%fileName%, &c使用預設語言包"
   Internet_DownloadProgress: "&a%fileName% &f下載進度： &9%done% MB &f/ &9%total%MB &f(&a%percent%%&f)"
   Error_LangNotFound: "&c語言包未找到: &a%fileName%"
+
+Web:
+  Title: "&b[Web] "
+  Frontend_server_start: "&a前端伺服器已啟動，監聽於: &e%host%:%port%"
+  Frontend_server_stop: "&c前端伺服器已停止"
+  Frontend_server_start_failed: "&c前端伺服器啟動失敗: &e%error%"
+  Frontend_server_resource_save_failed: "&c前端伺服器靜態文件: &e%resourcePath% &c,保存失敗: &e%error%"
+  Frontend_frontendRoot: "&e前端伺服器靜態文件根目錄: &a%frontendRoot%"
+  Backend_API_server_start: "&a後端 API 伺服器已啟動，監聽於: &e%host%:%port%/%router%"
+  Backend_API_server_stop: "&c後端 API 伺服器已停止"
+  Backend_API_server_start_failed: "&c後端 API 伺服器啟動失敗: &e%error%"

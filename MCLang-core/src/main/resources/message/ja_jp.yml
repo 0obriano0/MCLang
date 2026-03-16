@@ -29,3 +29,14 @@ LoadMinecraftLang:
   Internet_DownloadFail: "&c言語パックのダウンロードに失敗しました: &a%fileName%、&cデフォルトの言語パックを使用します"
   Internet_DownloadProgress: "&a%fileName% &fダウンロード進行状況: &9%done% MB &f/ &9%total%MB &f(&a%percent%%&f)"
   Error_LangNotFound: "&c言語パックが見つかりません: &a%fileName%"
+
+Web:
+  Title: "&b[Web] "
+  Frontend_server_start: "&aフロントエンドサーバーが起動しました、&e%host%:%port% &aで待機しています"
+  Frontend_server_stop: "&cフロントエンドサーバーが停止しました"
+  Frontend_server_start_failed: "&cフロントエンドサーバーの起動に失敗しました: &e%error%"
+  Frontend_server_resource_save_failed: "&cフロントエンドサーバーの静的ファイル: &e%resourcePath% &cの保存に失敗しました: &e%error%"
+  Frontend_frontendRoot: "&eフロントエンドサーバーの静的ファイルルート: &a%frontendRoot%"
+  Backend_API_server_start: "&aバックエンドAPIサーバーが起動しました、&e%host%:%port%/%router% &aで待機しています"
+  Backend_API_server_stop: "&cバックエンドAPIサーバーが停止しました"
+  Backend_API_server_start_failed: "&cバックエンドAPIサーバーの起動に失敗しました: &e%error%"

@@ -6,25 +6,6 @@ import org.bukkit.plugin.Plugin;
 import org.tsob.MCLang.DataBase.DataBase;
 import org.tsob.MCLang.FileIO.JsonFileIOMinecraftLang;
 
-/**
- * PlaceholderAPI Expansion for MCLang
- * PlaceholderAPI 擴展，用於支援 MCLang 的多國語言翻譯
- *
- * Placeholder format 佔位符格式:
- *   %mclang_<lang>_<key>%
- *
- * Language codes 語言代碼 (variable length, may or may not contain underscores):
- *   - Simple / 簡單: tok, lzh, bar, isv ...
- *   - Standard / 標準: en_us, zh_tw, ja_jp ...
- *   - Extended / 延伸: zlm_arab, be_latn, sah_sah ...
- *
- * Examples 範例:
- *   %mclang_en_us_item.minecraft.diamond_sword%  → Diamond Sword
- *   %mclang_zh_tw_item.minecraft.diamond_sword%  → 鑽石劍
- *   %mclang_ja_jp_entity.minecraft.creeper%       → クリーパー
- *   %mclang_tok_item.minecraft.stone%             → (Toki Pona)
- *   %mclang_zlm_arab_item.minecraft.stone%        → (Malay Arabic)
- */
 public class MCLangPlaceholderExpansion extends PlaceholderExpansion {
 
   private final Plugin plugin;
