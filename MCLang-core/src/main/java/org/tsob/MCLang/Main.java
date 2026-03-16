@@ -19,6 +19,7 @@ import org.tsob.MCLang.Command.Commandreload;
 import org.tsob.MCLang.Command.ImainCommandSystem;
 import org.tsob.MCLang.DataBase.DataBase;
 import org.tsob.MCLang.DataBase.UpdateChecker;
+import org.tsob.MCLang.Hooks.MCLangPlaceholderExpansion;
 import org.tsob.MCLang.Platform.SchedulerFactory;
 import org.tsob.MCLang.Web.WebMainBase;
 import org.tsob.MCLang.API.ApiMainBase;
@@ -29,6 +30,7 @@ public class Main extends JavaPlugin {
   public static Metrics metrics;
   private ApiMainBase apiMainInstance = null;
   private WebMainBase webMainInstance = null;
+  private MCLangPlaceholderExpansion placeholderExpansion = null;
 
   @Override
   public void onEnable() {
@@ -58,6 +60,9 @@ public class Main extends JavaPlugin {
 
     // 嘗試加載和啟用 Web 前後端 服務器
     loadAndEnableWebServers();
+
+    // 嘗試註冊 PlaceholderAPI 擴展
+    registerPlaceholderAPI();
   }
 
   @Override
@@ -312,6 +317,17 @@ public class Main extends JavaPlugin {
       if (DataBase.getDebug()) {
         e.printStackTrace();
       }
+    }
+  }
+
+  /**
+   * 註冊 PlaceholderAPI 擴展
+   */
+  private void registerPlaceholderAPI() {
+    if (server.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+      placeholderExpansion = new MCLangPlaceholderExpansion(this);
+      placeholderExpansion.register();
+      DataBase.Print("PlaceholderAPI found! Expansion registered.");
     }
   }
 }
