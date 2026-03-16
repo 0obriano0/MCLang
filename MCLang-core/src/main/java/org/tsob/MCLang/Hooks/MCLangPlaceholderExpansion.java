@@ -76,13 +76,7 @@ public class MCLangPlaceholderExpansion extends PlaceholderExpansion {
     }
 
     // Get or create the language file handler from cache
-    JsonFileIOMinecraftLang langFile;
-    if (DataBase.minecraftLangMap.containsKey(lang)) {
-      langFile = DataBase.minecraftLangMap.get(lang);
-    } else {
-      langFile = new JsonFileIOMinecraftLang(lang);
-      DataBase.minecraftLangMap.put(lang, langFile);
-    }
+    JsonFileIOMinecraftLang langFile = DataBase.minecraftLangMap.computeIfAbsent(lang, JsonFileIOMinecraftLang::new);
 
     String translation = langFile.getString(key);
     if (translation == null || translation.isEmpty()) {
