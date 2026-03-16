@@ -13,10 +13,17 @@ import org.tsob.MCLang.FileIO.JsonFileIOMinecraftLang;
  * Placeholder format 佔位符格式:
  *   %mclang_<lang>_<key>%
  *
+ * Language codes 語言代碼 (variable length, may or may not contain underscores):
+ *   - Simple / 簡單: tok, lzh, bar, isv ...
+ *   - Standard / 標準: en_us, zh_tw, ja_jp ...
+ *   - Extended / 延伸: zlm_arab, be_latn, sah_sah ...
+ *
  * Examples 範例:
  *   %mclang_en_us_item.minecraft.diamond_sword%  → Diamond Sword
  *   %mclang_zh_tw_item.minecraft.diamond_sword%  → 鑽石劍
  *   %mclang_ja_jp_entity.minecraft.creeper%       → クリーパー
+ *   %mclang_tok_item.minecraft.stone%             → (Toki Pona)
+ *   %mclang_zlm_arab_item.minecraft.stone%        → (Malay Arabic)
  */
 public class MCLangPlaceholderExpansion extends PlaceholderExpansion {
 
@@ -53,25 +60,27 @@ public class MCLangPlaceholderExpansion extends PlaceholderExpansion {
     }
 
     // Format: <lang>_<key>
-    // Language codes follow the pattern xx_xx (e.g., en_us, zh_tw, ja_jp)
-    // So we expect at least 6 characters: 5 for lang code + 1 for separator underscore
-    // 語言代碼格式為 xx_xx（如 en_us、zh_tw、ja_jp）
-    // 因此至少需要 6 個字元：5 個語言代碼 + 1 個底線分隔符
-    if (params.length() < 7) {
+    // Language codes are variable-length and may or may not contain underscores.
+    // 語言代碼長度不固定，且不一定包含底線（例如 tok、zlm_arab、en_us）。
+    //
+    // Strategy: Minecraft translation keys always contain dots (e.g. item.minecraft.stone).
+    // The separator between the lang code and the key is the last '_' that appears
+    // before the first '.' in params.
+    // 策略：Minecraft 翻譯鍵一定含有「.」，因此 lang 與 key 的分隔點
+    // 就是第一個「.」之前的最後一個「_」。
+    int firstDot = params.indexOf('.');
+    if (firstDot <= 0) {
       return null;
     }
 
-    // Extract language code (first 5 chars: xx_xx)
-    String lang = params.substring(0, 5);
-
-    // Validate language code separator
-    if (params.charAt(5) != '_') {
+    int separatorIndex = params.lastIndexOf('_', firstDot - 1);
+    if (separatorIndex <= 0) {
       return null;
     }
 
-    // Extract translation key (everything after the separator)
-    String key = params.substring(6);
-    if (key.isEmpty()) {
+    String lang = params.substring(0, separatorIndex);
+    String key = params.substring(separatorIndex + 1);
+    if (lang.isEmpty() || key.isEmpty()) {
       return null;
     }
 
