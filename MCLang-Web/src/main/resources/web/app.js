@@ -48,6 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
+      if (link.getAttribute('target') === '_blank') {
+        return; // allow default behavior for external/new tab links
+      }
+      
       e.preventDefault();
       const targetId = link.getAttribute('data-target');
 
