@@ -510,23 +510,80 @@ button {
 @media (max-width: 900px) {
   .app-container {
     flex-direction: column;
+    padding: 1rem 0.5rem;
+    gap: 1rem;
+  }
+
+  section {
+    padding: 1.5rem 1rem;
   }
 
   .sidebar {
     width: 100%;
     height: auto;
     position: static;
-    flex-direction: row;
-    align-items: center;
-    overflow-x: auto;
+    flex-direction: column;
+    align-items: stretch;
     padding: 1rem;
+  }
+
+  .logo-area {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .logo-area h2 {
+    font-size: 1.5rem;
+    margin: 0;
   }
 
   .sidebar nav {
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .sidebar nav .lang-selector-container {
+    flex: 0 0 100%;
+    padding: 0 0 1rem 0 !important;
+  }
+
+  .nav-link {
+    flex: 1 1 auto;
+    text-align: center;
+    white-space: nowrap;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
   }
 
   .input-row {
     flex-direction: column;
+  }
+
+  .endpoint-header {
+    flex-wrap: wrap;
+    padding: 1rem;
+  }
+
+  .url {
+    word-break: break-all;
+    font-size: 0.9rem;
+  }
+
+  .endpoint-body {
+    padding: 1rem;
+  }
+
+  .console-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .console-output pre {
+    padding: 1rem;
+    font-size: 0.8rem;
   }
 }
