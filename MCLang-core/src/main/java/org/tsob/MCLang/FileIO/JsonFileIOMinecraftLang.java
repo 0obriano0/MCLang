@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import javax.annotation.Nonnull;
 
 import org.bukkit.Bukkit;
 import org.tsob.MCLang.AnsiColor;
@@ -52,6 +53,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     reloadNode();
   }
 
+  @Nonnull
   private static String ini_getLangFileName(String langFromConfig) {
     String lang = "";
     if (langFromConfig == null || langFromConfig.isEmpty())
@@ -63,7 +65,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
       lang = "en_us"; // 預設語言
     if (lang.equals("en"))
       lang = "en_us"; // Minecraft 默認語言
-    return String.format("%s.json", lang.toLowerCase());
+    return lang.toLowerCase() + ".json";
   }
 
   /**

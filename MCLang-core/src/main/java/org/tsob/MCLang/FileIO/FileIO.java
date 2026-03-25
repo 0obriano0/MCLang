@@ -99,8 +99,9 @@ public abstract class FileIO implements IFileIO{
     
   }
   
-  private List<String> formateStringlist(@Nonnull List<String> data){
+  private List<String> formateStringlist(List<String> data){
     List<String> finaldata = new ArrayList<String>();
+    if (data == null) return finaldata;
     for(String Data : data) {
       if (Data == null || Data.isEmpty()) continue;
       finaldata.add(Data.replaceAll("&", "§"));
