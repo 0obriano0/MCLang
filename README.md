@@ -24,32 +24,49 @@ Lightweight API to load and use official Minecraft language pack translations.
 
 ## Docs [JDOC](https://0obriano0.github.io/MCLang/)
 
-## Web API + Frontend (separate servers)
-Enable in `/plugins/MCLang/config.yml`:
+## Web API & Frontend Portal
+MCLang includes a built-in modern Web API and an interactive frontend portal, making it easy to query translations programmatically or test them directly via your browser.
+
+Enable and configure in `plugins/MCLang/config.yml`:
 ```yml
 web:
-  enabled: true
+  enabled: true  # Master switch
+  ssl:
+    enabled: false
+    keystorePath: "keystore.jks"
+    keystorePassword: "password"
   api:
     host: 127.0.0.1
     port: 8765
     cors: true
     maxEntriesPerRequest: 300
+    requireKey: false       # Set to true to require a Bearer token
+    key: "YOUR_SECRET_KEY"  # The token clients must provide
   frontend:
     enabled: true
     host: 127.0.0.1
     port: 8766
     cors: true
-    staticDir: web
+    staticDir: web          # Automatically extracted on startup
 ```
 
-Then open:
-* Frontend static site: `http://127.0.0.1:8766/` (reads HTML/CSS/JS from `plugins/MCLang/web`)
-* Backend API base: `http://127.0.0.1:8765`
-* `GET /api/docs` → API usage
-* `GET /api/languages` → available language codes + versions
-* `GET /api/languages/{lang}` → language pack keys/values (supports `version`, `prefix`, `limit`, `offset`)
-* `GET /api/translate?lang=zh_tw&key=item.minecraft.diamond_sword`
-* `POST /api/translate` with JSON body: `{"lang":"zh_tw","key":"item.minecraft.diamond_sword"}`
+### Accessing the Services
+* **Interactive Web Portal:** `http://127.0.0.1:8766/` (or `https://` if SSL is enabled)
+  * Features a modern, multi-language (i18n) test playground.
+  * Dynamically extracts `HTML/CSS/JS/JSON` frontend files to `plugins/MCLang/web/` on server start.
+* **Backend API Base URL:** `http://127.0.0.1:8765`
+  * *(Access is denied with `401 Unauthorized` if `requireKey` is enabled and no token is passed)*
+
+### Available API Endpoints
+* `GET /api/languages`: Returns a list of all currently loaded language codes and their versions.
+* `GET /api/languages/{lang}`: Get keys/values for a specific language.
+  * Supported query parameters: `version`, `prefix`, `limit`, `offset`.
+* `GET /api/translate`: Query a single translation string.
+  * Usage: `?lang=zh_tw&key=item.minecraft.diamond_sword`
+* `POST /api/translate`: Query a single translation string via POST.
+  * Usage: send JSON payload `{"lang":"zh_tw","key":"item.minecraft.diamond_sword"}`
+
+*Note: You can easily test all these API endpoints directly via the interactive web portal without writing any code!*
 
 ### Gradle
 ```gradle
