@@ -1,49 +1,168 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="zh-TW">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>MCLang Frontend</title>
-  <link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCLang Web API Portal</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
-  <h1>MCLang Frontend</h1>
-
-  <div class="card">
-    <h2>Backend API Endpoint</h2>
-    <label>API Base URL: <input id="apiBaseUrl" value=""></label>
-    <small>Separate backend server should expose /api/* routes.</small>
+  <div class="background-animation">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
   </div>
 
-  <div class="card">
-    <h2>1) API Docs</h2>
-    <button onclick="loadDocs()">GET /api/docs</button>
-    <pre id="docs"></pre>
-  </div>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar glass-panel">
+      <div class="logo-area">
+        <div class="logo-icon">M</div>
+        <h2>MCLang API</h2>
+        <div id="auth-status" class="status-badge unauthorized">Unauthenticated</div>
+      </div>
+      <nav>
+        <a href="#section-intro" class="nav-link active" data-target="section-intro">📚 簡介與使用指南</a>
+        <a href="#section-auth" class="nav-link" data-target="section-auth">🔐 連線與認證設定</a>
+        <a href="#section-endpoints" class="nav-link" data-target="section-endpoints">🚀 API 測試區</a>
+      </nav>
+    </aside>
 
-  <div class="card">
-    <h2>2) Language Pack Browser</h2>
-    <button onclick="loadLanguages()">GET /api/languages</button>
-    <div class="row">
-      <label>Language Code: <input id="lang" value="en_us"></label>
-      <label>Version (optional): <input id="version" placeholder="1.21.5"></label>
-      <label>Prefix Filter: <input id="prefix" value="item.minecraft."></label>
-      <button onclick="loadLangData()">Query</button>
-    </div>
-    <pre id="langs"></pre>
-  </div>
+    <!-- Main Content -->
+    <main class="content-area">
 
-  <div class="card">
-    <h2>3) Translate (GET / POST)</h2>
-    <div class="row">
-      <label>lang: <input id="tlang" value="zh_tw"></label>
-      <label>key: <input id="tkey" value="item.minecraft.diamond_sword"></label>
-      <button onclick="translateGet()">GET</button>
-      <button onclick="translatePost()">POST</button>
-    </div>
-    <pre id="translate"></pre>
-  </div>
+      <section id="section-intro" class="glass-panel active-section">
+        <div class="header-box">
+          <h1>歡迎使用 MCLang API</h1>
+          <p>這是一個專為 MCLang 設計的現代化 Web API 介面。您可以在此取得所有的 Minecraft 翻譯檔案與字典，並進行自動化的文字建置。</p>
+        </div>
 
-  <script src="./app.js"></script>
+        <h3>📖 如何使用？</h3>
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-icon">🔑</div>
+            <h4>1. 設定連線與金鑰</h4>
+            <p>前往左側「連線與認證設定」，確認您的 API 伺服器位址是否正確。若伺服器開啟了安全認證，請向管理員索取 API Key 並填入。</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">📄</div>
+            <h4>2. 查閱 API 支援</h4>
+            <p>API 提供 <strong>語言清單查詢</strong> 與 <strong>單字翻譯解析</strong> 功能。支援多版本 Minecraft 官方翻譯語言包。</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🧪</div>
+            <h4>3. 進行測試</h4>
+            <p>在下方的「API 測試區」輸入參數，即可動態取得回應，無需編寫程式碼即可預覽格式與內容。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="section-auth" class="glass-panel hidden">
+        <div class="header-box">
+          <h2>連線與認證設定</h2>
+          <p>定義後台 API 的基準網址 (Base URL)。若有配置 <code>requireKey</code> 安全機制，請在此設定金鑰。</p>
+        </div>
+        <div class="auth-box">
+          <div class="form-group">
+            <label for="api-url-input">API 伺服器位址 (Base URL):</label>
+            <input type="text" id="api-url-input" placeholder="http://127.0.0.1:8765">
+          </div>
+          <div class="form-group">
+            <label for="api-key-input">請輸入 API Key (Bearer Token):</label>
+            <input type="password" id="api-key-input" placeholder="Secret Key...">
+          </div>
+          <div class="button-group">
+            <button id="btn-save-key" class="primary-btn">儲存設定</button>
+            <button id="btn-clear-key" class="danger-btn">清除快取</button>
+          </div>
+          <p id="auth-message" class="toast-message"></p>
+        </div>
+      </section>
+
+      <section id="section-endpoints" class="glass-panel hidden">
+        <div class="header-box">
+          <h2>API 測試區 (Playground)</h2>
+          <p>選擇下方的端點 (Endpoint) 輸入對應的參數進行互動發送。若是尚未授權的請求將會遭到伺服器攔截。</p>
+        </div>
+
+        <div class="endpoint-list">
+          <!-- Endpoint 1 -->
+          <div class="endpoint-card">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="url">/api/languages</span>
+            </div>
+            <div class="endpoint-body">
+              <p>取得目前伺服器支援的所有語言與版本清單。</p>
+              <button class="test-btn" onclick="testApi('/api/languages', 'GET')">執行測試 (Execute)</button>
+            </div>
+          </div>
+
+          <!-- Endpoint 2 -->
+          <div class="endpoint-card">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="url">/api/languages/{lang}</span>
+            </div>
+            <div class="endpoint-body">
+              <p>取得特定語言的翻譯列表。</p>
+              <div class="input-row">
+                <div class="input-group">
+                  <label>lang</label>
+                  <input type="text" id="param-lang" placeholder="例: zh_tw" value="zh_tw">
+                </div>
+                <div class="input-group">
+                  <label>version (可空白)</label>
+                  <input type="text" id="param-version" placeholder="1.21.5">
+                </div>
+                <div class="input-group">
+                  <label>limit</label>
+                  <input type="number" id="param-limit" placeholder="50" value="5">
+                </div>
+              </div>
+              <button class="test-btn" onclick="testLanguageDetail()">執行測試 (Execute)</button>
+            </div>
+          </div>
+
+          <!-- Endpoint 3 -->
+          <div class="endpoint-card">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="url">/api/translate?lang={lang}&key={key}</span>
+            </div>
+            <div class="endpoint-body">
+              <p>取得特定語言的單一翻譯字串。</p>
+              <div class="input-row">
+                <div class="input-group">
+                  <label>lang</label>
+                  <input type="text" id="t-lang" placeholder="例: zh_tw" value="zh_tw">
+                </div>
+                <div class="input-group">
+                  <label>key</label>
+                  <input type="text" id="t-key" placeholder="例: item.minecraft.diamond_sword"
+                    value="item.minecraft.diamond_sword">
+                </div>
+              </div>
+              <button class="test-btn" onclick="testTranslate()">執行測試 (Execute)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Console Output -->
+        <div class="console-output">
+          <div class="console-header">
+            <span>伺服器回應 (Response)</span>
+            <span id="response-status" class="status-code"></span>
+          </div>
+          <pre><code id="api-response-viewer">// 點擊「執行測試」來查看 API 回傳的結果...</code></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
 </body>
+
 </html>

@@ -26,9 +26,15 @@ import org.tsob.MCLang.DataBase.DataBase;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.net.httpserver.Filter;
+import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.HttpsConfigurator;
+import com.sun.net.httpserver.HttpsServer;
+
+import javax.net.ssl.SSLContext;
 
 /**
  * 提供後端 Web API（不包含前端靜態頁面）。
@@ -42,12 +48,16 @@ public class WebApiServer {
   private final boolean corsEnabled;
   private final int maxEntriesPerRequest;
   private final Map<String, MCLang> mclangCache = new ConcurrentHashMap<>();
+  private final SSLContext sslContext;
+  private final String apiKey;
 
-  public WebApiServer(String host, int port, boolean corsEnabled, int maxEntriesPerRequest) {
+  public WebApiServer(String host, int port, boolean corsEnabled, int maxEntriesPerRequest, SSLContext sslContext, String apiKey) {
     this.host = host;
     this.port = port;
     this.corsEnabled = corsEnabled;
     this.maxEntriesPerRequest = maxEntriesPerRequest;
+    this.sslContext = sslContext;
+    this.apiKey = apiKey;
   }
 
   public void start() throws IOException {
@@ -56,17 +66,47 @@ public class WebApiServer {
     }
 
     String bindHost = normalizeBindHost(host);
-    if (bindHost == null) {
-      // 綁定所有網卡介面（不限制單一 host）
-      server = HttpServer.create(new InetSocketAddress(port), 0);
+    InetSocketAddress addr = bindHost == null ? new InetSocketAddress(port) : new InetSocketAddress(bindHost, port);
+
+    if (sslContext != null) {
+      HttpsServer httpsServer = HttpsServer.create(addr, 0);
+      httpsServer.setHttpsConfigurator(new HttpsConfigurator(sslContext));
+      server = httpsServer;
     } else {
-      // 綁定指定 host（例如 127.0.0.1）
-      server = HttpServer.create(new InetSocketAddress(bindHost, port), 0);
+      server = HttpServer.create(addr, 0);
     }
 
-    server.createContext("/api/docs", new DocsHandler());
-    server.createContext("/api/languages", new LanguagesHandler());
-    server.createContext("/api/translate", new TranslateHandler());
+    HttpContext[] contexts = new HttpContext[] {
+        server.createContext("/api/docs", new DocsHandler()),
+        server.createContext("/api/languages", new LanguagesHandler()),
+        server.createContext("/api/translate", new TranslateHandler())
+    };
+
+    if (apiKey != null && !apiKey.isBlank()) {
+      Filter authFilter = new Filter() {
+        @Override
+        public void doFilter(HttpExchange exchange, Chain chain) throws IOException {
+          if ("OPTIONS".equalsIgnoreCase(exchange.getRequestMethod())) {
+            chain.doFilter(exchange);
+            return;
+          }
+          String auth = exchange.getRequestHeaders().getFirst("Authorization");
+          if (auth == null || !auth.equals("Bearer " + apiKey)) {
+            sendJson(exchange, 401, Map.of("error", "Unauthorized: Invalid or missing API Key"));
+            return;
+          }
+          chain.doFilter(exchange);
+        }
+        @Override
+        public String description() {
+          return "API Key Validation Filter";
+        }
+      };
+      for (HttpContext ctx : contexts) {
+        ctx.getFilters().add(authFilter);
+      }
+    }
+
     server.setExecutor(null);
     server.start();
   }

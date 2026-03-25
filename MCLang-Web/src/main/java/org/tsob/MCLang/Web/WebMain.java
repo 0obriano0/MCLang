@@ -6,6 +6,12 @@ import java.nio.file.Paths;
 import org.tsob.MCLang.AnsiColor;
 import org.tsob.MCLang.Main;
 import org.tsob.MCLang.DataBase.DataBase;
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.security.KeyStore;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
 /**
  * API 主類實現
  * 負責註冊 API 相關的指令和功能
@@ -48,14 +54,36 @@ public class WebMain extends WebMainBase {
         maxEntries = 50;
       }
 
+      SSLContext sslContext = null;
+      if (Main.plugin.getConfig().getBoolean("web.ssl.enabled", false)) {
+        try {
+          String ksPath = Main.plugin.getConfig().getString("web.ssl.keystorePath", "keystore.jks");
+          String ksPass = Main.plugin.getConfig().getString("web.ssl.keystorePassword", "password");
+          Path keyPath = Main.plugin.getDataFolder().toPath().resolve(ksPath).normalize();
+          KeyStore ks = KeyStore.getInstance("JKS");
+          try (InputStream is = Files.newInputStream(keyPath)) {
+            ks.load(is, ksPass.toCharArray());
+          }
+          KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+          kmf.init(ks, ksPass.toCharArray());
+          sslContext = SSLContext.getInstance("TLS");
+          sslContext.init(kmf.getKeyManagers(), null, null);
+        } catch (Exception e) {
+          printCmd("§c[SSL Error] Failed to load Keystore: " + e.getMessage() + ", falling back to HTTP");
+        }
+      }
+
+      boolean requireKey = Main.plugin.getConfig().getBoolean("web.api.requireKey", false);
+      String apiKey = requireKey ? Main.plugin.getConfig().getString("web.api.key", "") : null;
+
       if (backendEnabled) {
         try {
-          backendApiServer = new WebApiServer(backendHost, backendPort, apiCorsEnabled, maxEntries);
+          backendApiServer = new WebApiServer(backendHost, backendPort, apiCorsEnabled, maxEntries, sslContext, apiKey);
           backendApiServer.start();
           printCmd(DataBase.fileMessage.getString("Web.Backend_API_server_start")
             .replace("%host%", backendHost)
             .replace("%port%", String.valueOf(backendPort))
-            .replace("%router%", "api/"));
+            .replace("%router%", "api/") + (sslContext != null ? " (HTTPS)" : " (HTTP)"));
         } catch (Exception e) {
           printCmd(DataBase.fileMessage.getString("Web.Backend_API_server_start_failed")
             .replace("%error%", e.getMessage()));
@@ -80,12 +108,12 @@ public class WebMain extends WebMainBase {
       }
 
       try {
-        frontendServer = new StaticFrontendServer(frontendHost, frontendPort, frontendRoot, frontendCorsEnabled);
+        frontendServer = new StaticFrontendServer(frontendHost, frontendPort, frontendRoot, frontendCorsEnabled, sslContext);
         frontendServer.start();
 
         printCmd(DataBase.fileMessage.getString("Web.Frontend_server_start")
             .replace("%host%", frontendHost)
-            .replace("%port%", String.valueOf(frontendPort)));
+            .replace("%port%", String.valueOf(frontendPort)) + (sslContext != null ? " (HTTPS)" : " (HTTP)"));
         printCmd(DataBase.fileMessage.getString("Web.Frontend_frontendRoot")
             .replace("%frontendRoot%", frontendRoot.toString()));
       } catch (Exception e) {

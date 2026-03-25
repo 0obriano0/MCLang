@@ -12,6 +12,10 @@ import org.tsob.MCLang.DataBase.DataBase;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.HttpsConfigurator;
+import com.sun.net.httpserver.HttpsServer;
+
+import javax.net.ssl.SSLContext;
 
 public class StaticFrontendServer {
   private HttpServer server;
@@ -19,12 +23,15 @@ public class StaticFrontendServer {
   private final int port;
   private final Path frontendRoot;
   private final boolean corsEnabled;
+  private final SSLContext sslContext;
 
-  public StaticFrontendServer(String host, int port, Path frontendRoot, boolean corsEnabled) {
+  public StaticFrontendServer(String host, int port, Path frontendRoot, boolean corsEnabled,
+      SSLContext sslContext) {
     this.host = host;
     this.port = port;
     this.frontendRoot = frontendRoot.toAbsolutePath().normalize();
     this.corsEnabled = corsEnabled;
+    this.sslContext = sslContext;
   }
 
   public boolean start() throws IOException {
@@ -34,10 +41,14 @@ public class StaticFrontendServer {
 
     Files.createDirectories(frontendRoot);
     String bindHost = normalizeBindHost(host);
-    if (bindHost == null) {
-      server = HttpServer.create(new InetSocketAddress(port), 0);
+    InetSocketAddress addr = bindHost == null ? new InetSocketAddress(port) : new InetSocketAddress(bindHost, port);
+
+    if (sslContext != null) {
+      HttpsServer httpsServer = HttpsServer.create(addr, 0);
+      httpsServer.setHttpsConfigurator(new HttpsConfigurator(sslContext));
+      server = httpsServer;
     } else {
-      server = HttpServer.create(new InetSocketAddress(bindHost, port), 0);
+      server = HttpServer.create(addr, 0);
     }
 
     server.createContext("/", new StaticFileHandler());

@@ -8,11 +8,17 @@ lang: en
 ########################
 web:
   enabled: false
+  ssl:
+    enabled: false
+    keystorePath: "keystore.jks"
+    keystorePassword: "password"
   api:
     host: 127.0.0.1
     port: 8765
     cors: true
     maxEntriesPerRequest: 300
+    requireKey: false
+    key: "change_me_to_a_secure_secret"
   frontend:
     enabled: true
     host: 127.0.0.1
