@@ -8,6 +8,9 @@
 * Cleaned up DataBase by removing unused methods and variables.
 * Enhanced Main class to register commands and manage API module lifecycle.
 * Added optional Web API and built-in web page to inspect API documentation and language-pack key/value pairs.
+* Added SSL (HTTPS) support and API Key authentication (Bearer token) for the Web API.
+* Added a fully responsive, multi-language (i18n) interactive Web Testing Portal (`zh-TW`, `en-US`, `ja-JP`).
+* Added dynamic runtime extraction of frontend static assets (`HTML/CSS/JS/JSON`) to the `plugins/MCLang/web` directory.
 
 ## 1.1.3
 * Declared Jackson Databind dependency in plugin.yml instead of shading.
