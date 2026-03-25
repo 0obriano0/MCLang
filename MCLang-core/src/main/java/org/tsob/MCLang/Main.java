@@ -54,7 +54,7 @@ public class Main extends JavaPlugin {
     new UpdateChecker(this).start();
 
     DataBase.Print("MCLang Scheduler Mode: " + (SchedulerFactory.isFolia() ? "Folia" : "Spigot/Paper"));
-    
+
     // 嘗試加載和啟用 API 模組
     loadAndEnableApiModule();
 
@@ -221,7 +221,8 @@ public class Main extends JavaPlugin {
     // 在這裡新增更多指令...
     );
 
-    // DataBase.Print("已註冊 " + RegistryCommandSystem.getCommandNames().size() + " 個指令");
+    // DataBase.Print("已註冊 " + RegistryCommandSystem.getCommandNames().size() +
+    // "個指令");
   }
 
   /**
@@ -236,7 +237,7 @@ public class Main extends JavaPlugin {
 
     // 清除並重新註冊指令
     mainInstance.registerCommands();
-    
+
     // 重新加載 API 模組, 這邊有註冊指令的話需要重新註冊
     if (mainInstance.apiMainInstance != null) {
       try {
@@ -265,15 +266,15 @@ public class Main extends JavaPlugin {
     try {
       // 嘗試加載 API 模組中的 apiMain 類
       Class<?> apiMainClass = Class.forName("org.tsob.MCLang.API.apiMain");
-      
+
       // 檢查是否是抽象類
       if (!java.lang.reflect.Modifier.isAbstract(apiMainClass.getModifiers())) {
         // 創建實例
         apiMainInstance = (ApiMainBase) apiMainClass.getDeclaredConstructor().newInstance();
-        
+
         // 調用 onEnable
         apiMainInstance.onEnable();
-        
+
         // DataBase.Print("成功加載 API 模組");
       } else {
         // DataBase.Print("API 模組的 apiMain 是抽象類，跳過加載");
@@ -296,15 +297,15 @@ public class Main extends JavaPlugin {
     try {
       // 嘗試加載 Web 模組中的 WebMain 類
       Class<?> webMainClass = Class.forName("org.tsob.MCLang.Web.WebMain");
-      
+
       // 檢查是否是抽象類
       if (!java.lang.reflect.Modifier.isAbstract(webMainClass.getModifiers())) {
         // 創建實例
         webMainInstance = (WebMainBase) webMainClass.getDeclaredConstructor().newInstance();
-        
+
         // 調用 onEnable
         webMainInstance.onEnable();
-        
+
         // DataBase.Print("成功加載 Web 服務器");
       } else {
         // DataBase.Print("Web 服務器的 WebMain 是抽象類，跳過加載");
