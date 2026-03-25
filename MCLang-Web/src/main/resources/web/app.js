@@ -1,5 +1,5 @@
 // --- i18n Logic ---
-let currentLang = localStorage.getItem('mclang_lang') || 'zh-TW';
+let currentLang = localStorage.getItem('mclang_lang') || 'en-US';
 let translations = {};
 
 async function loadLanguage(lang) {
@@ -31,7 +31,7 @@ function applyTranslations() {
   });
 }
 
-window.t = function(key, fallback = '') {
+window.t = function (key, fallback = '') {
   return translations[key] || fallback;
 };
 
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (link.getAttribute('target') === '_blank') {
         return; // allow default behavior for external/new tab links
       }
-      
+
       e.preventDefault();
       const targetId = link.getAttribute('data-target');
 

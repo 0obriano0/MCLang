@@ -1,0 +1,43 @@
+Message:
+  Title: "&b[Minecraft 语言包] "
+  Data_Re_read: "重新读取数据..."
+  Data_Re_read_Complete: "数据读取完成"
+
+Command:
+  CmdCanNotUse: "&c后台无法使用此指令"
+  PlayerCanNotUse: "&c无法使用此指令"
+  NoPermission: "&c无使用此指令的权限"
+  CanNotFind: "&c查无此指令"
+  Help:
+    reload: "/mclang reload 重新读取数据"
+    path: "/mclang path <path> 取得物品的翻译"
+    help: "/mclang help 显示指令说明"
+    apitest: "/mclang apitest <语言> <模式> 测试 API 功能"
+    test: "/mclang test 无用指令"
+
+LoadMinecraftLang:
+  Title: "&b[LoadMinecraftLang] "
+  SetLang: "&e设定 Minecraft 语言为: &a%lang%"
+  SetVersionPath: "&e设定 Minecraft 版本为: &a%versionPath%"
+  Temp_UseDefaultJson: "暂时使用默认语言包作为语言内容"
+  GetLangFileName: "&e取得语言文件名称: &a%fileName%"
+  Load_LangItems: "&e语言包已载入: &a%count%"
+  Load_MinecraftOriginItem: "&eMinecraft 原版物品已载入: &a%count%"
+  Internet_TryToDownload: "&e尝试从官方下载语言包: &a%fileName%"
+  Internet_DownloadSuccess: "&e语言包: &a%fileName% &e下载完成"
+  Internet_DownloadSuccess_Reload: "&e语言包: &a%fileName% &e下载完成, &e重新载入语言包"
+  Internet_DownloadFail: "&c语言包下载失败: &a%fileName%, &c使用默认语言包"
+  Internet_DownloadProgress: "&a%fileName% &f下载进度： &9%done% MB &f/ &9%total%MB &f(&a%percent%%&f)"
+  Error_LangNotFound: "&c语言包未找到: &a%fileName%"
+
+Web:
+  Title: "&b[Web] "
+  Frontend_server_start: "&a前端服务器已启动，监听于: &e%host%:%port%"
+  Frontend_server_stop: "&c前端服务器已停止"
+  Frontend_server_start_failed: "&c前端服务器启动失败: &e%error%"
+  Frontend_server_resource_save_failed: "&c前端服务器静态文件: &e%resourcePath% &c,保存失败: &e%error%"
+  Frontend_server_resource_scan_failed: "&c前端服务器静态文件扫描提取失败: &e%error%"
+  Frontend_frontendRoot: "&e前端服务器静态文件根目录: &a%frontendRoot%"
+  Backend_API_server_start: "&a后端 API 服务器已启动，监听于: &e%host%:%port%/%router%"
+  Backend_API_server_stop: "&c后端 API 服务器已停止"
+  Backend_API_server_start_failed: "&c后端 API 服务器启动失败: &e%error%"
