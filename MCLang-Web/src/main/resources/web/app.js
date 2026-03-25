@@ -1,4 +1,47 @@
+// --- i18n Logic ---
+let currentLang = localStorage.getItem('mclang_lang') || 'zh-TW';
+let translations = {};
+
+async function loadLanguage(lang) {
+  try {
+    const response = await fetch(`lang/${lang}.json`);
+    if (!response.ok) throw new Error('Language file not found');
+    translations = await response.json();
+    currentLang = lang;
+    localStorage.setItem('mclang_lang', lang);
+    applyTranslations();
+  } catch (err) {
+    console.error('Failed to load language', err);
+  }
+}
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[key]) {
+      el.innerHTML = translations[key];
+    }
+  });
+
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (translations[key]) {
+      el.placeholder = translations[key];
+    }
+  });
+}
+
+window.t = function(key, fallback = '') {
+  return translations[key] || fallback;
+};
+
 document.addEventListener('DOMContentLoaded', () => {
+  const langSelector = document.getElementById('lang-selector');
+  if (langSelector) {
+    langSelector.value = currentLang;
+    langSelector.addEventListener('change', (e) => loadLanguage(e.target.value));
+  }
+  loadLanguage(currentLang);
   // 1. Navigation Logic
   const navLinks = document.querySelectorAll('.nav-link');
   const sections = document.querySelectorAll('main > section');
@@ -68,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sessionStorage.removeItem('mclang_api_key');
       setAuthBadge(false);
     }
-    showToast('✅ 設定已成功保存至瀏覽器！', '#10b981');
+    showToast(window.t('toast.save', '✅ 設定已成功保存至瀏覽器！'), '#10b981');
   });
 
   btnClearKey.addEventListener('click', () => {
@@ -76,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.removeItem('mclang_api_url');
     apiKeyInput.value = '';
     apiUrlInput.value = getDefaultUrl();
-    showToast('🗑️ 快取設定已清除', '#94a3b8');
+    showToast(window.t('toast.clear', '🗑️ 快取設定已清除'), '#94a3b8');
     setAuthBadge(false);
   });
 
@@ -89,11 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function setAuthBadge(isAuth) {
     if (isAuth) {
-      authStatus.textContent = 'Authorized';
+      authStatus.textContent = window.t('status.auth', 'Authorized');
+      authStatus.setAttribute("data-i18n", "status.auth");
       authStatus.classList.remove('unauthorized');
       authStatus.classList.add('authorized');
     } else {
-      authStatus.textContent = 'Unauthenticated';
+      authStatus.textContent = window.t('status.unauth', 'Unauthenticated');
+      authStatus.setAttribute("data-i18n", "status.unauth");
       authStatus.classList.remove('authorized');
       authStatus.classList.add('unauthorized');
     }
@@ -104,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchApi(url, method = 'GET') {
   const viewer = document.getElementById('api-response-viewer');
   const statusDisp = document.getElementById('response-status');
-  viewer.textContent = 'Loading...';
+  viewer.textContent = window.t('console.loading', 'Loading...');
   statusDisp.textContent = '';
 
   // Automatically attach token from SessionStorage
@@ -137,12 +182,12 @@ async function fetchApi(url, method = 'GET') {
 
     // Handle 401 specifically
     if (status === 401) {
-      alert("⚠️ 存取被拒絕 (401 Unauthorized)。請檢查您的 API Key 是否正確。");
+      alert(window.t('alert.unauth', "⚠️ 存取被拒絕 (401 Unauthorized)。請檢查您的 API Key 是否正確。"));
       document.querySelector('.nav-link[data-target="section-auth"]').click();
     }
 
   } catch (err) {
-    viewer.textContent = 'Network Error: ' + err.message;
+    viewer.textContent = window.t('console.error', 'Network Error: ') + err.message;
     statusDisp.textContent = 'ERROR';
     statusDisp.className = 'status-code error';
   }
@@ -199,7 +244,7 @@ window.testTranslate = function () {
   const key = document.getElementById('t-key').value;
 
   if (!key) {
-    alert("請輸入需翻譯的 key！");
+    alert(window.t('alert.nokey', "請輸入需翻譯的 key！"));
     return;
   }
 

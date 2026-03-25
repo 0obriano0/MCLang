@@ -36,6 +36,7 @@ Web:
   Frontend_server_stop: "&c前端伺服器已停止"
   Frontend_server_start_failed: "&c前端伺服器啟動失敗: &e%error%"
   Frontend_server_resource_save_failed: "&c前端伺服器靜態文件: &e%resourcePath% &c,保存失敗: &e%error%"
+  Frontend_server_resource_scan_failed: "&c前端伺服器靜態文件掃描提取失敗: &e%error%"
   Frontend_frontendRoot: "&e前端伺服器靜態文件根目錄: &a%frontendRoot%"
   Backend_API_server_start: "&a後端 API 伺服器已啟動，監聽於: &e%host%:%port%/%router%"
   Backend_API_server_stop: "&c後端 API 伺服器已停止"

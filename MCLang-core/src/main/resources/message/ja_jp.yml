@@ -36,6 +36,7 @@ Web:
   Frontend_server_stop: "&cフロントエンドサーバーが停止しました"
   Frontend_server_start_failed: "&cフロントエンドサーバーの起動に失敗しました: &e%error%"
   Frontend_server_resource_save_failed: "&cフロントエンドサーバーの静的ファイル: &e%resourcePath% &cの保存に失敗しました: &e%error%"
+  Frontend_server_resource_scan_failed: "&cフロントエンドサーバーの静的ファイルスキャン抽出に失敗しました: &e%error%"
   Frontend_frontendRoot: "&eフロントエンドサーバーの静的ファイルルート: &a%frontendRoot%"
   Backend_API_server_start: "&aバックエンドAPIサーバーが起動しました、&e%host%:%port%/%router% &aで待機しています"
   Backend_API_server_stop: "&cバックエンドAPIサーバーが停止しました"

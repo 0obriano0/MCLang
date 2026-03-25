@@ -150,9 +150,23 @@ public class WebMain extends WebMainBase {
   }
 
   private void ensureDefaultFrontendFiles() {
-    trySaveFrontendResource("web/index.html");
-    trySaveFrontendResource("web/style.css");
-    trySaveFrontendResource("web/app.js");
+    try {
+      java.net.URL jarUrl = Main.class.getProtectionDomain().getCodeSource().getLocation();
+      try (java.util.zip.ZipInputStream zip = new java.util.zip.ZipInputStream(jarUrl.openStream())) {
+        java.util.zip.ZipEntry entry;
+        while ((entry = zip.getNextEntry()) != null) {
+          String name = entry.getName();
+          if (name.startsWith("web/") && !entry.isDirectory()) {
+            trySaveFrontendResource(name);
+          }
+        }
+      }
+    } catch (Exception e) {
+      if (DataBase.getDebug()) {
+        printCmd(DataBase.fileMessage.getString("Web.Frontend_server_resource_scan_failed")
+            .replace("%error%", e.getMessage()));
+      }
+    }
   }
 
   private void trySaveFrontendResource(String resourcePath) {
