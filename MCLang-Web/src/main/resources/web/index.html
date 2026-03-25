@@ -20,21 +20,25 @@
     <!-- Sidebar -->
     <aside class="sidebar glass-panel">
       <div class="logo-area">
-        <div class="logo-icon">M</div>
+        <img src="img/LEGO.png" alt="MCLang Logo" class="logo-icon">
         <h2 data-i18n="sidebar.title">MCLang API</h2>
         <div id="auth-status" class="status-badge unauthorized" data-i18n="status.unauth">Unauthenticated</div>
       </div>
       <nav>
         <div class="lang-selector-container" style="padding: 0 1rem 1rem;">
-          <select id="lang-selector" style="width: 100%; padding: 0.5rem; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: white; cursor: pointer;">
+          <select id="lang-selector"
+            style="width: 100%; padding: 0.5rem; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); color: white; cursor: pointer;">
             <option value="zh-TW">繁體中文 (zh-TW)</option>
             <option value="en-US">English (en-US)</option>
             <option value="ja-JP">日本語 (ja-JP)</option>
           </select>
         </div>
-        <a href="#section-intro" class="nav-link active" data-target="section-intro" data-i18n="nav.intro">📚 簡介與使用指南</a>
+        <a href="#section-intro" class="nav-link active" data-target="section-intro" data-i18n="nav.intro">📚
+          簡介與使用指南</a>
         <a href="#section-auth" class="nav-link" data-target="section-auth" data-i18n="nav.auth">🔐 連線與認證設定</a>
-        <a href="#section-endpoints" class="nav-link" data-target="section-endpoints" data-i18n="nav.test">🚀 API 測試區</a>
+        <a href="#section-endpoints" class="nav-link" data-target="section-endpoints" data-i18n="nav.test">🚀 API
+          測試區</a>
+        <a href="#section-api" class="nav-link" data-target="section-api" data-i18n="nav.api">📦 開發者 API 指南</a>
       </nav>
     </aside>
 
@@ -57,7 +61,8 @@
           <div class="card">
             <div class="card-icon">📄</div>
             <h4 data-i18n="card2.title">2. 查閱 API 支援</h4>
-            <p data-i18n="card2.desc">API 提供 <strong>語言清單查詢</strong> 與 <strong>單字翻譯解析</strong> 功能。支援多版本 Minecraft 官方翻譯語言包。</p>
+            <p data-i18n="card2.desc">API 提供 <strong>語言清單查詢</strong> 與 <strong>單字翻譯解析</strong> 功能。支援多版本 Minecraft
+              官方翻譯語言包。</p>
           </div>
           <div class="card">
             <div class="card-icon">🧪</div>
@@ -79,7 +84,8 @@
           </div>
           <div class="form-group">
             <label for="api-key-input" data-i18n="auth.key.label">請輸入 API Key (Bearer Token):</label>
-            <input type="password" id="api-key-input" data-i18n-placeholder="auth.key.placeholder" placeholder="Secret Key...">
+            <input type="password" id="api-key-input" data-i18n-placeholder="auth.key.placeholder"
+              placeholder="Secret Key...">
           </div>
           <div class="button-group">
             <button id="btn-save-key" class="primary-btn" data-i18n="btn.save">儲存設定</button>
@@ -104,7 +110,8 @@
             </div>
             <div class="endpoint-body">
               <p data-i18n="ep1.desc">取得目前伺服器支援的所有語言與版本清單。</p>
-              <button class="test-btn" onclick="testApi('/api/languages', 'GET')" data-i18n="btn.execute">執行測試 (Execute)</button>
+              <button class="test-btn" onclick="testApi('/api/languages', 'GET')" data-i18n="btn.execute">執行測試
+                (Execute)</button>
             </div>
           </div>
 
@@ -119,7 +126,8 @@
               <div class="input-row">
                 <div class="input-group">
                   <label data-i18n="ep2.lang">lang</label>
-                  <input type="text" id="param-lang" data-i18n-placeholder="ep2.lang.placeholder" placeholder="例: zh_tw" value="zh_tw">
+                  <input type="text" id="param-lang" data-i18n-placeholder="ep2.lang.placeholder" placeholder="例: zh_tw"
+                    value="zh_tw">
                 </div>
                 <div class="input-group">
                   <label data-i18n="ep2.version">version (可空白)</label>
@@ -145,12 +153,13 @@
               <div class="input-row">
                 <div class="input-group">
                   <label data-i18n="ep2.lang">lang</label>
-                  <input type="text" id="t-lang" data-i18n-placeholder="ep2.lang.placeholder" placeholder="例: zh_tw" value="zh_tw">
+                  <input type="text" id="t-lang" data-i18n-placeholder="ep2.lang.placeholder" placeholder="例: zh_tw"
+                    value="zh_tw">
                 </div>
                 <div class="input-group">
                   <label data-i18n="ep3.key">key</label>
-                  <input type="text" id="t-key" data-i18n-placeholder="ep3.key.placeholder" placeholder="例: item.minecraft.diamond_sword"
-                    value="item.minecraft.diamond_sword">
+                  <input type="text" id="t-key" data-i18n-placeholder="ep3.key.placeholder"
+                    placeholder="例: item.minecraft.diamond_sword" value="item.minecraft.diamond_sword">
                 </div>
               </div>
               <button class="test-btn" onclick="testTranslate()" data-i18n="btn.execute">執行測試 (Execute)</button>
@@ -165,6 +174,60 @@
             <span id="response-status" class="status-code"></span>
           </div>
           <pre><code id="api-response-viewer" data-i18n="console.default">// 點擊「執行測試」來查看 API 回傳的結果...</code></pre>
+        </div>
+      </section>
+
+      <section id="section-api" class="glass-panel hidden">
+        <div class="header-box">
+          <h2 data-i18n="api.title">開發者 Java API 指南</h2>
+          <p data-i18n="api.desc">如何在您的 Bukkit 插件中作為依賴項使用 MCLang，並透過 API 獲取翻譯。</p>
+        </div>
+
+        <h3 data-i18n="api.maven.title" style="margin-bottom: 1rem;">1. 匯入依賴</h3>
+        <p data-i18n="api.maven.desc" style="color: var(--text-secondary); margin-bottom: 0.5rem;">將 MCLang-API 加入至您專案的
+          pom.xml 中。</p>
+        <div class="console-output" style="margin-top: 0; margin-bottom: 2rem;">
+          <pre><code style="background: transparent;">&lt;repositories&gt;
+  &lt;repository&gt;
+    &lt;id&gt;maven&lt;/id&gt;
+    &lt;url&gt;https://repo1.maven.org/maven2/&lt;/url&gt;
+  &lt;/repository&gt;
+&lt;/repositories&gt;
+
+&lt;dependency&gt;
+  &lt;groupId&gt;org.tsob&lt;/groupId&gt;
+  &lt;artifactId&gt;MCLang-API&lt;/artifactId&gt;
+  &lt;version&gt;1.1.4&lt;/version&gt;
+  &lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;</code></pre>
+        </div>
+
+        <h3 data-i18n="api.code.title" style="margin-bottom: 1rem;">2. 程式碼範例</h3>
+        <p data-i18n="api.code.desc" style="color: var(--text-secondary); margin-bottom: 0.5rem;">使用 MCLang
+          類別來實例化不同的語言，並取得物品、實體的在地化翻譯。</p>
+        <div class="console-output" style="margin-top: 0;">
+          <pre><code style="background: transparent;">import org.tsob.MCLang.API.MCLang;
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+
+public class ExamplePlugin extends JavaPlugin {
+  @Override
+  public void onEnable() {
+    <span data-i18n="api.code.comment1">// 實例化英文語言包 (Instantiate English language pack)</span>
+    MCLang lang = new MCLang("en");
+
+    <span data-i18n="api.code.comment2">// 取得物品的翻譯 (Get translation for an ItemStack)</span>
+    ItemStack item = new ItemStack(Material.DIAMOND_SWORD);
+    String itemTranslation = lang.getItemTranslate(item); <span data-i18n="api.code.comment2_1">// Returns "Diamond Sword"</span>
+
+    <span data-i18n="api.code.comment3">// 取得實體的翻譯 (Get translation for an EntityType)</span>
+    String entityTranslation = lang.getEntityTranslate(EntityType.CREEPER); <span data-i18n="api.code.comment3_1">// Returns "Creeper"</span>
+
+    <span data-i18n="api.code.comment4">// 取得直接字串鍵值的翻譯 (Read specific translation key)</span>
+    String translation = lang.getString("item.minecraft.diamond_sword");
+  }
+}</code></pre>
         </div>
       </section>
     </main>

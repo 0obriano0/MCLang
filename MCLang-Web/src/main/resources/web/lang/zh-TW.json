@@ -40,5 +40,18 @@
   "alert.unauth": "⚠️ 存取被拒絕 (401 Unauthorized)。請檢查您的 API Key 是否正確。",
   "alert.nokey": "請輸入需翻譯的 key！",
   "toast.save": "✅ 設定已成功保存至瀏覽器！",
-  "toast.clear": "🗑️ 快取設定已清除"
+  "toast.clear": "🗑️ 快取設定已清除",
+  "nav.api": "📦 開發者 API 指南",
+  "api.title": "開發者 Java API 指南",
+  "api.desc": "如何在您的 Bukkit 插件中作為依賴項使用 MCLang，並透過 API 獲取在地化翻譯。",
+  "api.maven.title": "1. 匯入專案依賴",
+  "api.maven.desc": "將 MCLang-API 加入至您專案的 pom.xml 或是 build.gradle 中。",
+  "api.code.title": "2. 程式碼範例",
+  "api.code.desc": "使用 MCLang 類別來實例化不同的語言，並取得物品、實體的在地化翻譯字串。",
+  "api.code.comment1": "// 實例化英文語言包",
+  "api.code.comment2": "// 取得物品的翻譯",
+  "api.code.comment2_1": "// 回傳 \"鑽石劍\"",
+  "api.code.comment3": "// 取得實體的翻譯",
+  "api.code.comment3_1": "// 回傳 \"苦力怕\"",
+  "api.code.comment4": "// 取得直接字串鍵值的翻譯"
 }

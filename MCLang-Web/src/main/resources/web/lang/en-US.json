@@ -40,5 +40,18 @@
   "alert.unauth": "⚠️ Access Denied (401 Unauthorized). Please check if your API Key is correct.",
   "alert.nokey": "Please enter a translation key!",
   "toast.save": "✅ Settings successfully saved to browser!",
-  "toast.clear": "🗑️ Cache settings cleared"
+  "toast.clear": "🗑️ Cache settings cleared",
+  "nav.api": "📦 Developer API Guide",
+  "api.title": "Developer Java API Guide",
+  "api.desc": "How to use MCLang as a dependency in your Bukkit plugin and fetch localized translations via the API.",
+  "api.maven.title": "1. Import Dependency",
+  "api.maven.desc": "Add MCLang-API to your project's pom.xml or build.gradle.",
+  "api.code.title": "2. Code Example",
+  "api.code.desc": "Use the MCLang class to instantiate different languages and retrieve localized translation strings for items, entities, or enchantments.",
+  "api.code.comment1": "// Instantiate English language pack",
+  "api.code.comment2": "// Get translation for an ItemStack",
+  "api.code.comment2_1": "// Returns \"Diamond Sword\"",
+  "api.code.comment3": "// Get translation for an EntityType",
+  "api.code.comment3_1": "// Returns \"Creeper\"",
+  "api.code.comment4": "// Read specific translation key"
 }
