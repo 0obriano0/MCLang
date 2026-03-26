@@ -8,6 +8,7 @@ Command:
   PlayerCanNotUse: "&cこのコマンドは使用できません"
   NoPermission: "&cこのコマンドを使用する権限がありません"
   CanNotFind: "&cコマンドが見つかりません"
+  NoRegister: "&c %command% が正常に登録されていません、プラグイン作者に通知してください"
   Help:
     reload: "/mclang reload データを再読み込みします"
     path: "/mclang path <path> アイテムの翻訳を取得します"
@@ -41,3 +42,7 @@ Web:
   Backend_API_server_start: "&aバックエンドAPIサーバーが起動しました、&e%host%:%port%/%router% &aで待機しています"
   Backend_API_server_stop: "&cバックエンドAPIサーバーが停止しました"
   Backend_API_server_start_failed: "&cバックエンドAPIサーバーの起動に失敗しました: &e%error%"
+
+Update:
+  Available: "&bMCLang &fの新しいバージョンが利用可能です: &a%version%&f。SpigotMCで更新してください！"
+  Console: "&bMCLang &eの新しいバージョンが利用可能です: &a%version%&e。SpigotMCで更新してください！"

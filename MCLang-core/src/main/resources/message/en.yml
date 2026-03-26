@@ -8,6 +8,7 @@ Command:
   PlayerCanNotUse: "&cYou can't use this command"
   NoPermission: "&cYou don't have this permission"
   CanNotFind: "&cUnknown Command"
+  NoRegister: "&c %command% not registered successfully, please notify the plugin author"
   Help:
     reload: "/mclang reload Re-read Data"
     path: "/mclang path <path> Get item translation"
@@ -41,3 +42,7 @@ Web:
   Backend_API_server_start: "&aBackend API server started, listening at: &e%host%:%port%/%router%"
   Backend_API_server_stop: "&cBackend API server stopped"
   Backend_API_server_start_failed: "&cBackend API server start failed: &e%error%"
+
+Update:
+  Available: "&fA new version of &bMCLang &fis available: &a%version%&f. Please update on SpigotMC!"
+  Console: "&eA new version of &bMCLang &eis available: &a%version%&e. Please update on SpigotMC!"

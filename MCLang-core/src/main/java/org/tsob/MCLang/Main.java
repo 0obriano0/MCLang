@@ -97,7 +97,7 @@ public class Main extends JavaPlugin {
       // 顯示 help 指令
       ImainCommandSystem cmd = RegistryCommandSystem.getCommand("help");
       if (cmd == null) {
-        sender.sendMessage("§cHelp 指令未註冊！");
+        sender.sendMessage(DataBase.fileMessage.getString("Command.NoRegister").replace("%command%", commandLabel));
         return false;
       }
       if (!cmd.hasPermission(sender)) {

@@ -32,16 +32,26 @@ public class UpdateChecker {
 
   public void start() {
     SchedulerFactory.get().runAsyncRepeating(plugin, this::checkForUpdate, 0L, 432000L);
+
+    // 註冊玩家加入事件
     Bukkit.getPluginManager().registerEvents(new Listener() {
       @EventHandler
       public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (player.hasPermission("mclang.admin.update.notify") && latestVersion != null && isUpdateAvailable()) {
-          SchedulerFactory.get().runEntityTask(plugin, player, () ->
-            player.sendMessage("§fA new version of §bMCLang §fis available: §a" + latestVersion + "§f. Please update on SpigotMC!"));
+          SchedulerFactory.get().runEntityTask(plugin, player, () -> player
+              .sendMessage(DataBase.fileMessage.getString("Update.Available").replace("%version%", latestVersion)));
         }
       }
     }, plugin);
+
+    // 註冊 當伺服器完成所有世界載入並準備好接受玩家連線時觸發
+    // Bukkit.getPluginManager().registerEvents(new Listener() {
+    //   @EventHandler
+    //   public void onServerLoad(ServerLoadEvent event) {
+    //     checkForUpdate();
+    //   }
+    // }, plugin);
   }
 
   private void checkForUpdate() {
@@ -54,12 +64,12 @@ public class UpdateChecker {
           .build();
 
       HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-      
+
       String responseBody = response.body();
 
       JsonNode json = objectMapper.readTree(responseBody);
       latestVersion = json.get("name").asText();
-      
+
       if (isUpdateAvailable()) {
         notifyAdmins();
       }
@@ -70,7 +80,8 @@ public class UpdateChecker {
 
   private boolean isUpdateAvailable() {
     String currentVersion = plugin.getDescription().getVersion();
-    if (latestVersion == null || currentVersion == null) return false;
+    if (latestVersion == null || currentVersion == null)
+      return false;
     // Compare version numbers (assume format: x[.y[.z]])
     String[] currentParts = currentVersion.split("\\.");
     String[] latestParts = latestVersion.split("\\.");
@@ -78,8 +89,10 @@ public class UpdateChecker {
     for (int i = 0; i < length; i++) {
       int current = i < currentParts.length ? parseIntSafe(currentParts[i]) : 0;
       int latest = i < latestParts.length ? parseIntSafe(latestParts[i]) : 0;
-      if (current < latest) return true;
-      if (current > latest) return false;
+      if (current < latest)
+        return true;
+      if (current > latest)
+        return false;
     }
     return false;
   }
@@ -95,12 +108,12 @@ public class UpdateChecker {
   private void notifyAdmins() {
     for (Player player : Bukkit.getOnlinePlayers()) {
       if (player.hasPermission("mclang.admin.update.notify")) {
-        SchedulerFactory.get().runEntityTask(plugin, player, () ->
-          player.sendMessage("§fA new version of §bMCLang §fis available: §a" + latestVersion + "§f. Please update on SpigotMC!"));
+        SchedulerFactory.get().runEntityTask(plugin, player, () -> player
+            .sendMessage(DataBase.fileMessage.getString("Update.Available").replace("%version%", latestVersion)));
       }
     }
 
     // Also notify in the console
-    DataBase.Print("§eA new version of §bMCLang §eis available: §a" + latestVersion + "§e. Please update on SpigotMC!");
+    DataBase.Print(DataBase.fileMessage.getString("Update.Console").replace("%version%", latestVersion));
   }
 }

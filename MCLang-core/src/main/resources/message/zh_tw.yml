@@ -8,6 +8,7 @@ Command:
   PlayerCanNotUse: "&c無法使用此指令"
   NoPermission: "&c無使用此指令的權限"
   CanNotFind: "&c查無此指令"
+  NoRegister: "&c %command% 沒有註冊成功, 請通知插件作者"
   Help:
     reload: "/mclang reload 重新讀取資料"
     path: "/mclang path <path> 取得物品的翻譯"
@@ -41,3 +42,7 @@ Web:
   Backend_API_server_start: "&a後端 API 伺服器已啟動，監聽於: &e%host%:%port%/%router%"
   Backend_API_server_stop: "&c後端 API 伺服器已停止"
   Backend_API_server_start_failed: "&c後端 API 伺服器啟動失敗: &e%error%"
+
+Update:
+  Available: "&f發現 &bMCLang &f新版本: &a%version%&f。請至 SpigotMC 更新！"
+  Console: "&e發現 &bMCLang &e新版本: &a%version%&e。請至 SpigotMC 更新！"
