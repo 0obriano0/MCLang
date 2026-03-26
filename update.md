@@ -1,3 +1,5 @@
+## 1.2.2
+
 ## 1.2.1
 * Fixed the logic for checking updates on server startup.
 * Fixed the logic for checking updates on player join.
