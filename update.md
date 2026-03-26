@@ -1,3 +1,6 @@
+## 1.2.1
+
+
 ## 1.2.0
 * Refactor command system and introduce API module
 * Removed ToolCommandSystem and replaced it with RegistryCommandSystem for better command management.

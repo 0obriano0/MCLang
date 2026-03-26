@@ -11,7 +11,7 @@
 
 Lightweight API to load and use official Minecraft language pack translations.
 
-*Tested Minecraft versions: 1.13, 1.14, 1.15, 1.16, 1.17, 1.18, 1.19, 1.20, 1.21*
+*Tested Minecraft versions: 1.13, 1.14, 1.15, 1.16, 1.17, 1.18, 1.19, 1.20, 1.21, 26.1
 *Folia 1.19.4+ support (version 1.1.3 add)
 
 ## Features
@@ -24,7 +24,7 @@ Lightweight API to load and use official Minecraft language pack translations.
 
 ## Docs [JDOC](https://0obriano0.github.io/MCLang/)
 
-## Web API & Frontend Portal
+## Web API & Frontend Portal (version 1.2.0 add)
 MCLang includes a built-in modern Web API and an interactive frontend portal, making it easy to query translations programmatically or test them directly via your browser.
 
 Enable and configure in `plugins/MCLang/config.yml`:
@@ -79,7 +79,7 @@ repositories {
 
 dependencies {
   // Please check the latest version
-  compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.1.3'
+  compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.2.0'
 }
 ```
 
@@ -95,7 +95,7 @@ dependencies {
 <dependency>
   <groupId>org.tsob</groupId>
   <artifactId>MCLang-API</artifactId>
-  <version>1.1.3</version>
+  <version>1.2.0</version>
   <scope>provided</scope>
 </dependency>
 ```
