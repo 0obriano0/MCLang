@@ -80,7 +80,7 @@ repositories {
 
 dependencies {
   // Please check the latest version
-  compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.2.0'
+  compileOnly group: 'org.tsob', name: 'MCLang-API', version: '1.2.1'
 }
 ```
 
@@ -96,7 +96,7 @@ dependencies {
 <dependency>
   <groupId>org.tsob</groupId>
   <artifactId>MCLang-API</artifactId>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
   <scope>provided</scope>
 </dependency>
 ```
