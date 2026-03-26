@@ -11,6 +11,7 @@
 * Added SSL (HTTPS) support and API Key authentication (Bearer token) for the Web API.
 * Added a fully responsive, multi-language (i18n) interactive Web Testing Portal (`zh-TW`, `en-US`, `ja-JP`).
 * Added dynamic runtime extraction of frontend static assets (`HTML/CSS/JS/JSON`) to the `plugins/MCLang/web` directory.
+* Added minecraft 26.1 support.
 
 ## 1.1.3
 * Declared Jackson Databind dependency in plugin.yml instead of shading.

@@ -48,7 +48,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
    * @param langFromConfig 語言設定，抓不到自動用 en_us
    */
   public JsonFileIOMinecraftLang(String langFromConfig) {
-    super(getVersionPath(getMinecraftVersion()),ini_getLangFileName(langFromConfig));
+    super(getVersionPath(getMinecraftVersion()), ini_getLangFileName(langFromConfig));
     this.lang = resolveLang(langFromConfig); // 設定語言
     reloadNode();
   }
@@ -58,9 +58,9 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     String lang = "";
     if (langFromConfig == null || langFromConfig.isEmpty())
       lang = "en_us"; // 預設語言
-    else 
+    else
       lang = langFromConfig.toLowerCase(); // 確保語言是小寫
-      
+
     if (lang == null || lang.isEmpty())
       lang = "en_us"; // 預設語言
     if (lang.equals("en"))
@@ -70,16 +70,22 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
 
   /**
    * 取得 Minecraft 版本號（主.次.修）
+   * 1.21.X 是最後了
+   * 之後都是 26.X 開始 編碼意義是 年度.版本
    */
   private static String getMinecraftVersion() {
     String bukkitVer = Bukkit.getBukkitVersion(); // 例如 1.21.5-R0.1-SNAPSHOT
     if (bukkitVer == null || bukkitVer.isEmpty())
       return "unknown";
     String[] arr = bukkitVer.split("-")[0].split("\\.");
-    if (arr.length >= 3)
-      return arr[0] + "." + arr[1] + "." + arr[2];
-    if (arr.length == 2)
-      return arr[0] + "." + arr[1] + ".0";
+    if (arr[0].equals("1")) {
+      if (arr.length >= 3)
+        return arr[0] + "." + arr[1] + "." + arr[2];
+      if (arr.length == 2)
+        return arr[0] + "." + arr[1] + ".0";
+    } else {
+      return arr[0] + "." + arr[1];
+    }
     return bukkitVer.split("-")[0];
   }
 
@@ -115,8 +121,8 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
 
     String path = String.format("mc_lang/%s", version);
     printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.SetVersionPath")
-      .replace("%version%", version)
-      .replace("%versionPath%", path)); // 顯示版本路徑訊息
+        .replace("%version%", version)
+        .replace("%versionPath%", path)); // 顯示版本路徑訊息
     return path;
   }
 
@@ -139,7 +145,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     }
 
     printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.SetLang")
-      .replace("%lang%", this.lang)); // 顯示設定語言訊息
+        .replace("%lang%", this.lang)); // 顯示設定語言訊息
   }
 
   private String getLangFileName(String _lang) {
@@ -156,8 +162,8 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
 
     String fileName = String.format("%s.json", this.lang);
     printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.GetLangFileName")
-      .replace("%lang%", this.lang)
-      .replace("%fileName%", fileName)); // 顯示設定檔案名稱訊息
+        .replace("%lang%", this.lang)
+        .replace("%fileName%", fileName)); // 顯示設定檔案名稱訊息
     return fileName;
   }
 
@@ -226,8 +232,8 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     }
 
     printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Load_LangItems")
-      .replace("%lang%", this.lang)
-      .replace("%count%", String.valueOf(count))); // 顯示重新載入節點訊息
+        .replace("%lang%", this.lang)
+        .replace("%count%", String.valueOf(count))); // 顯示重新載入節點訊息
   }
 
   /**
@@ -242,8 +248,8 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
   @Override
   protected void createFile(String fullUrl) {
     if (downloading) {
-        // Already downloading, do not start another download
-        return;
+      // Already downloading, do not start another download
+      return;
     }
     downloading = true;
     // 先檢查 jar 內是否有資源
@@ -261,9 +267,9 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
 
     // 2. jar 內沒有，從網路下載前，先 fallback default.json
     printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Error_LangNotFound")
-      .replace("%fileName%", this.getFileName()));
+        .replace("%fileName%", this.getFileName()));
     printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_TryToDownload")
-      .replace("%fileName%", this.getFileName()));
+        .replace("%fileName%", this.getFileName()));
 
     try {
       File dataFolder = Main.plugin.getDataFolder();
@@ -272,7 +278,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
         this.defaultData = objectMapper.readTree(defaultPath.toFile());
         this.usingDefaultData = true;
         printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Temp_UseDefaultJson")
-          .replace("%fileName%", this.getFileName()));
+            .replace("%fileName%", this.getFileName()));
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -286,17 +292,17 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
           this.reloadFile();
           this.usingDefaultData = false;
           printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadSuccess_Reload")
-            .replace("%fileName%", this.getFileName()));
+              .replace("%fileName%", this.getFileName()));
           downloading = false;
         });
       } catch (ConnectException e) {
         printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadFail")
-          .replace("%fileName%", this.getFileName()));
+            .replace("%fileName%", this.getFileName()));
         downloading = false;
       } catch (Exception e) {
         e.printStackTrace();
         printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadFail")
-          .replace("%fileName%", this.getFileName()));
+            .replace("%fileName%", this.getFileName()));
         downloading = false;
       }
     });
@@ -334,9 +340,10 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
       throw new RuntimeException("找不到對應版本 manifest: " + version);
     }
     // 下載 client manifest
-    resp = client.send(HttpRequest.newBuilder().uri(URI.create(clientManifestUrl)).build(), HttpResponse.BodyHandlers.ofString());
+    resp = client.send(HttpRequest.newBuilder().uri(URI.create(clientManifestUrl)).build(),
+        HttpResponse.BodyHandlers.ofString());
     JsonNode clientManifest = mapper.readTree(resp.body());
-    
+
     if (this.lang.equals("en_us")) {
       // 下載 client.jar，準備解壓 en_us.json
       String clientJarUrl = clientManifest.get("downloads").get("client").get("url").asText();
@@ -347,7 +354,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
       if (!sha1(clientJarPath).equalsIgnoreCase(clientSha1)) {
         Files.deleteIfExists(clientJarPath);
         throw new RuntimeException("client.jar SHA1 mismatch!" + version);
-      } 
+      }
 
       // 從 client.jar 解壓 en_us.json 語言檔
       try (ZipFile zip = new ZipFile(clientJarPath.toFile())) {
@@ -366,12 +373,14 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     } else {
       // 下載 asset index
       String assetIndexUrl = clientManifest.get("assetIndex").get("url").asText();
-      resp = client.send(HttpRequest.newBuilder().uri(URI.create(assetIndexUrl)).build(), HttpResponse.BodyHandlers.ofString());
+      resp = client.send(HttpRequest.newBuilder().uri(URI.create(assetIndexUrl)).build(),
+          HttpResponse.BodyHandlers.ofString());
       JsonNode assetIndex = mapper.readTree(resp.body()).get("objects");
 
       // 查找語言檔 hash
       String key = "minecraft/lang/" + this.lang + ".json";
-      if (!assetIndex.has(key)) throw new RuntimeException("找不到語言檔: " + key);
+      if (!assetIndex.has(key))
+        throw new RuntimeException("找不到語言檔: " + key);
       String hash = assetIndex.get(key).get("hash").asText();
       String url = "https://resources.download.minecraft.net/" + hash.substring(0, 2) + "/" + hash;
       // 下載到 plugins/MCLang/mc_lang/{version}/{lang}.json
@@ -388,7 +397,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     }
 
     printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadSuccess")
-      .replace("%fileName%", this.getFileName())); // 顯示下載成功訊息
+        .replace("%fileName%", this.getFileName())); // 顯示下載成功訊息
   }
 
   // 下載檔案到指定路徑
@@ -420,10 +429,10 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
             double mbTotal = contentLength / 1024.0 / 1024.0;
             // DataBase.Print("下載進度：" + String.format("%.2f MB / %.2f MB (%.1f%%)", mbDone, mbTotal, percent));
             printCmd(DataBase.fileMessage.getString("LoadMinecraftLang.Internet_DownloadProgress")
-              .replace("%fileName%", out.getFileName().toString())
-              .replace("%done%", String.format("%.2f", mbDone))
-              .replace("%total%", String.format("%.2f", mbTotal))
-              .replace("%percent%", String.format("%.1f", percent)));
+                .replace("%fileName%", out.getFileName().toString())
+                .replace("%done%", String.format("%.2f", mbDone))
+                .replace("%total%", String.format("%.2f", mbTotal))
+                .replace("%percent%", String.format("%.1f", percent)));
             lastPrint = now;
           }
         }
@@ -448,27 +457,29 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
 
   private static void printCmd(String msg) {
     String title = AnsiColor.minecraftToAnsiColor(DataBase.fileMessage.getString("LoadMinecraftLang.Title"));
-    msg = title + AnsiColor.WHITE + AnsiColor.minecraftToAnsiColor(msg);;
+    msg = title + AnsiColor.WHITE + AnsiColor.minecraftToAnsiColor(msg);
     DataBase.Print(msg);
   }
 
   @Override
   protected void readFile() {
     if (downloading) {
-        // Already downloading, do not start another download
-        return;
+      // Already downloading, do not start another download
+      return;
     }
     File fileLoad;
     String fullUrl = super.getFileName();
     if (super.getUrl() == null || super.getUrl().isEmpty())
       fileLoad = new File(Main.plugin.getDataFolder(), super.getFileName());
     else {
-      fileLoad = new File("./" + Main.plugin.getDataFolder().toString() + "/" + super.getUrl() + "/" + super.getFileName());
+      fileLoad = new File(
+          "./" + Main.plugin.getDataFolder().toString() + "/" + super.getUrl() + "/" + super.getFileName());
       fullUrl = super.getUrl() + "\\" + super.getFileName();
     }
-    
-    if (!fileLoad.exists()) createFile(fullUrl);
-      
+
+    if (!fileLoad.exists())
+      createFile(fullUrl);
+
     try {
       data = objectMapper.readTree(fileLoad);
     } catch (IOException e) {
@@ -478,11 +489,10 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     }
   }
 
-
   // ★ Fallback: 下載期間所有 getString/getStringList 都讀 default.json
   @Override
   public String getString(String path) {
-    if(usingDefaultData && defaultData != null) {
+    if (usingDefaultData && defaultData != null) {
       JsonNode node = getNodeByPath(defaultData, path);
       return node != null && node.isTextual() ? node.asText() : null;
     }
@@ -491,7 +501,7 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
 
   @Override
   public List<String> getStringList(String path) {
-    if(usingDefaultData && defaultData != null) {
+    if (usingDefaultData && defaultData != null) {
       JsonNode node = getNodeByPath(defaultData, path);
       List<String> result = new ArrayList<>();
       if (node != null && node.isArray()) {
@@ -510,7 +520,8 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
     JsonNode node = root;
     for (String part : parts) {
       node = node.get(part);
-      if (node == null) break;
+      if (node == null)
+        break;
     }
     return node;
   }
