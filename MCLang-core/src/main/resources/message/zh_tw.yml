@@ -44,5 +44,7 @@ Web:
   Backend_API_server_start_failed: "&c後端 API 伺服器啟動失敗: &e%error%"
 
 Update:
+  Title: "&b[更新檢查] "
   Available: "&f發現 &bMCLang &f新版本: &a%version%&f。請至 SpigotMC 更新！"
   Console: "&e發現 &bMCLang &e新版本: &a%version%&e。請至 SpigotMC 更新！"
+  Error: "&c更新檢查失敗: &e%error%"

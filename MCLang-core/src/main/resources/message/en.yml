@@ -44,5 +44,7 @@ Web:
   Backend_API_server_start_failed: "&cBackend API server start failed: &e%error%"
 
 Update:
+  Title: "&b[UpdateChecker] "
   Available: "&fA new version of &bMCLang &fis available: &a%version%&f. Please update on SpigotMC!"
   Console: "&eA new version of &bMCLang &eis available: &a%version%&e. Please update on SpigotMC!"
+  Error: "&cUpdate check failed: &e%error%"

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.tsob.MCLang.Platform.SchedulerFactory;
 
@@ -15,6 +16,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+
+import org.tsob.MCLang.AnsiColor;
 
 public class UpdateChecker {
   private static final String API_URL = "https://api.spiget.org/v2/resources/125883/versions/latest";
@@ -46,12 +49,12 @@ public class UpdateChecker {
     }, plugin);
 
     // 註冊 當伺服器完成所有世界載入並準備好接受玩家連線時觸發
-    // Bukkit.getPluginManager().registerEvents(new Listener() {
-    //   @EventHandler
-    //   public void onServerLoad(ServerLoadEvent event) {
-    //     checkForUpdate();
-    //   }
-    // }, plugin);
+    Bukkit.getPluginManager().registerEvents(new Listener() {
+      @EventHandler
+      public void onServerLoad(ServerLoadEvent event) {
+        checkForUpdate();
+      }
+    }, plugin);
   }
 
   private void checkForUpdate() {
@@ -74,7 +77,7 @@ public class UpdateChecker {
         notifyAdmins();
       }
     } catch (Exception e) {
-      plugin.getLogger().warning("[UpdateChecker] Could not check for updates: " + e.getMessage());
+      printCmd(DataBase.fileMessage.getString("Update.Error").replace("%error%", e.getMessage()));
     }
   }
 
@@ -114,6 +117,12 @@ public class UpdateChecker {
     }
 
     // Also notify in the console
-    DataBase.Print(DataBase.fileMessage.getString("Update.Console").replace("%version%", latestVersion));
+    printCmd(DataBase.fileMessage.getString("Update.Console").replace("%version%", latestVersion));
+  }
+
+  private static void printCmd(String msg) {
+    String title = AnsiColor.minecraftToAnsiColor(DataBase.fileMessage.getString("Update.Title"));
+    msg = title + AnsiColor.WHITE + AnsiColor.minecraftToAnsiColor(msg);
+    DataBase.Print(msg);
   }
 }

@@ -17,76 +17,111 @@ import org.tsob.MCLang.DataBase.DataBase;
  * @author Brian
  *
  */
-public abstract class FileIO implements IFileIO{
-  
+public abstract class FileIO implements IFileIO {
+
   private transient String FileName;
   private transient String URL = null;
-  
+
   protected FileConfiguration data = null;
-  
-  public FileIO(@Nonnull String FileName){
+  protected FileConfiguration defaultData = null;
+
+  public FileIO(@Nonnull String FileName) {
     this.FileName = FileName;
   }
-  
-  public FileIO(String URL,@Nonnull String FileName){
+
+  public FileIO(String URL, @Nonnull String FileName) {
     this.FileName = FileName;
     this.URL = URL;
   }
-  
+
   @Override
   public String getFileName() {
     return FileName;
   }
-  
-  protected void setFileName(String FileName) throws NullPointerException, IllegalArgumentException{
+
+  protected void setFileName(String FileName) throws NullPointerException, IllegalArgumentException {
     this.FileName = FileName;
     readFile();
   }
-  
+
   @Override
   public String getPath() {
     String full_url = FileName;
-    
-    if(URL.equals(null))
+
+    if (URL.equals(null))
       full_url = "./" + Main.plugin.getDataFolder().toString().replace("\\", "/") + "/" + FileName;
     else
       full_url = "./" + Main.plugin.getDataFolder().toString().replace("\\", "/") + "/" + URL + "/" + FileName;
-    
+
     return full_url;
   }
-  
+
   @Override
   public FileConfiguration getFileforYML() {
-    if(data == null) reloadFile();
+    if (data == null)
+      reloadFile();
     return data;
   }
-  
+
+  public void setDefaultData(FileConfiguration defaultData) {
+    this.defaultData = defaultData;
+  }
+
+  public void save() {
+    if (data == null)
+      return;
+    try {
+      File file;
+      if (URL == null || URL.isEmpty()) {
+        file = new File(Main.plugin.getDataFolder(), FileName);
+      } else {
+        file = new File(Main.plugin.getDataFolder() + File.separator + URL, FileName);
+      }
+      data.save(file);
+    } catch (Exception e) {
+      printCmd("§cError: Could not save file: §e" + getPath());
+      e.printStackTrace();
+    }
+  }
+
   @Override
   public String getString(String path) {
     try {
       String getMsg = this.getFileforYML().getString(path);
       if (getMsg == null) {
-        printCmd("§cError: path not found: §e" + path + "§c in file: §e" + getPath() + "§c, You can delete this file, and the system will automatically generate a new one");
-        getMsg = path;
+        if (defaultData != null && defaultData.contains(path)) {
+          getMsg = defaultData.getString(path);
+          this.getFileforYML().set(path, getMsg);
+          save();
+          if (DataBase.getDebug()) {
+            printCmd("§aInfo: Automatically added missing key: §e" + path + "§a to file: §e" + getPath());
+          }
+          getMsg = getMsg.replaceAll("&", "§");
+        } else {
+          printCmd("§cError: path not found: §e" + path + "§c in file: §e" + getPath()
+              + "§c, You can delete this file, and the system will automatically generate a new one");
+          getMsg = path;
+        }
       } else {
         getMsg = getMsg.replaceAll("&", "§");
       }
       return getMsg;
-    }catch(NullPointerException e){
-      
+    } catch (NullPointerException e) {
+
       String full_url = FileName;
       try {
-        if(!URL.equals(null)) full_url = URL + "\\" + FileName;
-      }catch(NullPointerException ee) {
+        if (!URL.equals(null))
+          full_url = URL + "\\" + FileName;
+      } catch (NullPointerException ee) {
         return "system error [file load error \" " + FileName + " \"]";
       }
-      
+
       Main.plugin.saveResource(full_url, true);
-      
-      if(reloadFile())
+
+      if (reloadFile())
         try {
           return this.getFileforYML().getString(path).replaceAll("&", "§");
-        }catch(Exception ee){
+        } catch (Exception ee) {
           ee.printStackTrace();
           return "system error [file load error \" " + FileName + " \"]";
         }
@@ -94,36 +129,48 @@ public abstract class FileIO implements IFileIO{
         e.printStackTrace();
         return "system error [file load error \" " + FileName + " \"]";
       }
-      
+
     }
-    
+
   }
-  
-  private List<String> formateStringlist(List<String> data){
+
+  private List<String> formateStringlist(List<String> data) {
     List<String> finaldata = new ArrayList<String>();
-    if (data == null) return finaldata;
-    for(String Data : data) {
-      if (Data == null || Data.isEmpty()) continue;
+    if (data == null)
+      return finaldata;
+    for (String Data : data) {
+      if (Data == null || Data.isEmpty())
+        continue;
       finaldata.add(Data.replaceAll("&", "§"));
     }
     return finaldata;
   }
-  
+
   @Override
   public List<String> getStringList(String path) {
     try {
+      if (!this.getFileforYML().contains(path) && defaultData != null && defaultData.contains(path)) {
+        List<String> getMsg = defaultData.getStringList(path);
+        this.getFileforYML().set(path, getMsg);
+        save();
+        if (DataBase.getDebug()) {
+          printCmd("§aInfo: Automatically added missing key (List): §e" + path + "§a to file: §e" + getPath());
+        }
+        return formateStringlist(getMsg);
+      }
       return formateStringlist(this.getFileforYML().getStringList(path));
-    }catch(NullPointerException e){
+    } catch (NullPointerException e) {
       String full_url = FileName;
-      
-      if(!(URL == null || URL.isEmpty())) full_url = URL + "\\" + FileName;
-          
+
+      if (!(URL == null || URL.isEmpty()))
+        full_url = URL + "\\" + FileName;
+
       Main.plugin.saveResource(full_url, true);
-      
-      if(reloadFile())
+
+      if (reloadFile())
         try {
           return formateStringlist(this.getFileforYML().getStringList(path));
-        }catch(NullPointerException ee){
+        } catch (NullPointerException ee) {
           ee.printStackTrace();
           //Arrays.asList("system error [file load error \" " + FileName + " \"]","please tell admin")
           return new ArrayList<String>();
@@ -133,30 +180,32 @@ public abstract class FileIO implements IFileIO{
         //Arrays.asList("system error [file load error \" " + FileName + " \"]","please tell admin")
         return new ArrayList<String>();
       }
-      
+
     }
-    
+
   }
-  
+
   protected void readFile() throws NullPointerException, IllegalArgumentException {
     File File_load = null;
     String full_url = FileName;
-    
-    if(URL == null || URL.isEmpty())
+
+    if (URL == null || URL.isEmpty())
       File_load = new File(Main.plugin.getDataFolder(), FileName);
     else {
       File_load = new File("./" + Main.plugin.getDataFolder().toString() + "/" + URL + "/" + FileName);
       full_url = URL + "\\" + FileName;
     }
-    
-    if (!File_load.exists()) Main.plugin.saveResource(full_url, true);
+
+    if (!File_load.exists())
+      Main.plugin.saveResource(full_url, true);
     data = YamlConfiguration.loadConfiguration(File_load);
   }
-  
+
   @Override
-  public boolean reloadFile() throws NullPointerException, IllegalArgumentException{
+  public boolean reloadFile() throws NullPointerException, IllegalArgumentException {
     readFile();
-    if(!reloadcmd()) return false;
+    if (!reloadcmd())
+      return false;
     return true;
   }
 
@@ -164,7 +213,7 @@ public abstract class FileIO implements IFileIO{
   public boolean reloadcmd() {
     return true;
   }
-  
+
   private void printCmd(String msg) {
     String title = AnsiColor.minecraftToAnsiColor("§b[FileIO] ");
     msg = title + AnsiColor.WHITE + AnsiColor.minecraftToAnsiColor(msg);

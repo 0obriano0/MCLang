@@ -1,5 +1,9 @@
 ## 1.2.1
-
+* Fixed the logic for checking updates on server startup.
+* Fixed the logic for checking updates on player join.
+* Fixed the logic for checking updates on console.
+* Fixed the logic for checking updates on server load.
+* Added language pack consistency check: missing keys or paths from new versions are now automatically injected into existing configuration files.
 
 ## 1.2.0
 * Refactor command system and introduce API module
