@@ -48,3 +48,8 @@ Update:
   Available: "&fA new version of &bMCLang &fis available: &a%version%&f. Please update on SpigotMC!"
   Console: "&eA new version of &bMCLang &eis available: &a%version%&e. Please update on SpigotMC!"
   Error: "&cUpdate check failed: &e%error%"
+
+Compat:
+  Title: "&b[Compat] "
+  Success: "Loaded %compat_name% for %version%"
+  Error: "Failed to load %compat_name%: %error%"

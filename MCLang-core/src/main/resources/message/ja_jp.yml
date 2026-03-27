@@ -48,3 +48,8 @@ Update:
   Available: "&bMCLang &fの新しいバージョンが利用可能です: &a%version%&f。SpigotMCで更新してください！"
   Console: "&bMCLang &eの新しいバージョンが利用可能です: &a%version%&e。SpigotMCで更新してください！"
   Error: "&c更新チェックに失敗しました: &e%error%"
+
+Compat:
+  Title: "&b[互換性] "
+  Success: "%version% 用の %compat_name% を読み込みました"
+  Error: "%compat_name% の読み込みに失敗しました: %error%"

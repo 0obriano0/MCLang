@@ -48,3 +48,8 @@ Update:
   Available: "&f发现 &bMCLang &f新版本: &a%version%&f。请至 SpigotMC 更新！"
   Console: "&e发现 &bMCLang &e新版本: &a%version%&e。请至 SpigotMC 更新！"
   Error: "&c更新检查失败: &e%error%"
+
+Compat:
+  Title: "&b[兼容性] "
+  Success: "已为 %version% 加载 %compat_name%"
+  Error: "加载 %compat_name% 失败: %error%"
