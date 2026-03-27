@@ -1,7 +1,8 @@
 Message:
   Title: "&b[Minecraft 言語パック] "
-  Data_Re_read: "データを再読み込み中..."
-  Data_Re_read_Complete: "データの読み込みが完了しました"
+  Data_Re_read: "&eデータを再読み込み中..."
+  Data_Re_read_Complete: "&eデータの読み込みが完了しました"
+  Scheduler_Mode: "&eサーバーコアモード: &a%mode%"
 
 Command:
   CmdCanNotUse: "&cコンソールではこのコマンドは使用できません"
@@ -33,13 +34,13 @@ LoadMinecraftLang:
 
 Web:
   Title: "&b[Web] "
-  Frontend_server_start: "&aフロントエンドサーバーが起動しました、&e%host%:%port% &aで待機しています"
+  Frontend_server_start: "&eフロントエンドサーバーが起動しました、&a%host%:%port% &aで待機しています"
   Frontend_server_stop: "&cフロントエンドサーバーが停止しました"
   Frontend_server_start_failed: "&cフロントエンドサーバーの起動に失敗しました: &e%error%"
   Frontend_server_resource_save_failed: "&cフロントエンドサーバーの静的ファイル: &e%resourcePath% &cの保存に失敗しました: &e%error%"
   Frontend_server_resource_scan_failed: "&cフロントエンドサーバーの静的ファイルスキャン抽出に失敗しました: &e%error%"
   Frontend_frontendRoot: "&eフロントエンドサーバーの静的ファイルルート: &a%frontendRoot%"
-  Backend_API_server_start: "&aバックエンドAPIサーバーが起動しました、&e%host%:%port%/%router% &aで待機しています"
+  Backend_API_server_start: "&eバックエンドAPIサーバーが起動しました、&a%host%:%port%/%router% &aで待機しています"
   Backend_API_server_stop: "&cバックエンドAPIサーバーが停止しました"
   Backend_API_server_start_failed: "&cバックエンドAPIサーバーの起動に失敗しました: &e%error%"
 
@@ -51,5 +52,11 @@ Update:
 
 Compat:
   Title: "&b[互換性] "
-  Success: "%version% 用の %compat_name% を読み込みました"
-  Error: "%compat_name% の読み込みに失敗しました: %error%"
+  Success: "&e%version% &e用の &a%compat_name% &eを読み込みました"
+  Error: "&c読み込み &a%compat_name% &c失敗しました: &e%error%"
+
+Debug:
+  Title: "&b[デバッグ] "
+  Register_Commands: "&e関連するコマンドを登録しています..."
+  Reload_Commands: "&e関連するコマンドを再読込しています..."
+  Complete: "&e有効化が完了しました"

@@ -1,7 +1,8 @@
 Message:
   Title: "&b[Minecraft 語言包] "
-  Data_Re_read: "重新讀取資料..."
-  Data_Re_read_Complete: "資料讀取完成"
+  Data_Re_read: "&e重新讀取資料..."
+  Data_Re_read_Complete: "&e資料讀取完成"
+  Scheduler_Mode: "&e伺服器核心模式: &a%mode%"
 
 Command:
   CmdCanNotUse: "&c後台無法使用此指令"
@@ -33,13 +34,13 @@ LoadMinecraftLang:
 
 Web:
   Title: "&b[Web] "
-  Frontend_server_start: "&a前端伺服器已啟動，監聽於: &e%host%:%port%"
+  Frontend_server_start: "&e前端伺服器已啟動，監聽於: &a%host%:%port%"
   Frontend_server_stop: "&c前端伺服器已停止"
   Frontend_server_start_failed: "&c前端伺服器啟動失敗: &e%error%"
   Frontend_server_resource_save_failed: "&c前端伺服器靜態文件: &e%resourcePath% &c,保存失敗: &e%error%"
   Frontend_server_resource_scan_failed: "&c前端伺服器靜態文件掃描提取失敗: &e%error%"
   Frontend_frontendRoot: "&e前端伺服器靜態文件根目錄: &a%frontendRoot%"
-  Backend_API_server_start: "&a後端 API 伺服器已啟動，監聽於: &e%host%:%port%/%router%"
+  Backend_API_server_start: "&e後端 API 伺服器已啟動，監聽於: &a%host%:%port%/%router%"
   Backend_API_server_stop: "&c後端 API 伺服器已停止"
   Backend_API_server_start_failed: "&c後端 API 伺服器啟動失敗: &e%error%"
 
@@ -51,5 +52,11 @@ Update:
 
 Compat:
   Title: "&b[相容性] "
-  Success: "已為 %version% 載入 %compat_name%"
-  Error: "載入 %compat_name% 失敗: %error%"
+  Success: "&e已為 &a%version% &e載入 &a%compat_name%"
+  Error: "&c載入 &a%compat_name% &c失敗: &e%error%"
+
+Debug:
+  Title: "&b[除錯] "
+  Register_Commands: "&e正在註冊相關指令..."
+  Reload_Commands: "&e正在重新載入相關指令..."
+  Complete: "&e啟用完成"

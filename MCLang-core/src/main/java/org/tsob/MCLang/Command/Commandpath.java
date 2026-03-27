@@ -10,9 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.tsob.MCLang.DataBase.DataBase;
 
-public class Commandpath extends mainCommandSystem{
+public class Commandpath extends mainCommandSystem {
   public Commandpath() {
-    super(  "path",
+    super("path",
         DataBase.fileMessage.getString("Command.Help.path"),
         new ArrayList<String>(Arrays.asList("mobdrop.admin.path")));
   }
@@ -34,9 +34,10 @@ public class Commandpath extends mainCommandSystem{
     }
     DataBase.sendMessage(player, DataBase.fileMinecraftLang.getString(path));
   }
-  
+
   @Override
-  public List<String> tabComplete(CommandSender sender, String commandLabel, Command command, String[] args, final ClassLoader classLoader) {
+  public List<String> tabComplete(CommandSender sender, String commandLabel, Command command, String[] args,
+      final ClassLoader classLoader) {
     if (args.length == 1) {
       List<String> Paths = new ArrayList<String>();
       for (String path : DataBase.fileMinecraftLang.getAllPaths()) {
@@ -51,7 +52,8 @@ public class Commandpath extends mainCommandSystem{
   }
 
   @Override
-  public List<String> tabComplete(Player player, String commandLabel, Command command, String[] args, final ClassLoader classLoader) {
-    return tabComplete((CommandSender)player, commandLabel, command, args, classLoader);
+  public List<String> tabComplete(Player player, String commandLabel, Command command, String[] args,
+      final ClassLoader classLoader) {
+    return tabComplete((CommandSender) player, commandLabel, command, args, classLoader);
   }
 }

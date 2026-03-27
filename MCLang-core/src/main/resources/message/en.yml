@@ -1,7 +1,8 @@
 Message:
   Title: "&b[MCLang] "
-  Data_Re_read: "Re-read Data..."
-  Data_Re_read_Complete: "Read Complete"
+  Data_Re_read: "&eRe-read Data..."
+  Data_Re_read_Complete: "&eRead Complete"
+  Scheduler_Mode: "&eServer Core Mode: &a%mode%"
 
 Command:
   CmdCanNotUse: "&cYou Can not use this command here"
@@ -33,13 +34,13 @@ LoadMinecraftLang:
 
 Web:
   Title: "&b[Web] "
-  Frontend_server_start: "&aFrontend server started, listening at: &e%host%:%port%"
+  Frontend_server_start: "&eFrontend server started, listening at: &a%host%:%port%"
   Frontend_server_stop: "&cFrontend server stopped"
   Frontend_server_start_failed: "&cFrontend server start failed: &e%error%"
   Frontend_server_resource_save_failed: "&cFrontend server static file: &e%resourcePath% &c, save failed: &e%error%"
   Frontend_server_resource_scan_failed: "&cFrontend server static file scan/extract failed: &e%error%"
   Frontend_frontendRoot: "&eFrontend server static file root: &a%frontendRoot%"
-  Backend_API_server_start: "&aBackend API server started, listening at: &e%host%:%port%/%router%"
+  Backend_API_server_start: "&eBackend API server started, listening at: &a%host%:%port%/%router%"
   Backend_API_server_stop: "&cBackend API server stopped"
   Backend_API_server_start_failed: "&cBackend API server start failed: &e%error%"
 
@@ -51,5 +52,11 @@ Update:
 
 Compat:
   Title: "&b[Compat] "
-  Success: "Loaded %compat_name% for %version%"
-  Error: "Failed to load %compat_name%: %error%"
+  Success: "&eLoaded &a%compat_name% &efor &a%version%"
+  Error: "&cFailed to load &a%compat_name%: &e%error%"
+
+Debug:
+  Title: "&b[Debug] "
+  Register_Commands: "&eRegistering relevant commands..."
+  Reload_Commands: "&eReloading relevant commands..."
+  Complete: "&eEnabled successfully"

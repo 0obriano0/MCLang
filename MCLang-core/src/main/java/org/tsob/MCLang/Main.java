@@ -56,7 +56,8 @@ public class Main extends JavaPlugin {
 
     new UpdateChecker(this).start();
 
-    DataBase.Print("MCLang Scheduler Mode: " + (SchedulerFactory.isFolia() ? "Folia" : "Spigot/Paper"));
+    DataBase.sendConsoleMessage(DataBase.fileMessage.getString("Message.Scheduler_Mode")
+        .replace("%mode%", (SchedulerFactory.isFolia() ? "Folia" : "Spigot/Paper")));
 
     // 嘗試加載和啟用 API 模組
     loadAndEnableApiModule();
