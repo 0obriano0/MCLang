@@ -26,25 +26,28 @@ public class tools {
    * @param Success 成功資料
    * @param Fail 失敗資料
    */
-  public static void setprint(Plugin plugin,String title, String Name, int totle, int Success, int Fail) {
-    plugin.getLogger().info(AnsiColor.CYAN + "[" + title + "] " + AnsiColor.GREEN + Name + " load " + AnsiColor.PURPLE + "Totle: " + AnsiColor.WHITE + totle + AnsiColor.YELLOW + "  Success: " + AnsiColor.WHITE + Success + AnsiColor.RED + "  Fail:  " + AnsiColor.WHITE + Fail + AnsiColor.RESET);
+  public static void setprint(Plugin plugin, String title, String Name, int totle, int Success, int Fail) {
+    plugin.getLogger()
+        .info(AnsiColor.CYAN + "[" + title + "] " + AnsiColor.GREEN + Name + " load " + AnsiColor.PURPLE + "Totle: "
+            + AnsiColor.WHITE + totle + AnsiColor.YELLOW + "  Success: " + AnsiColor.WHITE + Success + AnsiColor.RED
+            + "  Fail:  " + AnsiColor.WHITE + Fail + AnsiColor.RESET);
   }
+
   /**
    * 檔案寫入
    * @param URL 檔案存放路徑
    * @param lines 資料(type ListString)
    */
-  public static void writeFile(String URL,List<String> lines){
+  public static void writeFile(String URL, List<String> lines) {
     Path file = Paths.get(URL);
     lines.add(0, "\uFEFF");
     try {
       Files.write(file, lines, StandardCharsets.UTF_8);
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
-  
+
   /**
    * 
    * @return

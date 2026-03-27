@@ -21,24 +21,24 @@ public interface FileAPI {
     InputStream fis = in;
     FileOutputStream fos = new FileOutputStream(out);
     try {
-        byte[] buf = new byte[1024];
-        int i = 0;
-        while ((i = fis.read(buf)) != -1) {
-            fos.write(buf, 0, i);
-        }
+      byte[] buf = new byte[1024];
+      int i = 0;
+      while ((i = fis.read(buf)) != -1) {
+        fos.write(buf, 0, i);
+      }
     } catch (Exception e) {
-        throw e;
+      throw e;
     } finally {
-        if (fis != null) {
-          fis.close();
-        }
-        if (fos != null) {
-            fos.close();
-        }
+      if (fis != null) {
+        fis.close();
+      }
+      if (fos != null) {
+        fos.close();
+      }
     }
   }
-  
-  public static boolean createFile(Plugin plugin,String Dir,String Filename,String JarURL) {
+
+  public static boolean createFile(Plugin plugin, String Dir, String Filename, String JarURL) {
     Path p = Paths.get(Dir);//路徑設定
     //確認資料夾是否存在
     if (!Files.exists(p)) {
@@ -46,7 +46,6 @@ public interface FileAPI {
       try {
         Files.createDirectory(p);
       } catch (IOException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       plugin.getLogger().info(AnsiColor.GREEN + "[DirCreate] " + AnsiColor.GREEN + "資料夾創建成功" + AnsiColor.RESET);
