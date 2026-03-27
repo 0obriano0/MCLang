@@ -43,6 +43,9 @@ public class Main extends JavaPlugin {
     // 註冊所有指令
     registerCommands();
 
+    // 初始化相容性層
+    org.tsob.MCLang.Compat.CompatManager.init();
+
     setEvents();
     DataBase.fileMessage.reloadFile();
     DataBase.fileMinecraftLang.reloadWithLangAndVersion(Main.plugin.getConfig().getString("lang"));

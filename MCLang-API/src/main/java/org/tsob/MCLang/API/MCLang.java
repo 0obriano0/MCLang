@@ -6,14 +6,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionType;
+import org.tsob.MCLang.Compat.IPotionCompat;
+import org.tsob.MCLang.Compat.CompatManager;
 import org.tsob.MCLang.DataBase.DataBase;
 import org.tsob.MCLang.FileIO.JsonFileIOMinecraftLang;
 
 public class MCLang implements IMCLang {
   private String Lang;
-  
+
   /**
    * Constructor 建構子
    * @param lang Language code, e.g. "en_us", "zh_tw",......
@@ -39,7 +39,7 @@ public class MCLang implements IMCLang {
    */
   private JsonFileIOMinecraftLang getJsonFileIOMinecraftLang() {
     JsonFileIOMinecraftLang _minecraftLangMap = null;
-    
+
     if (DataBase.minecraftLangMap.containsKey(this.Lang)) {
       _minecraftLangMap = DataBase.minecraftLangMap.get(this.Lang);
     } else {
@@ -58,13 +58,13 @@ public class MCLang implements IMCLang {
   private String _getString(String path, boolean fullback) {
     JsonFileIOMinecraftLang minecraftLang = getJsonFileIOMinecraftLang();
     String translation = minecraftLang.getString(path);
-    
+
     if (translation == null || translation.isEmpty()) {
       // 如果沒有找到對應的翻譯，返回原始路徑
       return fullback ? path : "";
     }
-    
-    return translation; 
+
+    return translation;
 
   }
 
@@ -78,32 +78,19 @@ public class MCLang implements IMCLang {
 
     // 特殊道具區
     // 1.13 以上
-    //   藥水
-    if (item.getType() == Material.POTION) {
-      PotionMeta potionMeta = (PotionMeta) item.getItemMeta();  
-      PotionType potionType = potionMeta.getBasePotionData().getType();
-      path = "item.minecraft.potion.effect." + potionType.name().toLowerCase();
-    }
+    //   藥水、滯留藥水、飛濺藥水、藥水箭 (使用相容性層處理)
+    if (item.getType() == Material.POTION ||
+        item.getType() == Material.LINGERING_POTION ||
+        item.getType() == Material.SPLASH_POTION ||
+        item.getType() == Material.TIPPED_ARROW) {
 
-    //   滯留藥水
-    if (item.getType() == Material.LINGERING_POTION) {
-      PotionMeta potionMeta = (PotionMeta) item.getItemMeta();  
-      PotionType potionType = potionMeta.getBasePotionData().getType();
-      path = "item.minecraft.lingering_potion.effect." + potionType.name().toLowerCase();
-    }
-
-    //   飛濺藥水
-    if (item.getType() == Material.SPLASH_POTION) {
-      PotionMeta potionMeta = (PotionMeta) item.getItemMeta();  
-      PotionType potionType = potionMeta.getBasePotionData().getType();
-      path = "item.minecraft.splash_potion.effect." + potionType.name().toLowerCase();
-    }
-
-    //   藥水箭
-    if (item.getType() == Material.TIPPED_ARROW) {
-      PotionMeta potionMeta = (PotionMeta) item.getItemMeta();  
-      PotionType potionType = potionMeta.getBasePotionData().getType();
-      path = "item.minecraft.tipped_arrow.effect." + potionType.name().toLowerCase();
+      IPotionCompat potionCompat = CompatManager.getPotionCompat();
+      if (potionCompat != null) {
+        String compatPath = potionCompat.getPotionPath(item);
+        if (compatPath != null) {
+          path = compatPath;
+        }
+      }
     }
 
     //   唱片
@@ -111,8 +98,7 @@ public class MCLang implements IMCLang {
       path = "item.minecraft." + item.getType().name().toLowerCase() + ".desc";
     }
 
-
-    translation = _getString(path,false);
+    translation = _getString(path, false);
     if (translation == null || translation.isEmpty() || translation == "") {
       // 如果沒有找到對應的翻譯，返回原始路徑
       return item.getType().name().toLowerCase();
@@ -129,7 +115,7 @@ public class MCLang implements IMCLang {
     String path = "item.minecraft." + itemName.trim().toLowerCase();
     String translation = "";
 
-    translation = _getString(path,false);
+    translation = _getString(path, false);
     if (translation == null || translation.isEmpty() || translation == "") {
       // 如果沒有找到對應的翻譯，返回原始路徑
       return itemName.toLowerCase();
@@ -146,7 +132,7 @@ public class MCLang implements IMCLang {
     String path = "entity.minecraft." + entityType.name().toLowerCase();
     String translation = "";
 
-    translation = _getString(path,false);
+    translation = _getString(path, false);
     if (translation == null || translation.isEmpty() || translation == "") {
       // 如果沒有找到對應的翻譯，返回原始路徑
       return entityType.name().toLowerCase();
@@ -171,7 +157,7 @@ public class MCLang implements IMCLang {
       path = "entity.minecraft.villager." + villager.getProfession().name().toLowerCase();
     }
 
-    translation = _getString(path,false);
+    translation = _getString(path, false);
     if (translation == null || translation.isEmpty() || translation == "") {
       // 如果沒有找到對應的翻譯，返回原始路徑
       return entity.getType().name().toLowerCase();
@@ -188,7 +174,7 @@ public class MCLang implements IMCLang {
     String path = "entity.minecraft." + entityName.trim().toLowerCase();
     String translation = "";
 
-    translation = _getString(path,false);
+    translation = _getString(path, false);
     if (translation == null || translation.isEmpty() || translation == "") {
       // 如果沒有找到對應的翻譯，返回原始路徑
       return entityName.toLowerCase();
@@ -205,7 +191,7 @@ public class MCLang implements IMCLang {
     String path = "enchantment.minecraft." + enchantmentName.trim().toLowerCase();
     String translation = "";
 
-    translation = _getString(path,false);
+    translation = _getString(path, false);
     if (translation == null || translation.isEmpty() || translation == "") {
       // 如果沒有找到對應的翻譯，返回原始路徑
       return enchantmentName.toLowerCase();
@@ -222,7 +208,7 @@ public class MCLang implements IMCLang {
     String path = "enchantment.minecraft." + enchantment.getKey().getKey().trim().toLowerCase();
     String translation = "";
 
-    translation = _getString(path,false);
+    translation = _getString(path, false);
     if (translation == null || translation.isEmpty() || translation == "") {
       // 如果沒有找到對應的翻譯，返回原始路徑
       return enchantment.getKey().getKey();
