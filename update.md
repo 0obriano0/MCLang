@@ -1,5 +1,6 @@
 ## 1.2.2
 * Added compatibility handling for potion-related features
+* Organized translation files
 
 ## 1.2.1
 * Fixed the logic for checking updates on server startup.
