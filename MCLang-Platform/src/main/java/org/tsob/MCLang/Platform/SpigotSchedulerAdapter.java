@@ -8,7 +8,7 @@ import org.bukkit.plugin.Plugin;
 /**
  * 傳統 (Spigot/Paper) 調度：全部回主執行緒 (同步) / 已有 async API。
  */
-@SuppressWarnings("deprecation")
+// @SuppressWarnings("deprecation")
 public class SpigotSchedulerAdapter implements SchedulerAdapter {
 
     @Override

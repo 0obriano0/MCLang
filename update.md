@@ -1,6 +1,7 @@
 ## 1.2.2
 * Added compatibility handling for potion-related features
 * Organized translation files
+* Update web style to match Minecraft GUI.
 
 ## 1.2.1
 * Fixed the logic for checking updates on server startup.
