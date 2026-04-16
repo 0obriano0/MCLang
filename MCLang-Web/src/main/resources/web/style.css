@@ -14,15 +14,15 @@
   --mc-wood: #5e3f26;
   --mc-wood-dark: #3f2714;
   --mc-wood-light: #855b39;
-  
+
   --mc-btn: #76503c;
   --mc-btn-light: #a57754;
   --mc-btn-dark: #412a1f;
-  
+
   --mc-book: #ebd1a6;
   --mc-book-inner: #d6b88b;
   --mc-book-text: #3f3f3f;
-  
+
   --mc-red: #b03a2e;
   --mc-green: #37853b;
 }
@@ -53,14 +53,15 @@ body {
   inset: 0;
   z-index: 0;
   /* Blurred library background image with CSS gradient fallback */
-  background: 
+  background:
     radial-gradient(ellipse at center, transparent 30%, #000 100%),
     repeating-linear-gradient(90deg, #3d2411 0px, #3d2411 60px, #2b1708 60px, #2b1708 120px);
-  background-image: url('img/library_bg_blur.jpg');
+  background-image: url('img/library_bg_blur.png');
   background-size: cover;
   background-position: center;
   filter: blur(4px) brightness(0.8);
-  transform: scale(1.05); /* hide blurred edges */
+  transform: scale(1.05);
+  /* hide blurred edges */
 }
 
 .mc-bg-overlay {
@@ -84,7 +85,8 @@ body {
   display: flex;
   position: relative;
   /* Wood plank texture */
-  background-color: #5e3f26; /* Fallback */
+  background-color: #5e3f26;
+  /* Fallback */
   background-image: url('img/dark_oak_planks.png');
   background-repeat: repeat;
   image-rendering: pixelated;
@@ -105,7 +107,8 @@ body {
   height: 100%;
   border-left: 4px solid #000;
   border-right: 4px solid #000;
-  background-color: #7d7d7d; /* Fallback */
+  background-color: #7d7d7d;
+  /* Fallback */
   background-image: url('img/cobblestone.png');
   background-repeat: repeat-y;
   background-size: 32px auto;
@@ -153,7 +156,9 @@ body {
   gap: 6px;
   position: relative;
 }
-.mc-badge::before, .mc-badge::after {
+
+.mc-badge::before,
+.mc-badge::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -182,6 +187,7 @@ body {
   font-weight: bold;
   text-shadow: none;
 }
+
 .authorized .mc-badge-icon {
   color: var(--mc-green);
 }
@@ -199,10 +205,12 @@ body {
   align-items: center;
   gap: 12px;
 }
+
 .lang-icon {
   font-size: 20px;
   filter: drop-shadow(1px 1px 0px #000);
 }
+
 .mc-select {
   width: 100%;
   background: var(--mc-wood-dark);
@@ -215,6 +223,7 @@ body {
   appearance: none;
   cursor: pointer;
 }
+
 .mc-select option {
   background: var(--mc-wood);
 }
@@ -227,8 +236,8 @@ body {
 }
 
 .mc-btn {
-  background-color: var(--mc-btn); /* Fallback */
-  background-image: url('img/button_normal.png');
+  background-color: var(--mc-btn);
+  /* Fallback */
   background-size: 100% 100%;
   image-rendering: pixelated;
   border: 2px solid #000;
@@ -245,10 +254,12 @@ body {
   transition: background 0.1s;
 }
 
-.mc-btn:active, .mc-btn.active {
+.mc-btn:active,
+.mc-btn.active {
   background-color: #583b2a;
   box-shadow: inset 4px 4px 0px var(--mc-btn-dark), inset -2px -2px 0px var(--mc-btn-light);
-  padding: 14px 10px 10px 14px; /* text shift simulating press */
+  padding: 14px 10px 10px 14px;
+  /* text shift simulating press */
 }
 
 .mc-icon {
@@ -260,7 +271,8 @@ body {
 
 /* Primary/Secondary Buttons */
 .mc-btn-primary {
-  background-color: var(--mc-btn); /* Fallback */
+  background-color: var(--mc-btn);
+  /* Fallback */
   background-image: url('img/button_normal.png');
   background-size: 100% 100%;
   image-rendering: pixelated;
@@ -273,6 +285,7 @@ body {
   padding: 10px 16px;
   cursor: pointer;
 }
+
 .mc-btn-primary:active {
   background-color: #583b2a;
   box-shadow: inset 4px 4px 0px var(--mc-btn-dark), inset -2px -2px 0px var(--mc-btn-light);
@@ -310,16 +323,18 @@ body {
   border: 4px solid #000;
   border-radius: 8px;
   padding: 6px;
-  box-shadow: 10px 10px 30px rgba(0,0,0,0.8);
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.8);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans TC", "微軟正黑體", "Microsoft JhengHei", sans-serif;
 }
 
 .mc-book-inner {
   border: 3px solid #b59560;
   border-radius: 4px;
-  padding: 8% 10%; /* Adjust padding for book margins */
+  padding: 8% 10%;
+  /* Adjust padding for book margins */
   height: 100%;
-  background-color: var(--mc-book); /* Fallback */
+  background-color: var(--mc-book);
+  /* Fallback */
   background-image: url('img/open_book_gui.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -332,13 +347,21 @@ body {
   animation: fadeIn 0.2s;
   color: var(--mc-book-text);
 }
+
 .section-panel.active-section {
   display: block;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .mc-book-title {
@@ -377,7 +400,7 @@ body {
   border: 3px solid #000;
   border-radius: 4px;
   padding: 4px;
-  box-shadow: 4px 4px 0 rgba(0,0,0,0.15);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.15);
 }
 
 .mc-card-inner {
@@ -390,7 +413,7 @@ body {
   align-items: center;
   text-align: center;
   /* Notebook ruled lines via background */
-  background-image: repeating-linear-gradient(transparent, transparent 24px, rgba(200,50,50,0.15) 24px, rgba(200,50,50,0.15) 26px);
+  background-image: repeating-linear-gradient(transparent, transparent 24px, rgba(200, 50, 50, 0.15) 24px, rgba(200, 50, 50, 0.15) 26px);
   background-position: 0 30px;
 }
 
@@ -403,7 +426,7 @@ body {
 .mc-card-icon {
   font-size: 36px;
   margin-bottom: 16px;
-  filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.2));
+  filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.2));
   display: flex;
   justify-content: center;
 }
@@ -422,7 +445,7 @@ body {
 
 /* ── Forms inside book ────────────────────────────────────── */
 .mc-form {
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
   border: 2px dashed #b59560;
   padding: 24px;
   border-radius: 4px;
@@ -452,6 +475,7 @@ body {
   font-size: 16px;
   color: #1a1a1a;
 }
+
 .mc-input:focus {
   outline: none;
   background: #dec79f;
@@ -482,7 +506,7 @@ body {
 }
 
 .endpoint-header {
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
   padding: 12px 16px;
   border-bottom: 2px solid #b59560;
   display: flex;
@@ -491,7 +515,8 @@ body {
 }
 
 .mc-badge-small {
-  background: #3a6eb5; /* Paper blue */
+  background: #3a6eb5;
+  /* Paper blue */
   color: white;
   border: 2px solid #000;
   font-size: 12px;
@@ -505,6 +530,7 @@ body {
   color: #1a1a1a;
   word-break: break-all;
 }
+
 .endpoint-url em {
   color: #b03a2e;
   font-style: normal;
@@ -525,6 +551,7 @@ body {
   flex: 1;
   min-width: 120px;
 }
+
 .param-wide {
   flex: 2;
   min-width: 200px;
@@ -565,10 +592,21 @@ body {
 }
 
 /* JSON colors matching dirt/stone theme */
-.json-key { color: #85b0d8; }
-.json-string { color: #82c876; }
-.json-number { color: #d89658; }
-.json-boolean { color: #d85858; }
+.json-key {
+  color: #85b0d8;
+}
+
+.json-string {
+  color: #82c876;
+}
+
+.json-number {
+  color: #d89658;
+}
+
+.json-boolean {
+  color: #d85858;
+}
 
 /* ── Code Blocks ──────────────────────────────────────────── */
 .mc-code-block {
@@ -578,8 +616,9 @@ body {
   font-size: 14px;
   overflow-x: auto;
   margin-bottom: 16px;
-  box-shadow: inset 2px 2px 0 rgba(0,0,0,0.1);
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
+
 .mc-code-block pre {
   font-family: Consolas, "Courier New", monospace;
   margin: 0;
@@ -594,7 +633,9 @@ body {
   align-items: center;
   gap: 16px;
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
 }
 
@@ -607,6 +648,7 @@ body {
   .app-container {
     flex-direction: column;
   }
+
   .sidebar {
     position: fixed;
     top: 56px;
@@ -616,23 +658,29 @@ body {
     transition: transform 0.3s;
     z-index: 90;
     width: 260px;
-    box-shadow: 4px 0 20px rgba(0,0,0,0.5);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
   }
+
   .sidebar.open {
     transform: translateX(0);
   }
+
   .mobile-header {
     display: flex;
   }
+
   .content-area {
     padding: 70px 16px 20px;
   }
+
   .mc-book {
     padding: 4px;
   }
+
   .mc-book-inner {
     padding: 20px;
   }
+
   .card-grid {
     grid-template-columns: 1fr;
   }

@@ -7,7 +7,7 @@
 > [!TIP]
 > 建議您可以去搜尋「Minecraft GUI pack」或是直接在遊戲內截圖來取得這些素材。
 
-- `library_bg_blur.jpg`
+- `library_bg_blur.png`
   - **說明**：一張模糊處理過的 Minecraft 藏書室或書架場景截圖。
   - **尺寸建議**：1920x1080 (建議)
 - `dark_oak_planks.png`
@@ -16,9 +16,6 @@
 - `cobblestone.png`
   - **說明**：鵝卵石的方形像素紋理，作為側邊欄與主要內容區塊間的分割線。
   - **尺寸建議**：16x16 或 32x32 像素。
-- `button_normal.png`
-  - **說明**：標準 Minecraft 木製或石製按鈕的紋理。
-  - **尺寸建議**：200x20 像素 (標準麥塊介面比例) 或動態縮放的像素圖案。
 - `open_book_gui.png`
   - **說明**：攤開的書本介面（如書與筆的 GUI）。網頁的內文將會被放置於這本「書」的圖片範圍內。
   - **尺寸建議**：256x256 或更高（請注意長寬比，需預留足夠的邊距供文字顯示）。
@@ -29,9 +26,9 @@
 > 您可以直接到 [Minecraft Wiki (物品)](https://minecraft.wiki/w/Item) 頁面，找到對應的物品圖片並按右鍵另存圖片下載。
 
 - `icon_book.png` (標準的「書」物品圖示)
-- `icon_key.png` (絆線鉤、命名牌，或任何您喜歡的鑰匙圖示)
+- `icon_name_tag.png` (絆線鉤、命名牌，或任何您喜歡的鑰匙圖示)
 - `icon_rocket.png` (煙火火箭物品圖示)
-- `icon_box.png` (箱子、木桶或木板方塊圖示)
+- `icon_chest.png` (箱子、木桶或木板方塊圖示)
 - `icon_paper.png` (紙張物品圖示)
 - `icon_potion.png` (任何藥水瓶物品圖示，例如：玻璃瓶或經驗瓶)
 
