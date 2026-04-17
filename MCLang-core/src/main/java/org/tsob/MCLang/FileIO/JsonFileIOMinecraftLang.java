@@ -71,7 +71,11 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
   /**
    * 取得 Minecraft 版本號（主.次.修）
    * 1.21.X 是最後了
-   * 之後都是 26.X 開始 編碼意義是 年度.版本
+   * 之後都是 26.X 開始 編碼意義是 年度.版本.小版本
+   * 所以是:
+   *  - 26.1
+   *  - 26.1.1
+   *  - 26.1.2
    */
   private static String getMinecraftVersion() {
     String bukkitVer = Bukkit.getBukkitVersion(); // 例如 1.21.5-R0.1-SNAPSHOT
@@ -84,7 +88,10 @@ public class JsonFileIOMinecraftLang extends JsonFileIO {
       if (arr.length == 2)
         return arr[0] + "." + arr[1] + ".0";
     } else {
-      return arr[0] + "." + arr[1];
+      if (arr.length >= 3)
+        return arr[0] + "." + arr[1] + "." + arr[2];
+      if (arr.length == 2)
+        return arr[0] + "." + arr[1];
     }
     return bukkitVer.split("-")[0];
   }

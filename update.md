@@ -2,6 +2,8 @@
 * Added compatibility handling for potion-related features
 * Organized translation files
 * Update web style to match Minecraft GUI.
+* Fixed minecraft 26.X version parsing to include minor versions.
+* Image compression implemented
 
 ## 1.2.1
 * Fixed the logic for checking updates on server startup.
